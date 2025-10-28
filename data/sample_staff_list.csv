@@ -1,0 +1,4 @@
+StaffID,salt,hash,Name,Role,Department,Email
+sng001,zjfXzHSQKOjPnVN1E0TCjw==,7UXOBJNIRaapQ6sD0HI7U3zzenQcvw1gc/ZfsJQ18nU=,Dr. Sng Hui Lin,Career Center Staff,CCDS,sng001@ntu.edu.sg
+tan002,m2Vy2Xq9JSEnX5JdMYZMUw==,xbFjwOoAP/vhum/VBf0EujCB395MZ0uvOlyiq7HAIyQ=,Mr. Tan Boon Kiat,Career Center Staff,CCDS,tan002@ntu.edu.sg
+lee003,4EDbWnejQcDh0Ma+bas4dA==,wGeSIk1GfMbfkfyAOn8/R9Nr4XpXurGCVkPQteSamTY=,Ms. Lee Mei Ling,Career Center Staff,CCDS,lee003@ntu.edu.sg
