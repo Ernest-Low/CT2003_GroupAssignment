@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import enums.Major;
-
+import enums.UserType;
 import model.Student;
 import model.CompanyRep;
 import model.Credential;
@@ -64,7 +64,9 @@ public class CSVMethods {
                 .map(list -> new Credential(
                         list.get(0),
                         list.get(1),
-                        list.get(2)))
+                        list.get(2),
+                        UserType.valueOf(list.get(3))))
+
                 .collect(Collectors.toList());
         return credentials;
     }
@@ -104,15 +106,15 @@ public class CSVMethods {
     }
 
     // public static void main(String[] args) {
-    //     try {
-    //         List<Student> students = readStudents();
-    //         System.out.println("ID: " + students.get(0).getId());
-    //         System.out.println("Name: " + students.get(0).getName());
-    //         System.out.println("YearOfStudy: " + students.get(0).getYearOfStudy());
-    //         System.out.println("Major: " + students.get(0).getMajor());
-    //     } catch (Exception e) {
-    //         System.out.println("Error: " + e);
-    //     }
+    // try {
+    // List<Student> students = readStudents();
+    // System.out.println("ID: " + students.get(0).getId());
+    // System.out.println("Name: " + students.get(0).getName());
+    // System.out.println("YearOfStudy: " + students.get(0).getYearOfStudy());
+    // System.out.println("Major: " + students.get(0).getMajor());
+    // } catch (Exception e) {
+    // System.out.println("Error: " + e);
+    // }
 
     // }
 }
