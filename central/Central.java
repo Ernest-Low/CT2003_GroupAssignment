@@ -9,19 +9,25 @@ import model.CompanyRep;
 
 import dto.LoginInfo;
 
+import login.AuthController;
+
 public class Central {
 
     public void centralController() {
+
         // * Entry point from main
 
         // ! Login, get user ID & user type back
-        // ? Replace with method call to login
-        // LoginController loginController = new LoginController();
-        // LoginInfo logininfo = loginController.openMenu();
+        AuthController authController = new AuthController();
+        LoginInfo loginInfo = authController.openMenu();
+
+        System.out.println("Welcome, " + loginInfo.getID() + " (" + loginInfo.getUserType() + ")");
+
+        // call update password
+        authController.updatePassword();
 
         // ! Temp, pretend got the logininfo back from login
         // ! Change this logininfo's UserType to your menu
-        LoginInfo logininfo = new LoginInfo("U1000001A", UserType.STUDENT);
 
         // TODO: Pull from CSV the user
         // TODO: Maybe update CSV to pull by ID, maybe add GUID (mimic database fully)
@@ -35,7 +41,7 @@ public class Central {
         CompanyRep fakeCompanyRep = new CompanyRep("alex.choi@novalink.com", "Alex Choi", "Novalink", "Engineering",
                 "Software Engineer");
 
-        switch (logininfo.getUserType()) {
+        switch (loginInfo.getUserType()) {
             case UserType.STUDENT -> studentMenu(fakeStudent);
             case UserType.CAREERSTAFF -> careerStaffMenu(fakeCareerStaff);
             case UserType.COMPANYREP -> companyRepMenu(fakeCompanyRep);
