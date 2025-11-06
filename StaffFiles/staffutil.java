@@ -4,12 +4,37 @@ import java.io.*;
 import java.io.ObjectInputFilter.Status;
 import java.util.*;
 
+import javax.print.attribute.standard.PrinterIsAcceptingJobs;
+
+//Ethan - This file contain all the method function that staffmain.java has
+//Ethan - If you lazy read how it works and want to just use it scroll all the way down
+//Ethan - DONT DIRECTLY CALL ANY OF THE STUFF WITH CSV IN THE METHOD NAME
+
 public class staffutil {
 
     private static final String COMPANY_CSV = "data\\companyReps_list.csv";
     private static final String INTERNSHIP_CSV = "data\\internship.csv";
+
+    public List<String[]> getAll(){
+        List<String[]> allAccounts = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(COMPANY_CSV))){
+            String line;
+            String[] headers = br.readLine().split(",");
+            allAccounts.add(headers);
+
+            while((line = br.readLine()) != null){
+                String[] data = line.split(",");
+                allAccounts.add(data);
+            }
+
+        } catch (IOException e){
+            System.out.println("ERROR: not able to load file" + e.getMessage());
+        }
+        return allAccounts;
+    }
     
-    public List<String[]> getPenAccCSV(){
+    public List<String[]> getPenAccCSV(){ //this used for switch case 2
         List<String[]> PendingAccounts = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(COMPANY_CSV))){
@@ -35,6 +60,35 @@ public class staffutil {
 
         return PendingAccounts;
     }
+
+    public List<String[]> getInternCSV(){ //A copy pasted version of getAccount but variables changed
+
+        List<String[]> PendingInternship = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(INTERNSHIP_CSV))){
+            String line;
+            String[] headers = br.readLine().split(",");
+            int IntIndex = FindColumnCSV(headers, "Status");
+
+            if (IntIndex == -1){
+                System.out.println("Error: Data Column not Found");
+                return PendingInternship;
+            }
+
+            while ((line = br.readLine()) != null){
+                String[] data = line.split(",");
+                if (data.length > IntIndex && "Pending".equalsIgnoreCase(data[IntIndex].trim())){
+                    PendingInternship.add(data);
+                }
+            }
+        }catch (IOException e){
+            System.out.println("Error reading data from file" + e.getMessage());
+        }
+
+        return PendingInternship;
+
+    }
+
     //Used in all csv methods that will look for a specific column
     private int FindColumnCSV(String[] headers, String columnName){
 
@@ -116,6 +170,8 @@ public class staffutil {
         }
     }
 
+    //ANYTHING BELOW THIS LINE ARE DIRECT METHODS, ONLY CALL THESE METHODS DIRECTLY
+
     public boolean AccStatusUpdate(String acc_ID, String newStatus){ //use this from main to update account pending -> approve/reject
         
         return StatusUpdateCSV(COMPANY_CSV, acc_ID, newStatus, "Status");
@@ -125,6 +181,33 @@ public class staffutil {
     public boolean IntStatusUpdate(String int_ID, String newStatus){
 
         return StatusUpdateCSV(INTERNSHIP_CSV, int_ID, newStatus, "Status");
+
+    }
+
+    public void displayPenAcc(){
+        List<String[]> AccountsPending = getPenAccCSV();
+        //Refer to line 37 getPenAccCSV() for how it works
+
+        if (AccountsPending.isEmpty() == true){
+            System.out.println("No accounts found or error loading csv");
+        }else{
+            System.out.println("These are the Pending Accounts:...\n");
+            //displayAccount(AccountsPending);//this one is to be implemented
+        }
+
+    }
+
+    public void displayInt(){
+
+        List<String[]> Internship = getInternCSV();
+        //Refer to line 64 getInternCSV() for how it works please modify status field accordingly
+
+        if (Internship.isEmpty() == true){
+            System.out.println("No Pending Internship found or error loading CSV");
+        }else {
+            System.out.println("These are the Internship pending your approval:...\n");
+            //displayIntern(Internship);//not implemented yet. Should be a nice table
+        }
 
     }
 }

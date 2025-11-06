@@ -69,6 +69,7 @@ public class staffmain {
     }
 
     private static void viewPenAcc(){
+        staffutil.getPenAccCSV();
 
     }
 
