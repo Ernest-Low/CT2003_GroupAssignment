@@ -1,0 +1,4 @@
+InternshipID,Title,CompanyName,Major,Level,Status,Reason
+I001,Junior software Engineer,ABC Company,Software Engineer,Basic,approved,NIL
+I002,Mechaniacl Engineer,XYZ Company,Mechaniacl Engineer,Intermediate,pending,NA 
+I003,Cloud Engineer,EFG Company,IT,Basic,rejected,Major recommended stated is not part of school list
