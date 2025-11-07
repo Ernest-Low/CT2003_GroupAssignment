@@ -37,10 +37,11 @@ public class CRep {
             }
 
             switch (choice) {
-                case 1 -> System.out.println("1"); // Call edit profile method (edit password, or more)
+                case 1 -> CRepEditProfile.CRepEditProfileController(sc); // Call edit profile method
                 case 2 -> System.out.println("2"); // Call create new internship opportunity method
                 case 3 -> System.out.println("3"); // Call view internship posted
                 case 4 -> System.out.println("4"); // Call view internship applications for review
+                case 9 -> System.out.println("Exiting..."); // Exit
                 default -> System.out.println("Fail");
             }
         }
