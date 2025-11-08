@@ -8,8 +8,6 @@ import enums.Major;
 import model.Internship;
 import repositories.InternshipRepo;
 
-// import enums.Major;
-
 public class InternshipService {
 
     private final InternshipRepo internshipRepo;
@@ -26,14 +24,6 @@ public class InternshipService {
         internshipRepo.save(internship);
     }
 
-    // ? Retrieve autonumber, create ID
-    // * Or just count entries in csv and use that..
-    // TODO: Utilize autonumber to get ID to create
-
-    // public void incrementCounter() {
-    // this.counter = this.counter + 1;
-    // // Write to csv here
-    // }
 
     // public void updateCompany(String companyID) {
     //     // Take in companyID, read from CSV and update this

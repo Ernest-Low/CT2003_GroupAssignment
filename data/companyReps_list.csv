@@ -1,11 +1,11 @@
-ID,name,companyName,department,position
-alex.choi@novalink.com,Alex Choi,Novalink,Engineering,Software Engineer
-brenda.lim@skyware.io,Brenda Lim,Skyware,Marketing,Content Strategist
-carl.nguyen@fintrax.co,Carl Nguyen,Fintrax,Finance,Accountant
-diana.tan@medicore.com,Diana Tan,Medicore,Human Resources,HR Manager
-edward.koh@aerovate.io,Edward Koh,Aerovate,Research,Data Scientist
-farah.ong@techsphere.net,Farah Ong,Techsphere,Sales,Sales Executive
-george.lau@urbansys.com,George Lau,Urbansys,Operations,Operations Analyst
-hannah.teo@greenglobe.org,Hannah Teo,Greenglobe,Sustainability,Project Coordinator
-ivan.rahman@quantiva.ai,Ivan Rahman,Quantiva,Engineering,Machine Learning Engineer
-jessica.woo@bluepeak.io,Jessica Woo,Bluepeak,Design,UX Designer
+GUID,ID,name,companyName,department,position
+C000001R,alex.choi@novalink.com,Alex Choi,Novalink,Engineering,Software Engineer
+C000002R,brenda.lim@skyware.io,Brenda Lim,Skyware,Marketing,Content Strategist
+C000003R,carl.nguyen@fintrax.co,Carl Nguyen,Fintrax,Finance,Accountant
+C000004R,diana.tan@medicore.com,Diana Tan,Medicore,Human Resources,HR Manager
+C000005R,edward.koh@aerovate.io,Edward Koh,Aerovate,Research,Data Scientist
+C000006R,farah.ong@techsphere.net,Farah Ong,Techsphere,Sales,Sales Executive
+C000007R,george.lau@urbansys.com,George Lau,Urbansys,Operations,Operations Analyst
+C000008R,hannah.teo@greenglobe.org,Hannah Teo,Greenglobe,Sustainability,Project Coordinator
+C000009R,ivan.rahman@quantiva.ai,Ivan Rahman,Quantiva,Engineering,Machine Learning Engineer
+C000010R,jessica.woo@bluepeak.io,Jessica Woo,Bluepeak,Design,UX Designer

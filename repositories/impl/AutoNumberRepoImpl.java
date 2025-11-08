@@ -63,7 +63,7 @@ public class AutoNumberRepoImpl implements AutoNumberRepo {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(CSVPaths.AUTONUMBERS_CSV, true))) {
             String line = String.join(",", String.valueOf(autoNumber.getID()), autoNumber.getTableIndex().name(),
                     autoNumber.getPrefix(), String.valueOf(autoNumber.getCurrentValue()), autoNumber.getSuffix(),
-                    String.valueOf(autoNumber.getIncrementStep()));
+                    String.valueOf(autoNumber.getIncrementStep()), String.valueOf(autoNumber.getPaddingLength()));
             bw.newLine();
             bw.write(line);
         } catch (IOException e) {
@@ -76,13 +76,17 @@ public class AutoNumberRepoImpl implements AutoNumberRepo {
         List<String> lines = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(CSVPaths.AUTONUMBERS_CSV))) {
             String line = br.readLine();
+            if (line != null) {
+                lines.add(line);
+            }
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(",");
                 int recordId = Integer.parseInt(parts[0]);
                 if (recordId == autoNumber.getID()) {
                     line = String.join(",", String.valueOf(autoNumber.getID()), autoNumber.getTableIndex().name(),
                             autoNumber.getPrefix(), String.valueOf(autoNumber.getCurrentValue()),
-                            autoNumber.getSuffix(), String.valueOf(autoNumber.getIncrementStep()));
+                            autoNumber.getSuffix(), String.valueOf(autoNumber.getIncrementStep()),
+                            String.valueOf(autoNumber.getPaddingLength()));
                 }
                 lines.add(line);
             }

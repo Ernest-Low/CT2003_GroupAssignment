@@ -4,7 +4,6 @@ import enums.TableIndex;
 import model.AutoNumber;
 import repositories.AutoNumberRepo;
 
-// TODO: Change AutoNumber into a POJO, move logic here
 public class AutoNumberService {
 
     private final AutoNumberRepo autoNumberRepository;
@@ -31,21 +30,5 @@ public class AutoNumberService {
                 + String.format("%0" + autoNumber.getPaddingLength() + "d", nextValue)
                 + autoNumber.getSuffix();
     }
-
-    // public int generateNextId(int autoNumberId) {
-    //     // Use the autonumber ID to return the row in the autonumber table
-
-    //     return 0; // temp
-    // }
-
-    // ? Call this to get next ID
-    // public String getNextNumber() {
-    //     int next = currentValue + incrementStep;
-    //     if (suffix != null) {
-    //         return prefix + next + suffix;
-    //     } else {
-    //         return prefix + next;
-    //     }
-    // }
 
 }

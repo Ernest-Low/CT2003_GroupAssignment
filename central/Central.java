@@ -71,6 +71,8 @@ public class Central {
     private void cRepGateway(LoginInfo loginInfo) {
         // * Entry point Company Rep
 
+        // TODO: Utilize Logininfo into crep service to get crep out
+
         // ! Mock user
         CompanyRep companyRep = new CompanyRep("C000001R", "alex.choi@novalink.com", "Alex Choi", "Novalink",
                 "Engineering",
