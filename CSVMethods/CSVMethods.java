@@ -33,8 +33,9 @@ public class CSVMethods {
                 .map(list -> new Student(
                         list.get(0),
                         list.get(1),
-                        Integer.parseInt(list.get(2)),
-                        Major.valueOf(list.get(3))))
+                        list.get(2),
+                        Integer.parseInt(list.get(3)),
+                        Major.valueOf(list.get(4))))
                 .collect(Collectors.toList());
         return students;
     }
@@ -51,7 +52,8 @@ public class CSVMethods {
                         list.get(1),
                         list.get(2),
                         list.get(3),
-                        list.get(4)))
+                        list.get(4),
+                        list.get(5)))
                 .collect(Collectors.toList());
         return companyReps;
     }
@@ -79,7 +81,8 @@ public class CSVMethods {
                 .map(list -> new CareerStaff(
                         list.get(0),
                         list.get(1),
-                        list.get(2)))
+                        list.get(2),
+                        list.get(3)))
                 .collect(Collectors.toList());
         return careerStaff;
     }

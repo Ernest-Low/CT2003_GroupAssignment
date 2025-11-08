@@ -1,7 +1,7 @@
 package enums;
 
 public enum InternshipLevel {
-    BASIC("Basic"),
+    BASIC("Basic"), // ? Year 1/2 Students can only apply for this
     INTERMEDIATE("Intermediate"),
     ADVANCED("Advanced");
 

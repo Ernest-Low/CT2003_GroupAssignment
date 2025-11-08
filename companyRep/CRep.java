@@ -3,13 +3,20 @@ package companyRep;
 import java.util.Scanner;
 
 import model.CompanyRep;
+import services.AutoNumberService;
+import services.InternshipService;
 
 public class CRep {
 
-    private CompanyRep companyRep;
-    Scanner sc;
 
-    public CRep(CompanyRep companyRep) {
+    private CompanyRep companyRep;
+    private final Scanner sc;
+
+    private final CRepPostInternship cRepPostInternship;
+
+    public CRep(AutoNumberService autoNumberService, InternshipService internshipService, CompanyRep companyRep) {
+        this.sc = new Scanner(System.in);
+        this.cRepPostInternship = new CRepPostInternship(autoNumberService, internshipService, this.companyRep, sc);
         this.companyRep = companyRep;
     }
 
@@ -26,7 +33,7 @@ public class CRep {
     }
 
     public void CompanyRepController() {
-        sc = new Scanner(System.in);
+
         System.out.println("Welcome " + companyRep.getName());
         int choice = 0;
         while (choice != 9) {
@@ -38,7 +45,7 @@ public class CRep {
 
             switch (choice) {
                 case 1 -> CRepEditProfile.CRepEditProfileController(sc); // Call edit profile method
-                case 2 -> System.out.println("2"); // Call create new internship opportunity method
+                case 2 -> cRepPostInternship.CRepPostInternshipController(); // Call create new internship opportunity method
                 case 3 -> System.out.println("3"); // Call view internship posted
                 case 4 -> System.out.println("4"); // Call view internship applications for review
                 case 9 -> System.out.println("Exiting..."); // Exit

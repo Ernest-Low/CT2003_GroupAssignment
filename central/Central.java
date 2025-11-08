@@ -4,12 +4,25 @@ import enums.Major;
 import enums.UserType;
 
 import model.Student;
+import services.AutoNumberService;
+import services.InternshipService;
 import model.CareerStaff;
 import model.CompanyRep;
-
-import dto.LoginInfo;
+import companyRep.CRep;
+import dtos.LoginInfo;
 
 public class Central {
+
+    private final AutoNumberService autoNumberService;
+    private final InternshipService internshipService;
+
+    private CRep crep;
+
+    public Central(AutoNumberService autoNumberService, InternshipService internshipService) {
+        this.autoNumberService = autoNumberService;
+        this.internshipService = internshipService;
+
+    }
 
     public void centralController() {
         // * Entry point from main
@@ -21,24 +34,20 @@ public class Central {
 
         // ! Temp, pretend got the logininfo back from login
         // ! Change this logininfo's UserType to your menu
-        LoginInfo logininfo = new LoginInfo("U1000001A", UserType.STUDENT);
+        LoginInfo logininfo = new LoginInfo("U1000001A", UserType.COMPANYREP);
 
-        // TODO: Pull from CSV the user
-        // TODO: Maybe update CSV to pull by ID, maybe add GUID (mimic database fully)
-
-        // based on ID, retrieve user from appopriate csv
-        // based on user, call the appopriate menu (student, careerStaff, companyRep)
+        // TODO: Pull from CSV the user based on usertype
+        // TODO: It will be calling the different services anyway, should I just put it there?
+        // TODO: Could rename it as gateway (idk why i feel like naming it that)
 
         // ! Temp, mock up a user for each
-        Student fakeStudent = new Student("U1000001A", "Aaron Tan", 1, Major.COMPUTER_SCIENCE);
-        CareerStaff fakeCareerStaff = new CareerStaff("jtan001", "John Tan", "Career Advisory");
-        CompanyRep fakeCompanyRep = new CompanyRep("alex.choi@novalink.com", "Alex Choi", "Novalink", "Engineering",
-                "Software Engineer");
+        Student fakeStudent = new Student("S000001T", "U1000001A", "Aaron Tan", 1, Major.COMPUTER_SCIENCE);
+        CareerStaff fakeCareerStaff = new CareerStaff("C000001S", "jtan001", "John Tan", "Career Advisory");
 
         switch (logininfo.getUserType()) {
-            case UserType.STUDENT -> studentMenu(fakeStudent);
-            case UserType.CAREERSTAFF -> careerStaffMenu(fakeCareerStaff);
-            case UserType.COMPANYREP -> companyRepMenu(fakeCompanyRep);
+            case STUDENT -> studentMenu(fakeStudent);
+            case CAREERSTAFF -> careerStaffMenu(fakeCareerStaff);
+            case COMPANYREP -> cRepGateway(logininfo);
             default -> System.out.println("Logic error");
         }
     }
@@ -59,12 +68,16 @@ public class Central {
         // careerStaffController.openMenu(careerStaff);
     }
 
-    private void companyRepMenu(CompanyRep companyRep) {
+    private void cRepGateway(LoginInfo loginInfo) {
         // * Entry point Company Rep
-        // ? Replace with your own method call (be it static / instance)
 
-        // CompanyRepController companyRepController = new CompanyRepController();
-        // companyRepController.openMenu(companyRep);
+        // ! Mock user
+        CompanyRep companyRep = new CompanyRep("C000001R", "alex.choi@novalink.com", "Alex Choi", "Novalink",
+                "Engineering",
+                "Software Engineer");
+
+        this.crep = new CRep(autoNumberService, internshipService, companyRep);
+        crep.CompanyRepController();
     }
 
 }
