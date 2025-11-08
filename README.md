@@ -32,3 +32,14 @@ staffutil.java -> all the functions that are used in staffmain can be found in s
 Have also created internship.csv to replicate the idea I have, to be confirmed during next discussion about usage
 ==--------------------------------------------------==
 >>>>>>> Stashed changes
+
+==---------------------------------------------------==
+Ethan Update 07/11/25
+
+Created 4 files inside CSVMethods
+
+Update CSVRead.java to include 2 new method
+
+usage explanation is inside CSVRead.java
+Will work on the CSV filter tomorrow to further filter the data
+==---------------------------------------------------==

@@ -78,11 +78,13 @@ public class CSVRead {
                 }
 
                 while ((line = br.readLine()) != null){
+                    
                     String[] AllData = line.split(",");
                     String[] afterFilter = new String[colIndex.size()];
 
                     for (int y = 0; y < colIndex.size(); y++){
                         int ogPos = colIndex.get(y);
+
                         if (ogPos < AllData.length){
                             afterFilter[y] = AllData[ogPos];
                         }
