@@ -43,3 +43,7 @@ Update CSVRead.java to include 2 new method
 usage explanation is inside CSVRead.java
 Will work on the CSV filter tomorrow to further filter the data
 ==---------------------------------------------------==
+
+Ethan Update for 08/11/25
+
+Have updated CSVFilter.java to include filter that can accept multiple input
