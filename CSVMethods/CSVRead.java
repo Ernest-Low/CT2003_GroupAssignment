@@ -40,7 +40,7 @@ public class CSVRead {
     //this is used if u only want to print out certain columns example u want to exclude salt and hash
     //and also please dont change the expected output data type it cant be in array it needs to be a list with a bunch of array
     //Usage -> CSVRead.ReadByColumn(STUDENT.CSV, [ID,Name,Major])
-    public List<String[]> ReadByColumn(String csvFile, String[] filHeaders){
+    public static List<String[]> ReadByColumn(String csvFile, String[] filHeaders){
         
         List<String[]> wantedHead = new ArrayList<>(); // just note that this var will contain the output u want at the end
         List<Integer> colIndex = new ArrayList<>(); //this will store the col index explanation below

@@ -6,24 +6,36 @@ import enums.UserType;
 import model.Student;
 import model.CareerStaff;
 import model.CompanyRep;
+import student.*;
 
 import StaffFiles.staffmain;
 
 import dto.LoginInfo;
 
+import login.AuthController;
+import login.UpdatePasswordController;
+
 public class Central {
 
     public void centralController() {
+
         // * Entry point from main
 
         // ! Login, get user ID & user type back
-        // ? Replace with method call to login
-        // LoginController loginController = new LoginController();
-        // LoginInfo logininfo = loginController.openMenu();
+        AuthController authController = new AuthController();
+        LoginInfo loginInfo = null;
+        while (loginInfo == null) {
+            loginInfo = authController.openMenu();
+            System.out.println();
+        }
+
+        System.out.println("Welcome, " + loginInfo.getID() + " (" + loginInfo.getUserType() + ")");
+
+        // UpdatePasswordController updatePasswordController = new UpdatePasswordController();
+        // updatePasswordController.updatePassword();
 
         // ! Temp, pretend got the logininfo back from login
         // ! Change this logininfo's UserType to your menu
-        LoginInfo logininfo = new LoginInfo("U1000001A", UserType.STUDENT);
 
         // TODO: Pull from CSV the user
         // TODO: Maybe update CSV to pull by ID, maybe add GUID (mimic database fully)
@@ -32,12 +44,12 @@ public class Central {
         // based on user, call the appopriate menu (student, careerStaff, companyRep)
 
         // ! Temp, mock up a user for each
-        Student fakeStudent = new Student("U1000001A", "Aaron Tan", 1, Major.COMPUTER_SCIENCE);
+        Student fakeStudent = new Student("U2310001A", "Aaron Tan", 1, Major.COMPUTER_SCIENCE);
         CareerStaff fakeCareerStaff = new CareerStaff("jtan001", "John Tan", "Career Advisory");
         CompanyRep fakeCompanyRep = new CompanyRep("alex.choi@novalink.com", "Alex Choi", "Novalink", "Engineering",
                 "Software Engineer");
 
-        switch (logininfo.getUserType()) {
+        switch (loginInfo.getUserType()) {
             case UserType.STUDENT -> studentMenu(fakeStudent);
             case UserType.CAREERSTAFF -> careerStaffMenu(fakeCareerStaff);
             case UserType.COMPANYREP -> companyRepMenu(fakeCompanyRep);
@@ -48,9 +60,8 @@ public class Central {
     private void studentMenu(Student student) {
         // * Entry point Student
         // ? Replace with your own method call (be it static / instance)
-
-        // StudentController studentController = new StudentController();
-        // studentController.openMenu(student);
+        StudentMenu studentController = new StudentMenu(student);
+        studentController.StudentController();
     }
 
     private void careerStaffMenu(CareerStaff careerStaff) {

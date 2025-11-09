@@ -9,7 +9,7 @@ import java.util.*;
 
 public class CSVFilter {
 
-    public List<String[]> moreFilter(List<String[]> colTable, List<String[]> userRules){
+    public static List<String[]> moreFilter(List<String[]> colTable, List<String[]> userRules){
 
         if (userRules.isEmpty()){ //this check if the parsing filter is empty.
             return colTable;
@@ -27,7 +27,7 @@ public class CSVFilter {
             String[] data = colTable.get(i);
             boolean ifrule = true; //need this to check if user filter = true later, if true will add into return data
 
-            for (int x = 0; 0 < userRules.size(); x++){
+            for (int x = 0; x < userRules.size(); x++){
 
                 //since rules are given as list need this to get first set of rules 
                 //this allows multiple set of rules
