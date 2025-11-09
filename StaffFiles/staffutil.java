@@ -6,208 +6,129 @@ import java.util.*;
 
 import javax.print.attribute.standard.PrinterIsAcceptingJobs;
 
+import CSVMethods.*;
+
 //Ethan - This file contain all the method function that staffmain.java has
 //Ethan - If you lazy read how it works and want to just use it scroll all the way down
 //Ethan - DONT DIRECTLY CALL ANY OF THE STUFF WITH CSV IN THE METHOD NAME
 
 public class staffutil {
 
+    private static Scanner scanner = new Scanner(System.in);
+
     private static final String COMPANY_CSV = "data\\companyReps_list.csv";
     private static final String INTERNSHIP_CSV = "data\\internship.csv";
+    private static final String CREDS_CSV = "data/credentials_list.csv";
 
-    public List<String[]> getAll(){
-        List<String[]> allAccounts = new ArrayList<>();
+    public void allAccount(){
+        //switch case 1
+        CSVRead CSVRead = new CSVRead();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(COMPANY_CSV))){
-            String line;
-            String[] headers = br.readLine().split(",");
-            allAccounts.add(headers);
+        List<String[]> showAll = CSVRead.ReadAll(CREDS_CSV);
 
-            while((line = br.readLine()) != null){
-                String[] data = line.split(",");
-                allAccounts.add(data);
-            }
-
-        } catch (IOException e){
-            System.out.println("ERROR: not able to load file" + e.getMessage());
-        }
-        return allAccounts;
+        CSVBeutify.printData("Display All Accounts", showAll);
     }
     
-    public List<String[]> getPenAccCSV(){ //this used for switch case 2
+    public void getPenAccCSV(){ 
+        //this used for switch case 2
+
         List<String[]> PendingAccounts = new ArrayList<>();
+        CSVRead CSVRead = new CSVRead();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(COMPANY_CSV))){
-            String line;
-            String[] headers = br.readLine().split(",");
-            int StatusIndex = FindColumnCSV(headers, "STATUS"); //go to find column method below
+        List<String[]> allData = CSVRead.ReadAll(CREDS_CSV);
+        List<String[]> filters = new ArrayList<>();
+        filters.add(new String[] {"status", "PENDING"});
 
-            //if the status is found it will be = the column number minus 1
-            if (StatusIndex == -1){
-                System.out.println("Error: Data Column not found");
-                return PendingAccounts;
-            }
+        PendingAccounts = CSVFilter.moreFilter(allData, filters);
 
-            while ((line = br.readLine()) != null){
-                String [] data = line.split(",");
-                if (data.length > StatusIndex && "FALSE".equalsIgnoreCase(data[StatusIndex].trim())){
-                    PendingAccounts.add(data);
-                }
-            }
-        } catch (IOException e){
-            System.out.println("Error reading account data, " + e.getMessage() );
-        }
-
-        return PendingAccounts;
+        CSVBeutify.printData("Accounts Pending Approval", PendingAccounts);
     }
 
-    public List<String[]> getInternCSV(){ //A copy pasted version of getAccount but variables changed
+    public void identifyApprove(int rowChange, String decision){
 
-        List<String[]> PendingInternship = new ArrayList<>();
+        List<String[]> PendingAccounts = new ArrayList<>();
+        CSVRead CSVRead = new CSVRead();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(INTERNSHIP_CSV))){
-            String line;
-            String[] headers = br.readLine().split(",");
-            int IntIndex = FindColumnCSV(headers, "Status");
+        List<String[]> allData = CSVRead.ReadAll(CREDS_CSV);
+        List<String[]> filters = new ArrayList<>();
+        filters.add(new String[] {"status", "PENDING"});
 
-            if (IntIndex == -1){
-                System.out.println("Error: Data Column not Found");
-                return PendingInternship;
-            }
+        PendingAccounts = CSVFilter.moreFilter(allData, filters);
 
-            while ((line = br.readLine()) != null){
-                String[] data = line.split(",");
-                if (data.length > IntIndex && "Pending".equalsIgnoreCase(data[IntIndex].trim())){
-                    PendingInternship.add(data);
-                }
-            }
-        }catch (IOException e){
-            System.out.println("Error reading data from file" + e.getMessage());
-        }
+        String[] modifyRow = PendingAccounts.get(rowChange);
+        String companyID = modifyRow[0];//hard coding this for now in the future maybe ill change
+        System.out.println("debugging first: " + companyID);
+        System.out.println("================================================");
 
-        return PendingInternship;
+        CSVWrite CSVWrite = new CSVWrite();
+        CSVWrite.updateByID(CREDS_CSV, companyID, "ID", "status", decision);
 
     }
 
-    //Used in all csv methods that will look for a specific column
-    private int FindColumnCSV(String[] headers, String columnName){
+    public void approvalchk(){
 
-        //when i = 4 the status will match and return i = 4
-        for (int i = 0; i < headers.length; i++){
-            if (headers[i].trim().equalsIgnoreCase(columnName)){
-                return i;
-            }
-        }
-        return -1;//if the specificed column is not found return this 
-    }
+        boolean valid = true;
 
-    //Used this to update the csv from pending -> approve or reject
-    private boolean StatusUpdateCSV(String filename, String ID, String newStatus, String ColumnName){
+        while(valid){
 
-        List<String> lines = new ArrayList<>();
-        boolean found = false;
+            System.out.println("================================================");
+            System.out.println("Would you like to approve any of these account?");
+            System.out.println("1. Choose Account to Approve/Reject");
+            System.out.println("2. Back to Dashboard");
+            System.out.println("================================================");
 
-        try (BufferedReader br = new BufferedReader(new FileReader(filename))){
-            String header = br.readLine();
-            lines.add(header); //should looks something like headers = ["id", "Name", ...] after the next split line
-            String[] headers = header.split(","); //just note that this here is headers != header
+            int choice = scanner.nextInt();
+            scanner.nextLine();
 
-            //just an error exception here to find the column in excel
-            int statusFind = FindColumnCSV(headers, "status");
-            int idFind = FindColumnCSV(headers, ColumnName);
+            switch(choice){
+            case 1:
+                getPenAccCSV();
+                System.out.println("Which Account would you like to Approve/Reject?");
+                System.out.println("Please choose by Row number: \n");
+                int approveChoice = scanner.nextInt();
 
-            //if either of the column dont exist return error
-            if (statusFind == -1 || idFind == -1 ){
-                System.out.println("Error 404: Column Not found in " + filename);
-                return false;
-            }
+                if (approveChoice > 0){
 
-            String line; //just another note here line != lines
-            while((line = br.readLine()) != null){
-                String[] data = line.split(",");
-
-                if (data.length > idFind && ID.equals(data[idFind].trim())){
-                    if (data.length > statusFind){
-                        data[statusFind] = newStatus;
-                        line = String.join(",", data);
- 
+                    String admin = adminChoice();
+                    if(admin == ""){
+                        break;
+                    }else {
+                        identifyApprove(approveChoice, admin);
                     }
-
-                    found = true;
+                }else {
+                    System.out.println("Please enter a valid input and try again");
                 }
-                lines.add(line);
+                
+                break;
+            case 2:
+                System.out.println("test23");
+                valid = false;
+                break;
+            default:
+                System.out.println("Please enter a valid Input");
             }
-        }catch (IOException e){
-            System.out.println("Error found while processing: " + e.getMessage());
-            return false;
-        }
-
-        if (found){
-            return writeCSV(filename, lines);//idk if should use the CSV method so i just used what i had for now
-        }
-
-        System.out.println("Item with the following ID: " +ID+ "not found, please try again");
-        return false;
-
-    }
-
-    //every function with CSV in the name will use this
-    private boolean writeCSV(String filename, List<String> lines){
-
-        try (PrintWriter pw = new PrintWriter(new FileWriter(filename))){
-            for (String line: lines){
-                pw.println(line);
-            }
-            if (pw.checkError()){ //its here because by right pw doesnt throw a IO Exception 
-            System.out.println("Error occured while writing to file");
-            return false;
-        }
-
-        return true; //if no error uploading
-        } catch (IOException e){
-            System.out.println("This error should not happen: " + e.getMessage());
-            return false;
         }
     }
 
-    //ANYTHING BELOW THIS LINE ARE DIRECT METHODS, ONLY CALL THESE METHODS DIRECTLY
+    public String adminChoice(){
 
-    public boolean AccStatusUpdate(String acc_ID, String newStatus){ //use this from main to update account pending -> approve/reject
-        
-        return StatusUpdateCSV(COMPANY_CSV, acc_ID, newStatus, "Status");
+        System.out.println("What would you like to do?");
+        System.out.println("1. Approve :D");
+        System.out.println("2. Reject D:");
 
-    }
+        int choice = scanner.nextInt();
 
-    public boolean IntStatusUpdate(String int_ID, String newStatus){
-
-        return StatusUpdateCSV(INTERNSHIP_CSV, int_ID, newStatus, "Status");
-
-    }
-
-    public void displayPenAcc(){
-        List<String[]> AccountsPending = getPenAccCSV();
-        //Refer to line 37 getPenAccCSV() for how it works
-
-        if (AccountsPending.isEmpty() == true){
-            System.out.println("No accounts found or error loading csv");
-        }else{
-            System.out.println("These are the Pending Accounts:...\n");
-            //displayAccount(AccountsPending);//this one is to be implemented
+        switch(choice){
+            case 1:
+                return "ACTIVE";
+            case 2:
+                return "DISABLED";
+            default:
+                System.out.println("Please provide a valid input and try again");
+                break;
         }
 
+        return "";
     }
 
-    public void displayInt(){
-
-        List<String[]> Internship = getInternCSV();
-        //Refer to line 64 getInternCSV() for how it works please modify status field accordingly
-
-        if (Internship.isEmpty() == true){
-            System.out.println("No Pending Internship found or error loading CSV");
-        }else {
-            System.out.println("These are the Internship pending your approval:...\n");
-            //displayIntern(Internship);//not implemented yet. Should be a nice table
-        }
-
-    }
 }

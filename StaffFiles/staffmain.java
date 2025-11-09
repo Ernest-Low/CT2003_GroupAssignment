@@ -1,39 +1,36 @@
 package StaffFiles;
+
+//import generic
 import java.util.List;
 import java.util.Scanner;
+
+//import files
+import model.*;
 
 public class staffmain {
 
     private static Scanner scanner = new Scanner(System.in);
     private static staffutil staffutil = new staffutil();
-    private static String cur_Staff;
-    private static String cur_Name;
-    private static String cur_Role;
-    private static String cur_Email;
+
+    private CareerStaff CareerStaff;
 
     //Use this for staff entry code
-    public static void StaffEntry(String StaffID, String Name, String Role, String Email){
-
-        cur_Staff = StaffID;
-        cur_Name = Name;
-        cur_Role = Role;
-        cur_Email = Email;
-        System.out.println("Welcome, " + cur_Name);
-        //Dashbaord code here will update later
+    public staffmain(CareerStaff CareerStaff){
+        this.CareerStaff = CareerStaff;
     }
 
-    public static void staffStart(){
+    public void staffEntry(){
         
         boolean dashboard = true; //boolean better than while choice > 0?
 
         while(dashboard){
 
-            System.out.println("\nYou are currently logged in as: " + cur_Name);
+            System.out.println("\nYou are currently logged in as: " + CareerStaff.getName());
             System.out.println("1. View All Accounts");
-            System.out.println("2. View Pending Accounts");
-            System.out.println("3. View Pending Internships");
-            System.out.println("4. Password Change"); //Do I add this here? i forgot
-            System.out.println("5. Log Out");
+            System.out.println("2. Approve/Reject Account Creation");
+            System.out.println("3. Approve new Internship");
+            System.out.println("4. Password Change"); //Need your help here mabel tyty
+            System.out.println("5. Log out");
             System.out.println ("Choose an Option: ");
 
             int choice = scanner.nextInt();
@@ -52,7 +49,8 @@ public class staffmain {
                 case 4:
                     PassChng();//Should I include this?
                 case 5:
-                    System.out.println("Logging out now");
+                    System.out.println("Logging out now...");
+                    System.out.println("Thank you for using our Services!");
                     dashboard = false;
                     break;
                 default:
@@ -66,10 +64,14 @@ public class staffmain {
 
     private static void viewAllAcc(){
 
+        staffutil.allAccount();
+
     }
 
     private static void viewPenAcc(){
+
         staffutil.getPenAccCSV();
+        staffutil.approvalchk();
 
     }
 

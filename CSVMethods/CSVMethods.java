@@ -1,4 +1,4 @@
-package CSVmethods;
+package CSVMethods;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
