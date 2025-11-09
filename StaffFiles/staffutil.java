@@ -57,8 +57,8 @@ public class staffutil {
 
         String[] modifyRow = PendingAccounts.get(rowChange);
         String companyID = modifyRow[0];//hard coding this for now in the future maybe ill change
-        System.out.println("debugging first: " + companyID);
-        System.out.println("================================================");
+        //System.out.println("debugging first: " + companyID);
+        //System.out.println("================================================");
 
         CSVWrite CSVWrite = new CSVWrite();
         CSVWrite.updateByID(CREDS_CSV, companyID, "ID", "status", decision);
@@ -101,7 +101,7 @@ public class staffutil {
                 
                 break;
             case 2:
-                System.out.println("test23");
+                //System.out.println("test23");
                 valid = false;
                 break;
             default:
