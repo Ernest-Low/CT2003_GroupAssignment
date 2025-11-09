@@ -1,59 +1,53 @@
 package login;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import model.Credential;
-import csvmethods.CSVMethods;
+import CSVmethods.CSVMethods;
 import dto.LoginInfo;
+import enums.AccountStatus;
 import enums.UserType;
 
 public class AuthService {
     protected static LoginInfo login(String input_username, String input_password) {
         // check if username exists in csv
-        boolean found = false;
         List<Credential> credentials = CSVMethods.readCredentials();
         for (int i=0; i<credentials.size(); i++) {
             Credential current = credentials.get(i);
-            if (current.getid().equals(input_username)) {
-                boolean passwordMatch = PasswordUtil.verifyPassword(input_password, current.getSalt(), current.getHash());
-                if (passwordMatch) {
-                    System.out.println("[SUCCESS] Login Success");
-                    return new LoginInfo(input_username, current.getUserType());
-                } else {
-                    System.out.println("[ERROR] Password is incorrect");
+            if (current.getAccountStatus() == AccountStatus.ACTIVE) {
+                if (current.getid().equals(input_username)) {
+                    boolean passwordMatch = PasswordUtil.verifyPassword(input_password, current.getSalt(), current.getHash());
+                    if (passwordMatch) {
+                        return new LoginInfo(input_username, current.getUserType());
+                    } else {
+                        return null;
+                    }
                 }
-                found = true;
-                break;
+            } else {
+                return null;
             }
-        }
-        if (!found) {
-            System.out.println("[ERROR] Username does not exist");
         }
         return null;
     }
 
-    protected static void updatePassword(String new_password) {
-        List<String> hashedPassword = PasswordUtil.hashNewPassword(new_password);
-        // store hashed password into csv
-        // String salt = hashedPassword.get(0);
-        // String hash = hashedPassword.get(1);
+    protected static boolean updatePassword(String new_password) {
+        if (Pattern.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%])[A-Za-z\\d!@#$%]{8,15}$", new_password)) {
+            List<String> hashedPassword = PasswordUtil.hashNewPassword(new_password);
+            // store hashed password into csv
+            // String salt = hashedPassword.get(0);
+            // String hash = hashedPassword.get(1);
+            return true;
+        } else {
+            System.out.println("[ERROR] New Password does not match requirements");
+            return false;
+        }
     }
 
-    protected static void createAccount(String username, String password, String role) {
+    protected static boolean createAccount(String username, String password) {
         List<String> hashedPassword = PasswordUtil.hashNewPassword(password);
-        UserType usertype = null;
-        switch (role) {
-            case "A":
-                usertype = UserType.STUDENT;
-                break;
-            case "B":
-                usertype = UserType.CAREERSTAFF;
-                break;
-            case "C":
-                usertype = UserType.COMPANYREP;
-                break;
-        }
-        Credential newAccount = new Credential(username, hashedPassword.get(0), hashedPassword.get(1), usertype);
+        Credential newAccount = new Credential(username, hashedPassword.get(0), hashedPassword.get(1), UserType.COMPANYREP, AccountStatus.PENDING);
         // store new credentials into csv
+        return true;
     }
 }

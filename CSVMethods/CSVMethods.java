@@ -1,4 +1,4 @@
-package csvmethods;
+package CSVmethods;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import enums.Major;
 import enums.UserType;
+import enums.AccountStatus;
 import model.Student;
 import model.CompanyRep;
 import model.Credential;
@@ -67,7 +68,8 @@ public class CSVMethods {
                         list.get(0),
                         list.get(1),
                         list.get(2),
-                        UserType.valueOf(list.get(3))))
+                        UserType.valueOf(list.get(3)),
+                        AccountStatus.valueOf(list.get(4))))
 
                 .collect(Collectors.toList());
         return credentials;

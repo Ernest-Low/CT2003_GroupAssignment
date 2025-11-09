@@ -10,6 +10,7 @@ import model.CompanyRep;
 import dto.LoginInfo;
 
 import login.AuthController;
+import login.UpdatePasswordController;
 
 public class Central {
 
@@ -19,12 +20,16 @@ public class Central {
 
         // ! Login, get user ID & user type back
         AuthController authController = new AuthController();
-        LoginInfo loginInfo = authController.openMenu();
+        LoginInfo loginInfo = null;
+        while (loginInfo == null) {
+            loginInfo = authController.openMenu();
+            System.out.println();
+        }
 
         System.out.println("Welcome, " + loginInfo.getID() + " (" + loginInfo.getUserType() + ")");
 
-        // call update password
-        authController.updatePassword();
+        // UpdatePasswordController updatePasswordController = new UpdatePasswordController();
+        // updatePasswordController.updatePassword();
 
         // ! Temp, pretend got the logininfo back from login
         // ! Change this logininfo's UserType to your menu
