@@ -6,7 +6,7 @@ import enums.UserType;
 import model.Student;
 import model.CareerStaff;
 import model.CompanyRep;
-
+import student.*;
 import dto.LoginInfo;
 
 import login.AuthController;
@@ -41,7 +41,7 @@ public class Central {
         // based on user, call the appopriate menu (student, careerStaff, companyRep)
 
         // ! Temp, mock up a user for each
-        Student fakeStudent = new Student("U1000001A", "Aaron Tan", 1, Major.COMPUTER_SCIENCE);
+        Student fakeStudent = new Student("U2310001A", "Aaron Tan", 1, Major.COMPUTER_SCIENCE);
         CareerStaff fakeCareerStaff = new CareerStaff("jtan001", "John Tan", "Career Advisory");
         CompanyRep fakeCompanyRep = new CompanyRep("alex.choi@novalink.com", "Alex Choi", "Novalink", "Engineering",
                 "Software Engineer");
@@ -57,9 +57,8 @@ public class Central {
     private void studentMenu(Student student) {
         // * Entry point Student
         // ? Replace with your own method call (be it static / instance)
-
-        // StudentController studentController = new StudentController();
-        // studentController.openMenu(student);
+        StudentMenu studentController = new StudentMenu(student);
+        studentController.StudentController();
     }
 
     private void careerStaffMenu(CareerStaff careerStaff) {
