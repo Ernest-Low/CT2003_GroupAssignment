@@ -1,31 +1,19 @@
 package config;
 
 import central.Central;
-import repositories.AutoNumberRepo;
-import repositories.InternshipRepo;
-import repositories.impl.AutoNumberRepoImpl;
-import repositories.impl.InternshipRepoImpl;
-import services.AutoNumberService;
-import services.InternshipService;
 
 public class AppContext {
 
-    private final AutoNumberRepo autoNumberRepo;
-    private final AutoNumberService autoNumberService;
-    private final InternshipRepo internshipRepo;
-    private final InternshipService internshipService;
+    private final Services services;
     private final Central central;
 
-    public AppContext(){
-        this.autoNumberRepo = new AutoNumberRepoImpl();
-        this.autoNumberService = new AutoNumberService(autoNumberRepo);
-        this.internshipRepo = new InternshipRepoImpl();
-        this.internshipService = new InternshipService(internshipRepo);
-        this.central = new Central(autoNumberService, internshipService);
+    public AppContext() {
+        this.services = new Services();
+        this.central = new Central(services);
     }
 
-    public Central getCentral(){
+    public Central getCentral() {
         return this.central;
     }
-    
+
 }

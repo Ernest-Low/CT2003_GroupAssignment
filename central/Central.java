@@ -4,24 +4,20 @@ import enums.Major;
 import enums.UserType;
 
 import model.Student;
-import services.AutoNumberService;
-import services.InternshipService;
 import model.CareerStaff;
 import model.CompanyRep;
 import companyRep.CRep;
+import config.Services;
 import dtos.LoginInfo;
 
 public class Central {
 
-    private final AutoNumberService autoNumberService;
-    private final InternshipService internshipService;
+    private final Services services;
 
     private CRep crep;
 
-    public Central(AutoNumberService autoNumberService, InternshipService internshipService) {
-        this.autoNumberService = autoNumberService;
-        this.internshipService = internshipService;
-
+    public Central(Services services) {
+        this.services = services;
     }
 
     public void centralController() {
@@ -78,7 +74,7 @@ public class Central {
                 "Engineering",
                 "Software Engineer");
 
-        this.crep = new CRep(autoNumberService, internshipService, companyRep);
+        this.crep = new CRep(services, companyRep);
         crep.CompanyRepController();
     }
 

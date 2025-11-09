@@ -39,7 +39,11 @@ buildNumber.properties
 *.iml
 *.ipr
 *.iws
+.vscode/
 
 # OS files
 .DS_Store
 Thumbs.db
+
+# don't want it twice
+bin/

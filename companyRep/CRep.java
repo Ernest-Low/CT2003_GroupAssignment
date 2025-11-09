@@ -2,21 +2,21 @@ package companyRep;
 
 import java.util.Scanner;
 
+import config.Services;
 import model.CompanyRep;
-import services.AutoNumberService;
-import services.InternshipService;
 
 public class CRep {
-
 
     private CompanyRep companyRep;
     private final Scanner sc;
 
     private final CRepPostInternship cRepPostInternship;
+    private final Services services;
 
-    public CRep(AutoNumberService autoNumberService, InternshipService internshipService, CompanyRep companyRep) {
+    public CRep(Services services, CompanyRep companyRep) {
         this.sc = new Scanner(System.in);
-        this.cRepPostInternship = new CRepPostInternship(autoNumberService, internshipService, this.companyRep, sc);
+        this.services = services;
+        this.cRepPostInternship = new CRepPostInternship(this.services, this.companyRep, sc);
         this.companyRep = companyRep;
     }
 

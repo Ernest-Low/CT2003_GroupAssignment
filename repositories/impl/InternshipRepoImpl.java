@@ -21,8 +21,7 @@ public class InternshipRepoImpl implements InternshipRepo {
     @Override
     public Internship findById(String id) {
         try (BufferedReader br = new BufferedReader(new FileReader(CSVPaths.INTERNSHIPS_CSV))) {
-            String line;
-            br.readLine();
+            String line = br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
                 String recordId = values[0];
@@ -115,7 +114,7 @@ public class InternshipRepoImpl implements InternshipRepo {
     public void delete(String id) {
         List<String> lines = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(CSVPaths.INTERNSHIPS_CSV))) {
-            String line;
+            String line = br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(",");
                 String recordId = parts[0];
@@ -142,8 +141,7 @@ public class InternshipRepoImpl implements InternshipRepo {
     public List<Internship> findAll() {
         List<Internship> list = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(CSVPaths.INTERNSHIPS_CSV))) {
-            br.readLine();
-            String line;
+            String line = br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
                 Internship internship = new Internship(

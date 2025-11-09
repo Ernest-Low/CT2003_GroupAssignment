@@ -18,8 +18,7 @@ public class AutoNumberRepoImpl implements AutoNumberRepo {
     @Override
     public AutoNumber findById(int id) {
         try (BufferedReader br = new BufferedReader(new FileReader(CSVPaths.AUTONUMBERS_CSV))) {
-            String line;
-            br.readLine();
+            String line = br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
                 int recordId = Integer.parseInt(values[0]);
@@ -38,12 +37,10 @@ public class AutoNumberRepoImpl implements AutoNumberRepo {
 
     @Override
     public AutoNumber findByTableIndex(TableIndex tableIndex) {
-        System.out.println("Entered autonumber findByTableIndex");
         try (BufferedReader br = new BufferedReader(new FileReader(CSVPaths.AUTONUMBERS_CSV))) {
             String line = br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
-                System.out.println("Values: " + values);
                 TableIndex recordTableIndex = TableIndex.valueOf(values[1]);
                 if (recordTableIndex == tableIndex) {
                     // int ID, TableIndex tableIndex, String prefix, int currentValue, String suffix, int incrementStep 

@@ -20,9 +20,7 @@ public class AutoNumberService {
     }
 
     public String generateNextId(TableIndex tableindex) {
-        System.out.println("Entered generateNextId");
         AutoNumber autoNumber = autoNumberRepository.findByTableIndex(tableindex);
-        System.out.println("At autonumber ID: " + autoNumber.getID());
         int nextValue = autoNumber.getCurrentValue() + autoNumber.getIncrementStep();
         autoNumber.setCurrentValue(nextValue);
         autoNumberRepository.update(autoNumber);

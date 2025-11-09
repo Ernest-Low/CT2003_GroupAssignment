@@ -2,9 +2,9 @@
 
 import config.AppContext;
 
-// ? Alternative way to run:
-// * mvn clean compile
-// * mvn exec:java
+// * 1: To run: Ensure there is a bin folder
+// * 2: javac -d bin $(find . -name "*.java")
+// * 3: java -cp bin Main
 
 public class Main {
 
