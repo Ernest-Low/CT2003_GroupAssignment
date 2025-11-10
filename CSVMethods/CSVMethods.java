@@ -1,4 +1,4 @@
-package CSVMethods;
+package CSVmethods;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import enums.Major;
 import enums.UserType;
+import enums.AccountStatus;
 import model.Student;
 import model.CompanyRep;
 import model.Credential;
@@ -23,6 +24,8 @@ public class CSVMethods {
     private static final String STAFF_CSV_FILE = "data/careerStaff_list.csv";
     private static final String COMPANYREP_CSV_FILE = "data/companyReps_list.csv";
     private static final String CREDENTIALS_CSV_FILE = "data/credentials_list.csv";
+
+    private static final String TEMP_FILE = "data/temp.csv";
 
     // String ID, String name, int yearOfStudy, Major major
     public static List<Student> readStudents() {
@@ -60,12 +63,13 @@ public class CSVMethods {
     public static List<Credential> readCredentials() {
         List<List<String>> records = new ArrayList<>();
         records = pullFromCSV(CREDENTIALS_CSV_FILE);
-        List<Credential> credentials = records.stream()
+        List<Credential> credentials = records.stream().skip(1)
                 .map(list -> new Credential(
                         list.get(0),
                         list.get(1),
                         list.get(2),
-                        UserType.valueOf(list.get(3))))
+                        UserType.valueOf(list.get(3)),
+                        AccountStatus.valueOf(list.get(4))))
 
                 .collect(Collectors.toList());
         return credentials;
