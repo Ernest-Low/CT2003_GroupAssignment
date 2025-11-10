@@ -14,4 +14,14 @@ public enum InternshipLevel {
     public String getDisplayName() {
         return displayName;
     }
+
+    public static InternshipLevel fromString(String input) {
+        for (InternshipLevel level : values()) {
+            if (level.displayName.equalsIgnoreCase(input)
+                    || level.name().equalsIgnoreCase(input)) {
+                return level;
+            }
+        }
+        throw new IllegalArgumentException("Invalid Internship Level");
+    }
 }

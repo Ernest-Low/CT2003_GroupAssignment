@@ -31,4 +31,14 @@ public enum Major {
     public String getDisplayName() {
         return displayName;
     }
+
+    public static Major fromString(String input) {
+        for (Major major : values()) {
+            if (major.displayName.equalsIgnoreCase(input)
+                    || major.name().replace('_', ' ').equalsIgnoreCase(input)) {
+                return major;
+            }
+        }
+        throw new IllegalArgumentException("Invalid Major");
+    }
 }
