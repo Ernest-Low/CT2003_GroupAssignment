@@ -13,21 +13,13 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * This service is responsible for data operations related to internships,
- * such as reading them from the CSV file.
- */
+// this class is for getting data about internships
 public class InternshipDataService {
 
     private static final String INTERNSHIPS_CSV = "data/internships.csv";
     private static final int INTERNSHIP_CAPACITY = 10; // Based on APPROVAL_LIMIT
 
-    /**
-     * Reads all internship records from the CSV file and converts them into a list of Internship objects.
-     *
-     * @return A list of all internships.
-     * @throws IOException if there is an error reading the file.
-     */
+    // reads all internships from the csv
     public List<Internship> readInternships() throws IOException {
         CSVRead csvReader = new CSVRead();
         List<String[]> records = csvReader.ReadAll(INTERNSHIPS_CSV);
@@ -35,37 +27,27 @@ public class InternshipDataService {
 
         // Start from 1 to skip the header row.
         for (int i = 1; i < records.size(); i++) {
-            try {
-                String[] record = records.get(i);
+            String[] record = records.get(i);
 
-                // CSV columns: ID,title,companyName,companyID,major,level,counter,openingDate,closingDate,status
-                Internship internship = new Internship(
-                        record[0],                                  // ID
-                        record[1],                                  // title
-                        record[2],                                  // companyName
-                        record[3],                                  // companyID
-                        Major.valueOf(record[4].toUpperCase()),     // major
-                        InternshipLevel.valueOf(record[5].toUpperCase()), // level
-                        Integer.parseInt(record[6]),                // counter
-                        Date.valueOf(record[7]),                    // openingDate
-                        Date.valueOf(record[8]),                    // closingDate
-                        InternshipStatus.valueOf(record[9].toUpperCase()) // status
-                );
-                internships.add(internship);
-            } catch (IllegalArgumentException e) {
-                System.err.println("Skipping invalid record at row " + (i + 1) + ": " + e.getMessage());
-            }
+            // CSV columns: ID,title,companyName,companyID,major,level,counter,openingDate,closingDate,status
+            Internship internship = new Internship(
+                    record[0],                                  // ID
+                    record[1],                                  // title
+                    record[2],                                  // companyName
+                    record[3],                                  // companyID
+                    Major.valueOf(record[4].toUpperCase()),     // major
+                    InternshipLevel.valueOf(record[5].toUpperCase()), // level
+                    Integer.parseInt(record[6]),                // counter
+                    Date.valueOf(record[7]),                    // openingDate
+                    Date.valueOf(record[8]),                    // closingDate
+                    InternshipStatus.valueOf(record[9].toUpperCase()) // status
+            );
+            internships.add(internship);
         }
         return internships;
     }
 
-    /**
-     * Reads the internships CSV and returns a single Internship object matching the given ID.
-     *
-     * @param internshipId The ID of the internship to find.
-     * @return The Internship object if found, otherwise null.
-     * @throws IOException if there is an error reading the file.
-     */
+    // get one internship by its id
     public Internship getInternshipById(String internshipId) throws IOException {
         CSVRead csvReader = new CSVRead();
         List<String[]> records = csvReader.ReadAll(INTERNSHIPS_CSV);
@@ -74,35 +56,25 @@ public class InternshipDataService {
         for (int i = 1; i < records.size(); i++) {
             String[] record = records.get(i);
             if (record[0].equals(internshipId)) {
-                try {
-                    // CSV columns: ID,title,companyName,companyID,major,level,counter,openingDate,closingDate,status
-                    return new Internship(
-                            record[0],
-                            record[1],
-                            record[2],
-                            record[3],
-                            Major.valueOf(record[4].toUpperCase()),
-                            InternshipLevel.valueOf(record[5].toUpperCase()),
-                            Integer.parseInt(record[6]),
-                            Date.valueOf(record[7]),
-                            Date.valueOf(record[8]),
-                            InternshipStatus.valueOf(record[9].toUpperCase())
-                    );
-                } catch (IllegalArgumentException e) {
-                    System.err.println("Error parsing internship record with ID " + internshipId + ": " + e.getMessage());
-                    return null; // Return null if the found record is malformed.
-                }
+                // CSV columns: ID,title,companyName,companyID,major,level,counter,openingDate,closingDate,status
+                return new Internship(
+                        record[0],
+                        record[1],
+                        record[2],
+                        record[3],
+                        Major.valueOf(record[4].toUpperCase()),
+                        InternshipLevel.valueOf(record[5].toUpperCase()),
+                        Integer.parseInt(record[6]),
+                        Date.valueOf(record[7]),
+                        Date.valueOf(record[8]),
+                        InternshipStatus.valueOf(record[9].toUpperCase())
+                );
             }
         }
         return null; // Return null if no internship with the given ID is found.
     }
 
-    /**
-     * Increments the counter for a given internship and updates its status to FILLED if capacity is reached.
-     *
-     * @param internshipId The ID of the internship to update.
-     * @throws IOException if there is a file I/O error.
-     */
+    // add 1 to the counter for an internship
     public void incrementInternshipCounter(String internshipId) throws IOException {
         CSVRead csvReader = new CSVRead();
         List<String[]> allInternships = csvReader.ReadAll(INTERNSHIPS_CSV);
@@ -133,7 +105,7 @@ public class InternshipDataService {
         }
     }
 
-    // Private helper to write data, ensuring this service is self-contained.
+    // this writes to the csv file
     private void writeToCSV(String filename, List<String[]> allData) throws IOException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename, false))) { // 'false' for overwrite
             for (String[] row : allData) {

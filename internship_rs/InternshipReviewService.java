@@ -15,19 +15,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-//This service handles the business logic for a company rep to review internship applications.
+// this class is for the company rep to review applications
 public class InternshipReviewService {
 
     private static final int APPROVAL_LIMIT = 10;
     private static final String STUDENT_INTERNSHIP_REL_CSV = "data/student_internship_rel.csv";
 
-    /**
-     * Fetches all applications for a specific internship.
-     * This method correctly uses CSVRead and CSVFilter to select and return data.
-     *
-     * @param internshipId The ID of the internship to fetch applicants for.
-     * @return A List of String arrays, where each array is a row from the CSV representing an applicant.
-     */
+    // gets all applicants for one internship
     public List<String[]> getApplicantsForInternship(String internshipId) {
         CSVRead csvReader = new CSVRead();
         
@@ -41,98 +35,103 @@ public class InternshipReviewService {
         // 3. Use CSVFilter to get only the relevant applications.
         List<String[]> filteredApplicants = CSVFilter.moreFilter(allApplications, filterRules);
 
-        // 4. Return the filtered list to be displayed in the menu.
         // The header row is included by moreFilter, which is good for display.
         return filteredApplicants;
     }
 
-    /**
-     * Updates the status of a specific internship application.
-     *
-     * @param studentId The ID of the student whose application is being updated.
-     * @param internshipId The ID of the internship.
-     * @param newStatus The new status to set (APPROVED or REJECTED).
-     * @return true if the update was successful, false if the application was not found.
-     * @throws IOException if there is a file I/O error.
-     * @throws ApprovalLimitExceededException if an approval would exceed the internship's capacity.
-     */
+    // for company rep to approve or reject
     public boolean updateApplicationStatus(String studentId, String internshipId, InternshipStatus newStatus)
             throws IOException, ApprovalLimitExceededException {
         
         InternshipDataService dataService = new InternshipDataService();
         Internship internship = dataService.getInternshipById(internshipId);
 
-        if (internship == null) {
-            System.out.println("Error: Internship with ID " + internshipId + " not found.");
-            return false;
-        }
+        if (internship != null) {
+            // Check if the closing date has passed.
+            Date today = new Date();
+            if (today.after(internship.getClosingDate())) {
+                System.out.println("The application deadline for this internship has passed. All pending applications will be rejected.");
+                rejectAllPendingApplications(internshipId);
+                return false;
+            } else {
+                // deadline is ok, continue
+                CSVRead csvReader = new CSVRead();
+                List<String[]> allData = csvReader.ReadAll(STUDENT_INTERNSHIP_REL_CSV);
+                boolean recordFound = false;
 
-        // Check if the closing date has passed.
-        Date today = new Date();
-        if (today.after(internship.getClosingDate())) {
-            System.out.println("The application deadline for this internship has passed. All pending applications will be rejected.");
-            rejectAllPendingApplications(internshipId);
-            return false;
-        }
+                // if trying to approve, check the limit first
+                if (newStatus == InternshipStatus.APPROVED) {
+                    int approvedCount = 0;
+                    for(int i = 1; i < allData.size(); i++) { // Skip header
+                        String[] row = allData.get(i);
+                        if (row[1].equals(internshipId) && row[2].equals(InternshipStatus.APPROVED.toString())) {
+                            approvedCount++;
+                        }
+                    }
 
-        CSVRead csvReader = new CSVRead();
-        List<String[]> allData = null;
-        boolean recordFound = false;
-
-        try {
-            allData = csvReader.ReadAll(STUDENT_INTERNSHIP_REL_CSV);
-
-            // Validation: Check approval limit only if the new status is APPROVED.
-            if (newStatus == InternshipStatus.APPROVED) {
-                int approvedCount = 0;
-                for(int i = 1; i < allData.size(); i++) { // Skip header
-                    String[] row = allData.get(i);
-                    if (row[1].equals(internshipId) && row[2].equals(InternshipStatus.APPROVED.toString())) {
-                        approvedCount++;
+                    if (approvedCount >= APPROVAL_LIMIT) {
+                        throw new ApprovalLimitExceededException(
+                            "Approval failed: Internship has reached its capacity of " + APPROVAL_LIMIT + " approved applicants."
+                        );
                     }
                 }
 
-                if (approvedCount >= APPROVAL_LIMIT) {
-                    throw new ApprovalLimitExceededException(
-                        "Approval failed: Internship has reached its capacity of " + APPROVAL_LIMIT + " approved applicants."
-                    );
+                // Find and update the specific record in memory.
+                for (int i = 1; i < allData.size(); i++) { // Start from 1 to skip header
+                    String[] row = allData.get(i);
+                    if (row[0].equals(studentId) && row[1].equals(internshipId)) {
+                        row[2] = newStatus.toString();
+                        recordFound = true;
+                        break; // Exit loop once the record is found and updated.
+                    }
+                }
+
+                // If the record was found, overwrite the CSV file with the updated data.
+                if (recordFound) {
+                    writeToCSV(STUDENT_INTERNSHIP_REL_CSV, allData);
+                    System.out.println("Status updated successfully.");
+                    return true;
+                } else {
+                    System.out.println("Update failed: Application for student " + studentId + " and internship " + internshipId + " not found.");
+                    return false;
                 }
             }
-
-            // Find and update the specific record in memory.
-            for (int i = 1; i < allData.size(); i++) { // Start from 1 to skip header
-                String[] row = allData.get(i);
-                if (row[0].equals(studentId) && row[1].equals(internshipId)) {
-                    row[2] = newStatus.toString();
-                    recordFound = true;
-                    break; // Exit loop once the record is found and updated.
-                }
-            }
-
-            // If the record was found, overwrite the CSV file with the updated data.
-            if (recordFound) {
-                writeToCSV(STUDENT_INTERNSHIP_REL_CSV, allData);
-                System.out.println("Status updated successfully.");
-                return true;
-            } else {
-                System.out.println("Update failed: Application for student " + studentId + " and internship " + internshipId + " not found.");
-                return false;
-            }
-
-        } catch (IOException e) {
-            System.err.println("Error during file operation: " + e.getMessage());
-            throw e; // Re-throw exception for the caller to handle.
-        } finally {
-            System.out.println("Internship review process has concluded.");
+        } else {
+            System.out.println("Error: Internship with ID " + internshipId + " not found.");
+            return false;
         }
     }
 
-    /**
-     * Finds all PENDING applications for a given internship and updates their status to REJECTED.
-     *
-     * @param internshipId The ID of the internship whose applications are to be rejected.
-     * @throws IOException if there is a file I/O error.
-     */
+    // new feature for company rep to reject everyone who is pending
+    public void rejectAllApplicantsForInternship(String internshipId) throws IOException {
+        System.out.println("ok, trying to reject all pending applicants for internship " + internshipId);
+        CSVRead csvReader = new CSVRead();
+        List<String[]> allApplications = csvReader.ReadAll(STUDENT_INTERNSHIP_REL_CSV);
+        boolean changesMade = false;
+
+        // go thru all the applications
+        for (int i = 1; i < allApplications.size(); i++) {
+            String[] row = allApplications.get(i);
+            
+            String currentInternshipId = row[1];
+            String currentStatus = row[2];
+
+            // check if its the right internship and if the status is pending
+            if (currentInternshipId.equals(internshipId) && currentStatus.equals("PENDING")) {
+                row[2] = "REJECTED"; // change to rejected
+                changesMade = true;
+            }
+        }
+
+        if (changesMade) {
+            writeToCSV(STUDENT_INTERNSHIP_REL_CSV, allApplications);
+            System.out.println("ok, all pending ppl for this internship are rejected.");
+        } else {
+            System.out.println("no one to reject, lol.");
+        }
+    }
+
+    // reject all pending applications for an internship (when deadline passes)
     private void rejectAllPendingApplications(String internshipId) throws IOException {
         CSVRead csvReader = new CSVRead();
         List<String[]> allApplications = csvReader.ReadAll(STUDENT_INTERNSHIP_REL_CSV);
@@ -153,9 +152,7 @@ public class InternshipReviewService {
         }
     }
 
-    /**
-     * A private helper method to write a list of string arrays to a CSV file, overwriting its contents.
-     */
+    // this writes to the csv file
     private void writeToCSV(String filename, List<String[]> allData) throws IOException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename, false))) { // 'false' for overwrite
             for (String[] row : allData) {
