@@ -55,8 +55,8 @@ public class CRepViewInternship {
             }
 
             switch (choice) {
-                case 1 -> System.out.println("1"); // Call edit email
-                case 2 -> System.out.println("2"); // Call edit password
+                case 1 -> System.out.println("1");
+                case 2 -> System.out.println("2");
                 case 9 -> System.out.println("Returning..."); // Exit back to menu
                 default -> System.out.println("Not a valid input. Try again.");
             }
