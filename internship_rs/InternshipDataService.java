@@ -1,13 +1,12 @@
 package internship_rs;
 
 import CSVMethods.CSVRead;
+import CSVMethods.CSVWrite;
 import enums.InternshipLevel;
 import enums.InternshipStatus;
 import enums.Major;
 import model.Internship;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -98,20 +97,11 @@ public class InternshipDataService {
         }
 
         if (recordFound) {
-            writeToCSV(INTERNSHIPS_CSV, allInternships);
+            CSVWrite csvWriter = new CSVWrite();
+            csvWriter.writeToCSV(INTERNSHIPS_CSV, allInternships);
         } else {
             // This case should ideally not happen if called after a successful offer acceptance.
             System.err.println("Warning: Could not find internship with ID " + internshipId + " to increment counter.");
-        }
-    }
-
-    // this writes to the csv file
-    private void writeToCSV(String filename, List<String[]> allData) throws IOException {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename, false))) { // 'false' for overwrite
-            for (String[] row : allData) {
-                bw.write(String.join(",", row));
-                bw.newLine();
-            }
         }
     }
 }

@@ -2,17 +2,15 @@ package internship_rs;
 
 import CSVMethods.CSVRead;
 import CSVMethods.CSVFilter;
+import CSVMethods.CSVWrite;
 import enums.InternshipStatus;
 import model.Internship;
 import model.Student;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 // this class is for the company rep to review applications
@@ -88,7 +86,8 @@ public class InternshipReviewService {
 
                 // If the record was found, overwrite the CSV file with the updated data.
                 if (recordFound) {
-                    writeToCSV(STUDENT_INTERNSHIP_REL_CSV, allData);
+                    CSVWrite csvWriter = new CSVWrite();
+                    csvWriter.writeToCSV(STUDENT_INTERNSHIP_REL_CSV, allData);
                     System.out.println("Status updated successfully.");
                     return true;
                 } else {
@@ -124,7 +123,8 @@ public class InternshipReviewService {
         }
 
         if (changesMade) {
-            writeToCSV(STUDENT_INTERNSHIP_REL_CSV, allApplications);
+            CSVWrite csvWriter = new CSVWrite();
+            csvWriter.writeToCSV(STUDENT_INTERNSHIP_REL_CSV, allApplications);
             System.out.println("ok, all pending ppl for this internship are rejected.");
         } else {
             System.out.println("no one to reject, lol.");
@@ -147,18 +147,9 @@ public class InternshipReviewService {
         }
 
         if (changesMade) {
-            writeToCSV(STUDENT_INTERNSHIP_REL_CSV, allApplications);
+            CSVWrite csvWriter = new CSVWrite();
+            csvWriter.writeToCSV(STUDENT_INTERNSHIP_REL_CSV, allApplications);
             System.out.println("All pending applications for internship " + internshipId + " have been rejected.");
-        }
-    }
-
-    // this writes to the csv file
-    private void writeToCSV(String filename, List<String[]> allData) throws IOException {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename, false))) { // 'false' for overwrite
-            for (String[] row : allData) {
-                bw.write(String.join(",", row));
-                bw.newLine();
-            }
         }
     }
 }
