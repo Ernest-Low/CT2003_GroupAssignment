@@ -4,7 +4,7 @@ import java.util.*;
 import java.io.*;
 
 import model.*;
-import CSVMethods.*;
+import CSVmethods.*;
 
 public class StudentAcceptInternship {
 

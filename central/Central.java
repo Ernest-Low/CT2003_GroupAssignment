@@ -29,7 +29,7 @@ public class Central {
         System.out.println("Welcome, " + loginInfo.getID() + " (" + loginInfo.getUserType() + ")");
 
         // UpdatePasswordController updatePasswordController = new UpdatePasswordController();
-        // updatePasswordController.updatePassword();
+        // updatePasswordController.updatePassword(loginInfo.getID());
 
         // ! Temp, pretend got the logininfo back from login
         // ! Change this logininfo's UserType to your menu
