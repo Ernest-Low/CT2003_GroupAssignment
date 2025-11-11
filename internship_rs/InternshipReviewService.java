@@ -1,9 +1,11 @@
 package internship_rs;
 
+import java.time.LocalDate;
+
 import CSVMethods.CSVRead;
 import CSVMethods.CSVFilter;
 import CSVMethods.CSVWrite;
-import enums.InternshipStatus;
+import enums.InternshipApplicationStatus;
 import model.Internship;
 import model.Student;
 
@@ -38,7 +40,7 @@ public class InternshipReviewService {
     }
 
     // for company rep to approve or reject
-    public boolean updateApplicationStatus(String studentId, String internshipId, InternshipStatus newStatus)
+    public boolean updateApplicationStatus(String studentId, String internshipId, InternshipApplicationStatus newStatus)
             throws IOException, ApprovalLimitExceededException {
         
         InternshipDataService dataService = new InternshipDataService();
@@ -46,8 +48,8 @@ public class InternshipReviewService {
 
         if (internship != null) {
             // Check if the closing date has passed.
-            Date today = new Date();
-            if (today.after(internship.getClosingDate())) {
+            LocalDate today = LocalDate.now();
+            if (today.isAfter(internship.getClosingDate())) {
                 System.out.println("The application deadline for this internship has passed. All pending applications will be rejected.");
                 rejectAllPendingApplications(internshipId);
                 return false;
@@ -58,11 +60,11 @@ public class InternshipReviewService {
                 boolean recordFound = false;
 
                 // if trying to approve, check the limit first
-                if (newStatus == InternshipStatus.APPROVED) {
+                if (newStatus == InternshipApplicationStatus.APPROVED) {
                     int approvedCount = 0;
                     for(int i = 1; i < allData.size(); i++) { // Skip header
                         String[] row = allData.get(i);
-                        if (row[1].equals(internshipId) && row[2].equals(InternshipStatus.APPROVED.toString())) {
+                        if (row[1].equals(internshipId) && row[2].equals(InternshipApplicationStatus.APPROVED.toString())) {
                             approvedCount++;
                         }
                     }
@@ -125,9 +127,9 @@ public class InternshipReviewService {
         if (changesMade) {
             CSVWrite csvWriter = new CSVWrite();
             csvWriter.writeToCSV(STUDENT_INTERNSHIP_REL_CSV, allApplications);
-            System.out.println("ok, all pending ppl for this internship are rejected.");
+            System.out.println("All pending application for this internship are rejected.");
         } else {
-            System.out.println("no one to reject, lol.");
+            System.out.println("No pending application to reject.");
         }
     }
 
@@ -140,8 +142,8 @@ public class InternshipReviewService {
         for (int i = 1; i < allApplications.size(); i++) {
             String[] row = allApplications.get(i);
             // Check if it's the correct internship and the status is PENDING
-            if (row[1].equals(internshipId) && row[2].equals(InternshipStatus.PENDING.toString())) {
-                row[2] = InternshipStatus.REJECTED.toString();
+            if (row[1].equals(internshipId) && row[2].equals(InternshipApplicationStatus.PENDING.toString())) {
+                row[2] = InternshipApplicationStatus.REJECTED.toString();
                 changesMade = true;
             }
         }
