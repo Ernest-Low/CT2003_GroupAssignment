@@ -111,62 +111,52 @@ public class InternshipApplicationService {
     }
 
     // this is for applying to an internship
-    public boolean applyForInternship(Student student, Internship internship) throws IOException {
+    public boolean applyForInternship(Student student, Internship internship) {
         CSVRead csvReader = new CSVRead();
-        List<String[]> allApplications = null;
+        
+        // Read all existing application records.
+        List<String[]> allApplications = csvReader.ReadAll(STUDENT_INTERNSHIP_REL_CSV);
 
-        try {
-            // Read all existing application records.
-            allApplications = csvReader.ReadAll(STUDENT_INTERNSHIP_REL_CSV);
+        int applicationCount = 0;
+        // Skip header row (i=1) and iterate through records.
+        for (int i = 1; i < allApplications.size(); i++) {
+            String[] record = allApplications.get(i);
+            String recordStudentId = record[0];
+            String recordInternshipId = record[1];
 
-            int applicationCount = 0;
-            // Skip header row (i=1) and iterate through records.
-            for (int i = 1; i < allApplications.size(); i++) {
-                String[] record = allApplications.get(i);
-                String recordStudentId = record[0];
-                String recordInternshipId = record[1];
-
-                // Check if the record belongs to the current student.
-                if (recordStudentId.equals(student.getId())) {
-                    // Validation 1: Check for duplicate application.
-                    if (recordInternshipId.equals(internship.getID())) {
-                        System.out.println("Application failed: You have already applied for this internship.");
-                        return false; // Application is a duplicate.
-                    }
-                    applicationCount++;
+            // Check if the record belongs to the current student.
+            if (recordStudentId.equals(student.getId())) {
+                // Validation 1: Check for duplicate application.
+                if (recordInternshipId.equals(internship.getID())) {
+                    System.out.println("Application failed: You have already applied for this internship.");
+                    return false; // Application is a duplicate.
                 }
+                applicationCount++;
             }
-
-            // Validation 2: Check if student has reached the application limit.
-            if (applicationCount >= MAX_APPLICATIONS) {
-                System.out.println("Application failed: You have reached the maximum of " + MAX_APPLICATIONS + " applications.");
-                return false; // Exceeded application limit.
-            }
-
-            // If all validations pass, create a new application record.
-            String[] newApplicationData = {
-                student.getId(),
-                internship.getID(),
-                InternshipStatus.PENDING.toString()
-            };
-
-            // Add the new application to the list in memory
-            allApplications.add(newApplicationData);
-
-            // Now, write the entire updated list back to the CSV file.
-            CSVWrite csvWriter = new CSVWrite();
-            csvWriter.writeToCSV(STUDENT_INTERNSHIP_REL_CSV, allApplications);
-
-            System.out.println("Application submitted successfully!");
-            return true;
-
-        } catch (IOException e) {
-            System.err.println("An error occurred during the application process: " + e.getMessage());
-            // Re-throw the exception to let the caller handle it.
-            throw e;
-        } finally {
-            // This block runs whether an exception occurred or not.
-            System.out.println("Internship application process finished.");
         }
+
+        // Validation 2: Check if student has reached the application limit.
+        if (applicationCount >= MAX_APPLICATIONS) {
+            System.out.println("Application failed: You have reached the maximum of " + MAX_APPLICATIONS + " applications.");
+            return false; // Exceeded application limit.
+        }
+
+        // If all validations pass, create a new application record.
+        String[] newApplicationData = {
+            student.getId(),
+            internship.getID(),
+            InternshipStatus.PENDING.toString()
+        };
+
+        // Add the new application to the list in memory
+        allApplications.add(newApplicationData);
+
+        // Now, write the entire updated list back to the CSV file.
+        CSVWrite csvWriter = new CSVWrite();
+        csvWriter.writeToCSV(STUDENT_INTERNSHIP_REL_CSV, allApplications);
+
+        System.out.println("Application submitted successfully!");
+        System.out.println("Internship application process finished.");
+        return true;
     }
 }
