@@ -7,6 +7,8 @@ import model.Student;
 import model.CareerStaff;
 import model.CompanyRep;
 import student.*;
+import StaffFiles.*;
+
 import dto.LoginInfo;
 
 import login.AuthController;
@@ -47,9 +49,9 @@ public class Central {
                 "Software Engineer");
 
         switch (loginInfo.getUserType()) {
-            case UserType.STUDENT -> studentMenu(fakeStudent);
-            case UserType.CAREERSTAFF -> careerStaffMenu(fakeCareerStaff);
-            case UserType.COMPANYREP -> companyRepMenu(fakeCompanyRep);
+            case STUDENT -> studentMenu(fakeStudent);
+            case CAREERSTAFF -> careerStaffMenu(fakeCareerStaff);
+            case COMPANYREP -> companyRepMenu(fakeCompanyRep);
             default -> System.out.println("Logic error");
         }
     }
@@ -64,6 +66,9 @@ public class Central {
     private void careerStaffMenu(CareerStaff careerStaff) {
         // * Entry point Career Staff
         // ? Replace with your own method call (be it static / instance)
+
+        staffmain staffStart = new staffmain(careerStaff);
+        staffStart.staffEntry();
 
         // CareerStaffController careerStaffController = new CareerStaffController();
         // careerStaffController.openMenu(careerStaff);

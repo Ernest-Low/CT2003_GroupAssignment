@@ -17,15 +17,19 @@ public class StudentViewInternship {
     private static Scanner sc = new Scanner(System.in);
 
     private static int openMenu() {
+        System.out.println();
         System.out.println("Please select an action");
-        System.out.println("1: Accept Successful Internship");
+        System.out.println("1: Accept Successful Internship Application");
         System.out.println("9: Return");
+        System.out.print("Input: ");
         int num = Integer.parseInt(sc.next());
 
         return num;
     }
 
     public static void viewAppliedInternship(Student student) {
+        System.out.println();
+        System.out.println("--Your Applications--");
         CSVRead reader = new CSVRead();
         // Retrieve intenshipIDs by userID
         List<String[]> rel = reader.ReadAll(REL_CSV);
@@ -41,11 +45,15 @@ public class StudentViewInternship {
             userRule.clear();
             userRule.add(new String[] {"ID", filtered.get(i)[1]});
             entry = CSVFilter.moreFilter(internships, userRule).get(1);
+            Internship internship = new Internship(entry[0],entry[1],entry[2],entry[3], Major.valueOf(entry[4]), InternshipLevel.valueOf(entry[5]), Integer.parseInt(entry[6]), Date.valueOf(entry[7]), Date.valueOf(entry[8]), InternshipStatus.valueOf(entry[9]));
 
             // If internship is successful, store it in the successfulInternships list
             if (filtered.get(i)[2].equals("Successful")) {
-                successfulInternships.add(new Internship(entry[0],entry[1],entry[2],entry[3], Major.valueOf(entry[4]), InternshipLevel.valueOf(entry[5]), Integer.parseInt(entry[6]), Date.valueOf(entry[7]), Date.valueOf(entry[8]), InternshipStatus.valueOf(entry[9])));
+                successfulInternships.add(internship);
             }
+
+            System.out.println(i + ". " + internship.getCompanyName() + ": " + internship.getTitle() + " ("+ internship.getLevel().getDisplayName() + ") -- " + filtered.get(i)[2]);
+
         }
 
         int choice = openMenu();

@@ -3,7 +3,8 @@ package login;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import CSVmethods.*;
+import model.Credential;
+import CSVMethods.CSVMethods;
 import dto.LoginInfo;
 
 import enums.AccountStatus;
