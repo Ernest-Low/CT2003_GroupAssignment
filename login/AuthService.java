@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import model.Credential;
-import CSVmethods.CSVMethods;
+import CSVMethods.CSVMethods;
 import dto.LoginInfo;
 import enums.AccountStatus;
 import enums.UserType;
@@ -24,8 +24,6 @@ public class AuthService {
                         return null;
                     }
                 }
-            } else {
-                return null;
             }
         }
         return null;

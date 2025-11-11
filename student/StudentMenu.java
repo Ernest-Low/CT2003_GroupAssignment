@@ -21,6 +21,7 @@ public class StudentMenu {
         System.out.println("2: Explore Internship Opportunity");
         System.out.println("3: View Internships Applications");
         System.out.println("9: Logout");
+        System.out.print("Input: ");
         int num = Integer.parseInt(sc.next());
 
         return num;
@@ -28,9 +29,9 @@ public class StudentMenu {
 
     public void StudentController() {
         sc = new Scanner(System.in);
-        System.out.println("Welcome " + student.getName());
         int choice = 0;
         while (choice != 9) {
+            System.out.println();
             try {
                 choice = openMenu();
             } catch (NumberFormatException e) {
@@ -42,6 +43,7 @@ public class StudentMenu {
                     System.out.println("1");
                     break;
                 case 2: // Call explore internship opportunity method
+                    ExploreInternshipService.exploreInternship(student);
                     break;
                 case 3:  // Call view internship applied
                     StudentViewInternship.viewAppliedInternship(student);
