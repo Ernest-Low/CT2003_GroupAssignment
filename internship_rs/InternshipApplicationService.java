@@ -2,6 +2,7 @@ package internship_rs;
 
 import CSVMethods.CSVRead;
 import CSVMethods.CSVWrite;
+import enums.InternshipApplicationStatus;
 import enums.InternshipStatus;
 import model.Internship;
 import model.Student;
@@ -66,7 +67,7 @@ public class InternshipApplicationService {
         for (int i = 1; i < allApplications.size(); i++) {
             String[] row = allApplications.get(i);
             if (row[0].equals(student.getId())) {
-                if (row[2].equals(InternshipStatus.ACCEPTED.toString())) {
+                if (row[2].equals(InternshipApplicationStatus.ACCEPTED.toString())) {
                     already_accepted = true;
                     break;
                 }
@@ -82,7 +83,7 @@ public class InternshipApplicationService {
         for (int i = 1; i < allApplications.size(); i++) {
             String[] row = allApplications.get(i);
             if (row[0].equals(student.getId()) && row[1].equals(internship.getID())) {
-                if (row[2].equals(InternshipStatus.APPROVED.toString())) {
+                if (row[2].equals(InternshipApplicationStatus.APPROVED.toString())) {
                     offer_is_approved = true;
                     recordIndex = i; // save the line number
                 }
