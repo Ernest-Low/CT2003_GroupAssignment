@@ -6,6 +6,9 @@ import java.util.*;
 public class CSVBeutify2 {
 
     //the String... fieldNames is so that you can input as many fields as you need
+    //usage is enter a title, the List Object and the fields u want to display 
+    //example usage: BeutifyNewFilter("All Accounts", allUsers, "ID", "Name", "Status", "Email") you can keep adding more fields if u want
+    //the ... part is supposed to let you keep adding stuff
 
     public void BeutifyNewFilter(String title, List<Object> objects, String... fieldNames){
 
