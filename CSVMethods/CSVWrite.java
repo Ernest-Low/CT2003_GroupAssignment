@@ -61,7 +61,7 @@ public class CSVWrite {
         } 
     
 
-    private void writeToCSV(String filename, List<String[]> allData) {
+    public void writeToCSV(String filename, List<String[]> allData) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename))) {
             for (String[] row : allData) {
                 bw.write(String.join(",", row));

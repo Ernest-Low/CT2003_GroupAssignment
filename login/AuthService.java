@@ -24,8 +24,6 @@ public class AuthService {
                         return null;
                     }
                 }
-            } else {
-                return null;
             }
         }
         return null;
