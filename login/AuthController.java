@@ -11,14 +11,13 @@ public class AuthController {
     public LoginInfo openMenu() {
         int choice;
 
-		System.out.println("Perform the following methods:");
+		System.out.println("Welcome to the Internship Placement Management System:");
 		System.out.println("(1) Login");
         System.out.println("(2) Create Company Representative Account");
 		System.out.println("(3) Exit/n");
-            
+        
 		choice = sc.nextInt();
-            
-        sc.nextLine();
+        // sc.nextLine();
 			
 		switch (choice) {
 			case 1:

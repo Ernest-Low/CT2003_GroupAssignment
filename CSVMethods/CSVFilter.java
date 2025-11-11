@@ -1,4 +1,4 @@
-package CSVMethods;
+package CSVmethods;
 
 //imports below here please, add if needed
 import java.io.*;
