@@ -4,7 +4,7 @@ import java.util.*;
 import java.io.*;
 
 import model.*;
-import CSVmethods.*;
+import CSVMethods.*;
 
 import java.sql.Date;
 
