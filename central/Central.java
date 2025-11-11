@@ -9,6 +9,13 @@ import model.CompanyRep;
 import companyRep.CRep;
 import config.Services;
 import dtos.LoginInfo;
+import student.*;
+import StaffFiles.*;
+
+import dto.LoginInfo;
+
+import login.AuthController;
+import login.UpdatePasswordController;
 
 public class Central {
 
@@ -21,16 +28,27 @@ public class Central {
     }
 
     public void centralController() {
+
         // * Entry point from main
 
         // ! Login, get user ID & user type back
-        // ? Replace with method call to login
-        // LoginController loginController = new LoginController();
-        // LoginInfo logininfo = loginController.openMenu();
+        AuthController authController = new AuthController();
+        LoginInfo loginInfo = null;
+        while (loginInfo == null) {
+            loginInfo = authController.openMenu();
+            System.out.println();
+        }
+
+        System.out.println("Welcome, " + loginInfo.getID() + " (" + loginInfo.getUserType() + ")");
+
+        // UpdatePasswordController updatePasswordController = new UpdatePasswordController();
+        // updatePasswordController.updatePassword(loginInfo.getID());
 
         // ! Temp, pretend got the logininfo back from login
         // ! Change this logininfo's UserType to your menu
-        LoginInfo logininfo = new LoginInfo("U1000001A", UserType.COMPANYREP);
+
+        // TODO: Pull from CSV the user
+        // TODO: Maybe update CSV to pull by ID, maybe add GUID (mimic database fully)
 
         // TODO: Pull from CSV the user based on usertype
         // TODO: It will be calling the different services anyway, should I just put it there?
@@ -51,14 +69,16 @@ public class Central {
     private void studentMenu(Student student) {
         // * Entry point Student
         // ? Replace with your own method call (be it static / instance)
-
-        // StudentController studentController = new StudentController();
-        // studentController.openMenu(student);
+        StudentMenu studentController = new StudentMenu(student);
+        studentController.StudentController();
     }
 
     private void careerStaffMenu(CareerStaff careerStaff) {
         // * Entry point Career Staff
         // ? Replace with your own method call (be it static / instance)
+
+        staffmain staffStart = new staffmain(careerStaff);
+        staffStart.staffEntry();
 
         // CareerStaffController careerStaffController = new CareerStaffController();
         // careerStaffController.openMenu(careerStaff);
