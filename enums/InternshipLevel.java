@@ -1,7 +1,7 @@
 package enums;
 
 public enum InternshipLevel {
-    BASIC("Basic"),
+    BASIC("Basic"), // ? Year 1/2 Students can only apply for this
     INTERMEDIATE("Intermediate"),
     ADVANCED("Advanced");
 
@@ -13,5 +13,15 @@ public enum InternshipLevel {
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    public static InternshipLevel fromString(String input) {
+        for (InternshipLevel level : values()) {
+            if (level.displayName.equalsIgnoreCase(input)
+                    || level.name().equalsIgnoreCase(input)) {
+                return level;
+            }
+        }
+        throw new IllegalArgumentException("Invalid Internship Level");
     }
 }

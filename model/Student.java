@@ -7,8 +7,8 @@ public class Student extends User {
     protected int yearOfStudy;
     protected Major major;
 
-    public Student(String ID, String name, int yearOfStudy, Major major) {
-        super(ID, name);
+    public Student(String GUID, String ID, String name, int yearOfStudy, Major major) {
+        super(GUID, ID, name);
         this.yearOfStudy = yearOfStudy;
         this.major = major;
     }

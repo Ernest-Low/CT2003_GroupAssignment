@@ -6,6 +6,9 @@ import enums.UserType;
 import model.Student;
 import model.CareerStaff;
 import model.CompanyRep;
+import companyRep.CRep;
+import config.Services;
+import dtos.LoginInfo;
 import student.*;
 import StaffFiles.*;
 
@@ -15,6 +18,14 @@ import login.AuthController;
 import login.UpdatePasswordController;
 
 public class Central {
+
+    private final Services services;
+
+    private CRep crep;
+
+    public Central(Services services) {
+        this.services = services;
+    }
 
     public void centralController() {
 
@@ -39,19 +50,18 @@ public class Central {
         // TODO: Pull from CSV the user
         // TODO: Maybe update CSV to pull by ID, maybe add GUID (mimic database fully)
 
-        // based on ID, retrieve user from appopriate csv
-        // based on user, call the appopriate menu (student, careerStaff, companyRep)
+        // TODO: Pull from CSV the user based on usertype
+        // TODO: It will be calling the different services anyway, should I just put it there?
+        // TODO: Could rename it as gateway (idk why i feel like naming it that)
 
         // ! Temp, mock up a user for each
-        Student fakeStudent = new Student("U2310001A", "Aaron Tan", 1, Major.COMPUTER_SCIENCE);
-        CareerStaff fakeCareerStaff = new CareerStaff("jtan001", "John Tan", "Career Advisory");
-        CompanyRep fakeCompanyRep = new CompanyRep("alex.choi@novalink.com", "Alex Choi", "Novalink", "Engineering",
-                "Software Engineer");
+        Student fakeStudent = new Student("S000001T", "U1000001A", "Aaron Tan", 1, Major.COMPUTER_SCIENCE);
+        CareerStaff fakeCareerStaff = new CareerStaff("C000001S", "jtan001", "John Tan", "Career Advisory");
 
-        switch (loginInfo.getUserType()) {
+        switch (logininfo.getUserType()) {
             case STUDENT -> studentMenu(fakeStudent);
             case CAREERSTAFF -> careerStaffMenu(fakeCareerStaff);
-            case COMPANYREP -> companyRepMenu(fakeCompanyRep);
+            case COMPANYREP -> cRepGateway(logininfo);
             default -> System.out.println("Logic error");
         }
     }
@@ -74,12 +84,18 @@ public class Central {
         // careerStaffController.openMenu(careerStaff);
     }
 
-    private void companyRepMenu(CompanyRep companyRep) {
+    private void cRepGateway(LoginInfo loginInfo) {
         // * Entry point Company Rep
-        // ? Replace with your own method call (be it static / instance)
 
-        // CompanyRepController companyRepController = new CompanyRepController();
-        // companyRepController.openMenu(companyRep);
+        // TODO: Utilize Logininfo into crep service to get crep out
+
+        // ! Mock user
+        CompanyRep companyRep = new CompanyRep("C000001R", "alex.choi@novalink.com", "Alex Choi", "Novalink",
+                "Engineering",
+                "Software Engineer");
+
+        this.crep = new CRep(services, companyRep);
+        crep.CompanyRepController();
     }
 
 }

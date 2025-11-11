@@ -1,5 +1,1 @@
 ID,title,companyName,companyID,major,level,counter,openingDate,closingDate,status,description
-123,Software Engineer,Google,111,COMPUTER_SCIENCE,BASIC,0,2025-11-11,2025-12-12,APPROVED,
-124,Software Engineer,Meta,112,COMPUTER_SCIENCE,INTERMEDIATE,0,2025-11-11,2025-12-12,APPROVED,
-125,Senior Software Engineer,Meta,112,COMPUTER_SCIENCE,ADVANCED,0,2025-11-11,2025-12-12,APPROVED,
-126,Data Engineer,Google,111,DATA_SCIENCE,BASIC,0,2025-11-11,2025-12-12,APPROVED,

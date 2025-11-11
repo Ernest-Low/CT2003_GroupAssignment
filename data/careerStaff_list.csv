@@ -1,11 +1,11 @@
-ID,name,staffDepartment
-jtan001,John Tan,Career Advisory
-mlim002,Mary Lim,Internship Coordination
-kng003,Kevin Ng,Employer Relations
-slee004,Susan Lee,Student Services
-rloh005,Rachel Loh,Administration
-dchan006,Daniel Chan,Events Management
-fong007,Fiona Ong,Alumni Relations
-prahman008,Peter Rahman,Industry Partnerships
-cteo009,Cheryl Teo,Data & Reporting
-bchua010,Benjamin Chua,Outreach & Marketing
+GUID,ID,name,staffDepartment
+C000001S,jtan001,John Tan,Career Advisory
+C000002S,mlim002,Mary Lim,Internship Coordination
+C000003S,kng003,Kevin Ng,Employer Relations
+C000004S,slee004,Susan Lee,Student Services
+C000005S,rloh005,Rachel Loh,Administration
+C000006S,dchan006,Daniel Chan,Events Management
+C000007S,fong007,Fiona Ong,Alumni Relations
+C000008S,prahman008,Peter Rahman,Industry Partnerships
+C000009S,cteo009,Cheryl Teo,Data & Reporting
+C000010S,bchua010,Benjamin Chua,Outreach & Marketing

@@ -4,8 +4,9 @@ public class CareerStaff extends User {
 
     protected String staffDepartment;
 
-    public CareerStaff(String ID, String name, String staffDepartment) {
-        super(ID, name);
+    // * GUID follows: C000001S, C000002S, C000003S
+    public CareerStaff(String GUID, String ID, String name, String staffDepartment) {
+        super(GUID, ID, name);
         this.staffDepartment = staffDepartment;
     }
 
