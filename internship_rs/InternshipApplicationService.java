@@ -3,7 +3,6 @@ package internship_rs;
 import CSVMethods.CSVRead;
 import CSVMethods.CSVWrite;
 import enums.InternshipApplicationStatus;
-import enums.InternshipStatus;
 import model.Internship;
 import model.Student;
 

@@ -8,7 +8,7 @@ import enums.Major;
 import model.Internship;
 
 import java.io.IOException;
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,8 +37,8 @@ public class InternshipDataService {
                     Major.valueOf(record[4].toUpperCase()),     // major
                     InternshipLevel.valueOf(record[5].toUpperCase()), // level
                     Integer.parseInt(record[6]),                // counter
-                    Date.valueOf(record[7]),                    // openingDate
-                    Date.valueOf(record[8]),                    // closingDate
+                    LocalDate.parse(record[7]),                    // openingDate
+                    LocalDate.parse(record[8]),                    // closingDate
                     InternshipStatus.valueOf(record[9].toUpperCase()) // status
             );
             internships.add(internship);
@@ -64,8 +64,8 @@ public class InternshipDataService {
                         Major.valueOf(record[4].toUpperCase()),
                         InternshipLevel.valueOf(record[5].toUpperCase()),
                         Integer.parseInt(record[6]),
-                        Date.valueOf(record[7]),
-                        Date.valueOf(record[8]),
+                        LocalDate.parse(record[7]),
+                        LocalDate.parse(record[8]),
                         InternshipStatus.valueOf(record[9].toUpperCase())
                 );
             }

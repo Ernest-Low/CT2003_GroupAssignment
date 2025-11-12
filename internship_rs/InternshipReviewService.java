@@ -4,14 +4,13 @@ import java.time.LocalDate;
 
 import CSVMethods.CSVRead;
 import CSVMethods.CSVFilter;
-import CSVMethods.CSVWrite;
+import CSVWrite;
 import enums.InternshipApplicationStatus;
 import model.Internship;
 import model.Student;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
