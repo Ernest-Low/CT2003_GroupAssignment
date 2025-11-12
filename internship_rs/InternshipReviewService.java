@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 import CSVMethods.CSVRead;
 import CSVMethods.CSVFilter;
-import CSVWrite;
+import CSVMethods.CSVWrite;
 import enums.InternshipApplicationStatus;
 import model.Internship;
 import model.Student;

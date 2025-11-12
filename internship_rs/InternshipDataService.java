@@ -28,7 +28,7 @@ public class InternshipDataService {
         for (int i = 1; i < records.size(); i++) {
             String[] record = records.get(i);
 
-            // CSV columns: ID,title,companyName,companyID,major,level,counter,openingDate,closingDate,status
+            // CSV columns: ID,title,companyName,companyID,major,level,counter,openingDate,closingDate,status,description
             Internship internship = new Internship(
                     record[0],                                  // ID
                     record[1],                                  // title
@@ -39,7 +39,8 @@ public class InternshipDataService {
                     Integer.parseInt(record[6]),                // counter
                     LocalDate.parse(record[7]),                    // openingDate
                     LocalDate.parse(record[8]),                    // closingDate
-                    InternshipStatus.valueOf(record[9].toUpperCase()) // status
+                    InternshipStatus.valueOf(record[9].toUpperCase()), // status
+                    record[10]                                  // description
             );
             internships.add(internship);
         }
@@ -55,7 +56,7 @@ public class InternshipDataService {
         for (int i = 1; i < records.size(); i++) {
             String[] record = records.get(i);
             if (record[0].equals(internshipId)) {
-                // CSV columns: ID,title,companyName,companyID,major,level,counter,openingDate,closingDate,status
+                // CSV columns: ID,title,companyName,companyID,major,level,counter,openingDate,closingDate,status,description
                 return new Internship(
                         record[0],
                         record[1],
@@ -66,7 +67,8 @@ public class InternshipDataService {
                         Integer.parseInt(record[6]),
                         LocalDate.parse(record[7]),
                         LocalDate.parse(record[8]),
-                        InternshipStatus.valueOf(record[9].toUpperCase())
+                        InternshipStatus.valueOf(record[9].toUpperCase()),
+                        record[10]
                 );
             }
         }
