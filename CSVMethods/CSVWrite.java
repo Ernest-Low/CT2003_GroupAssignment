@@ -20,7 +20,7 @@ public class CSVWrite {
     //Another thing to note is that it updates the entire file so how it work is
     //1 -> Read the entire file 2-> find tha specific ID and change the value 3-> write back to file
 
-    public void updateByID(String CSVFile, String userID, String idCol, String updateCol, String updatedVal) {
+    public static void updateByID(String CSVFile, String userID, String idCol, String updateCol, String updatedVal) {
 
     //there was a try here before but was facing an error so i removed it lemme know if there are any issues without it
             CSVRead CSVRead = new CSVRead();
@@ -66,7 +66,7 @@ public class CSVWrite {
         } 
     
 
-    private void writeToCSV(String filename, List<String[]> allData) {
+    public static void writeToCSV(String filename, List<String[]> allData) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename))) {
             for (String[] row : allData) {
                 bw.write(String.join(",", row));

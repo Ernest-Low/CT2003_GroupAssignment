@@ -18,18 +18,18 @@ public class AuthService {
     private static final String CREDENTIALS_CSV_FILE = "data/credentials_list.csv";
     private static final String COMPANYREP_CSV_FILE = "data/companyReps_list.csv";
 
-    private static final CSVMethods csvmethods = new CSVMethods();
+    //private static final CSVMethods csvmethods = new CSVMethods();
     private static final CSVRead csvread = new CSVRead();
     private static final CSVWrite csvwrite = new CSVWrite();
 
     protected static LoginInfo login(String input_username, String input_password) {
         // check if username exists in csv
         // CSVMethods csvmethods = new CSVMethods();
-        List<Credential> credentials = csvmethods.readCredentials();
+        List<Credential> credentials = CSVMethods.readCredentials();
         for (int i=0; i<credentials.size(); i++) {
             Credential current = credentials.get(i);
             if (current.getAccountStatus() == AccountStatus.ACTIVE) {
-                if (current.getid().equals(input_username)) {
+                if (current.getId().equals(input_username)) {
                     boolean passwordMatch = PasswordUtil.verifyPassword(input_password, current.getSalt(), current.getHash());
                     if (passwordMatch) {
                         return new LoginInfo(input_username, current.getUserType());
