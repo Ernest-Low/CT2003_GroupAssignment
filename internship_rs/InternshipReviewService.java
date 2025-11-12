@@ -11,7 +11,6 @@ import model.Student;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,18 +59,18 @@ public class InternshipReviewService {
                 boolean recordFound = false;
 
                 // if trying to approve, check the limit first
-                if (newStatus == InternshipApplicationStatus.APPROVED) {
+                if (newStatus == InternshipApplicationStatus.SUCCESSFUL) {
                     int approvedCount = 0;
                     for(int i = 1; i < allData.size(); i++) { // Skip header
                         String[] row = allData.get(i);
-                        if (row[1].equals(internshipId) && row[2].equals(InternshipApplicationStatus.APPROVED.toString())) {
+                        if (row[1].equals(internshipId) && row[2].equals(InternshipApplicationStatus.SUCCESSFUL.toString())) {
                             approvedCount++;
                         }
                     }
 
                     if (approvedCount >= APPROVAL_LIMIT) {
                         throw new ApprovalLimitExceededException(
-                            "Approval failed: Internship has reached its capacity of " + APPROVAL_LIMIT + " approved applicants."
+                            "Approval failed: Internship has reached its capacity of " + APPROVAL_LIMIT + " successful applicants."
                         );
                     }
                 }
@@ -119,7 +118,7 @@ public class InternshipReviewService {
 
             // check if its the right internship and if the status is pending
             if (currentInternshipId.equals(internshipId) && currentStatus.equals("PENDING")) {
-                row[2] = "REJECTED"; // change to rejected
+                row[2] = "UNSUCCESSFUL"; // change to unsuccessful
                 changesMade = true;
             }
         }
@@ -143,7 +142,7 @@ public class InternshipReviewService {
             String[] row = allApplications.get(i);
             // Check if it's the correct internship and the status is PENDING
             if (row[1].equals(internshipId) && row[2].equals(InternshipApplicationStatus.PENDING.toString())) {
-                row[2] = InternshipApplicationStatus.REJECTED.toString();
+                row[2] = InternshipApplicationStatus.UNSUCCESSFUL.toString();
                 changesMade = true;
             }
         }

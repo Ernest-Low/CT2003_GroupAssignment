@@ -77,7 +77,7 @@ public class Central {
         // * Entry point Career Staff
         // ? Replace with your own method call (be it static / instance)
 
-        staffmain staffStart = new staffmain(careerStaff);
+        staffmainnew staffStart = new staffmainnew(careerStaff);
         staffStart.staffEntry();
 
         // CareerStaffController careerStaffController = new CareerStaffController();

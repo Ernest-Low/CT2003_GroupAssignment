@@ -19,15 +19,15 @@ public class ExploreInternshipService {
 
         // retrieve available internships
         try {
-            internships = internshipApp.getAvailableInternships();
+            internships = internshipApp.getAvailableInternshipsForStudent(student);
         } catch (IOException e) {
             System.out.println(e);
             return;
         }
 
         // check if there are records
-        if (internships == null) {
-            System.out.println("No internship available at the moment.");
+        if (internships == null || internships.isEmpty()) {
+            System.out.println("No internship available for your major and year level at the moment.");
             return;
         }
 
@@ -37,7 +37,7 @@ public class ExploreInternshipService {
         // NEEDS FILTERING IF USER IS Y1/2 AND BY MAJOR (MISSING)
         for (int i = 1; i <= internships.size(); i++) {
             Internship internship = internships.get(i-1);
-            System.out.println(i + ". " + internship.getCompanyName() + ": " + internship.getTitle() + " (" + internship.getLevel() + ")");
+            System.out.println(i + ". " + internship.getCompanyName() + ": " + internship.getTitle() + " (" + internship.getLevel().getDisplayName() + ")");
         }
 
         // Prompt user for input (apply/exit)

@@ -8,7 +8,7 @@ import enums.Major;
 import model.Internship;
 
 import java.io.IOException;
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +28,7 @@ public class InternshipDataService {
         for (int i = 1; i < records.size(); i++) {
             String[] record = records.get(i);
 
-            // CSV columns: ID,title,companyName,companyID,major,level,counter,openingDate,closingDate,status
+            // CSV columns: ID,title,companyName,companyID,major,level,counter,openingDate,closingDate,status,description
             Internship internship = new Internship(
                     record[0],                                  // ID
                     record[1],                                  // title
@@ -37,10 +37,10 @@ public class InternshipDataService {
                     Major.valueOf(record[4].toUpperCase()),     // major
                     InternshipLevel.valueOf(record[5].toUpperCase()), // level
                     Integer.parseInt(record[6]),                // counter
-                    Date.valueOf(record[7]),                    // openingDate
-                    Date.valueOf(record[8]),                    // closingDate
+                    LocalDate.parse(record[7]),                    // openingDate
+                    LocalDate.parse(record[8]),                    // closingDate
                     InternshipStatus.valueOf(record[9].toUpperCase()), // status
-                    record[10]
+                    record[10]                                  // description
             );
             internships.add(internship);
         }
@@ -56,7 +56,7 @@ public class InternshipDataService {
         for (int i = 1; i < records.size(); i++) {
             String[] record = records.get(i);
             if (record[0].equals(internshipId)) {
-                // CSV columns: ID,title,companyName,companyID,major,level,counter,openingDate,closingDate,status
+                // CSV columns: ID,title,companyName,companyID,major,level,counter,openingDate,closingDate,status,description
                 return new Internship(
                         record[0],
                         record[1],
@@ -65,8 +65,8 @@ public class InternshipDataService {
                         Major.valueOf(record[4].toUpperCase()),
                         InternshipLevel.valueOf(record[5].toUpperCase()),
                         Integer.parseInt(record[6]),
-                        Date.valueOf(record[7]),
-                        Date.valueOf(record[8]),
+                        LocalDate.parse(record[7]),
+                        LocalDate.parse(record[8]),
                         InternshipStatus.valueOf(record[9].toUpperCase()),
                         record[10]
                 );
