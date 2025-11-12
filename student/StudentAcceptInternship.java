@@ -37,14 +37,16 @@ public class StudentAcceptInternship {
         int choice = openMenu();
 
         // User input apply application
-        if (choice <= count && count > 0) {
+        if (choice > 0 && choice <= count) {
             // Update csv status -- to be run with method implemented by Daryl
             InternshipApplicationService internshipApp = new InternshipApplicationService();
             try {
-                boolean accepted = internshipApp.acceptInternshipOffer(student, internships.get(choice - 1));
+                internshipApp.acceptInternshipOffer(student, internships.get(choice - 1));
             } catch (IOException e) {
-                System.out.println(e);
+                System.out.println("An error occurred while accepting the offer: " + e.getMessage());
             }
+        } else if (choice != 9) {
+            System.out.println("Invalid selection.");
         }
 
         // Return to main menu

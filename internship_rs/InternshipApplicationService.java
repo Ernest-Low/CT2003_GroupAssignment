@@ -3,12 +3,15 @@ package internship_rs;
 import CSVMethods.CSVRead;
 import CSVMethods.CSVWrite;
 import enums.InternshipApplicationStatus;
+import enums.InternshipLevel;
+import enums.InternshipStatus;
 import model.Internship;
 import model.Student;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 // this class is for the student to apply for internships
 public class InternshipApplicationService {
@@ -16,15 +19,31 @@ public class InternshipApplicationService {
     private static final int MAX_APPLICATIONS = 3;
     private static final String STUDENT_INTERNSHIP_REL_CSV = "data/student_internship_rel.csv";
 
-    // this gets all the internships from the csv
-    public List<Internship> getAvailableInternships() throws IOException {
+    // this gets all the internships from the csv, filtered for the student
+    public List<Internship> getAvailableInternshipsForStudent(Student student) throws IOException {
         InternshipDataService dataService = new InternshipDataService();
-        return dataService.readInternships();
+        List<Internship> allInternships = dataService.readInternships();
+        int studentYear = student.getYearOfStudy();
+
+        return allInternships.stream()
+                // Filter 1: Only show internships that are open for application
+                .filter(internship -> internship.getStatus() == InternshipStatus.APPROVED || internship.getStatus() == InternshipStatus.PENDING)
+                // Filter 2: Match student's major
+                .filter(internship -> internship.getMajor() == student.getMajor())
+                // Filter 3: Match student's year level
+                .filter(internship -> {
+                    if (studentYear <= 2) {
+                        return internship.getLevel() == InternshipLevel.BASIC;
+                    } else {
+                        return internship.getLevel() == InternshipLevel.INTERMEDIATE || internship.getLevel() == InternshipLevel.ADVANCED;
+                    }
+                })
+                .collect(Collectors.toList());
     }
 
     // new method for zhisheng to get all approved offers for a student
     public List<Internship> getApprovedOffers(Student student) throws IOException {
-        List<Internship> approved_internships = new ArrayList<>();
+        List<Internship> successful_internships = new ArrayList<>();
         
         CSVRead csvReader = new CSVRead();
         List<String[]> allApplications = csvReader.ReadAll(STUDENT_INTERNSHIP_REL_CSV);
@@ -39,18 +58,18 @@ public class InternshipApplicationService {
             String internshipId = application[1];
             String status = application[2];
 
-            // if its for this student and the status is approved
-            if (studentId.equals(student.getId()) && status.equals("APPROVED")) {
+            // if its for this student and the status is successful
+            if (studentId.equals(student.getId()) && status.equalsIgnoreCase(InternshipApplicationStatus.SUCCESSFUL.toString())) {
                 // find the full internship details
                 for (Internship internship : allInternships) {
                     if (internship.getID().equals(internshipId)) {
-                        approved_internships.add(internship);
+                        successful_internships.add(internship);
                         break;
                     }
                 }
             }
         }
-        return approved_internships;
+        return successful_internships;
     }
 
     // zhisheng can use this to accept internship
@@ -58,41 +77,45 @@ public class InternshipApplicationService {
     public boolean acceptInternshipOffer(Student student, Internship internship) throws IOException {
         CSVRead csvReader = new CSVRead();
         List<String[]> allApplications = csvReader.ReadAll(STUDENT_INTERNSHIP_REL_CSV);
-        boolean already_accepted = false;
-        boolean offer_is_approved = false;
+        boolean alreadyAccepted = false;
+        boolean offerIsSuccessful = false;
         int recordIndex = -1;
 
         // check if student already accepted something else
         for (int i = 1; i < allApplications.size(); i++) {
             String[] row = allApplications.get(i);
             if (row[0].equals(student.getId())) {
-                if (row[2].equals(InternshipApplicationStatus.ACCEPTED.toString())) {
-                    already_accepted = true;
+                if (row[2].equalsIgnoreCase(InternshipApplicationStatus.ACCEPTED.toString())) {
+                    alreadyAccepted = true;
                     break;
                 }
             }
         }
 
-        if (already_accepted) {
-            System.out.println("Not allowed as you have accepted a internship offer");
+        if (alreadyAccepted) {
+            System.out.println("Not allowed as you have already accepted an internship offer.");
             return false;
         }
 
-        // now check if the offer they want to accept is approved
+        // now check if the offer they want to accept is successful
         for (int i = 1; i < allApplications.size(); i++) {
             String[] row = allApplications.get(i);
             if (row[0].equals(student.getId()) && row[1].equals(internship.getID())) {
-                if (row[2].equals(InternshipApplicationStatus.APPROVED.toString())) {
-                    offer_is_approved = true;
+                if (row[2].equalsIgnoreCase(InternshipApplicationStatus.SUCCESSFUL.toString())) {
+                    offerIsSuccessful = true;
                     recordIndex = i; // save the line number
                 }
                 break;
             }
         }
 
-        if (offer_is_approved) {
+        if (offerIsSuccessful) {
             // update the status to ACCEPTED
-            allApplications.get(recordIndex)[2] = "ACCEPTED";
+            allApplications.get(recordIndex)[2] = InternshipApplicationStatus.ACCEPTED.toString();
+
+            // Perform post-acceptance tasks (e.g., withdraw other applications)
+            // We pass the modified list to avoid re-reading the file
+            processPostAcceptanceTasks(student, allApplications);
 
             // write it back to the file using the public method
             CSVWrite csvWriter = new CSVWrite();
@@ -103,10 +126,37 @@ public class InternshipApplicationService {
             dataService.incrementInternshipCounter(internship.getID());
 
             System.out.println("Offer for '" + internship.getTitle() + "' accepted successfully!");
+            System.out.println("Your other pending and successful applications have been withdrawn.");
             return true;
         } else {
-            System.out.println("Offer acceptance failed: The offer is not in an approved state or does not exist.");
+            System.out.println("Offer acceptance failed: The offer is not in a successful state or does not exist.");
             return false;
+        }
+    }
+
+    /**
+     * Handles tasks after a student accepts an offer, such as withdrawing other applications.
+     * This method modifies the list of applications in memory.
+     * @param student The student who accepted the offer.
+     * @param allApplications The list of all applications, which will be modified.
+     */
+    private void processPostAcceptanceTasks(Student student, List<String[]> allApplications) {
+        // Iterate through all applications and withdraw any others from the same student
+        for (int i = 1; i < allApplications.size(); i++) {
+            String[] row = allApplications.get(i);
+            String studentId = row[0];
+            String status = row[2];
+
+            // Check if it's an application from the same student
+            if (studentId.equals(student.getId())) {
+                // Check if the status is PENDING or SUCCESSFUL (but not the one just ACCEPTED)
+                boolean isPending = status.equalsIgnoreCase(InternshipApplicationStatus.PENDING.toString());
+                boolean isSuccessful = status.equalsIgnoreCase(InternshipApplicationStatus.SUCCESSFUL.toString());
+
+                if (isPending || isSuccessful) {
+                    row[2] = InternshipApplicationStatus.UNSUCCESSFUL.toString(); // Set to UNSUCCESSFUL
+                }
+            }
         }
     }
 
@@ -145,7 +195,7 @@ public class InternshipApplicationService {
         String[] newApplicationData = {
             student.getId(),
             internship.getID(),
-            InternshipStatus.PENDING.toString()
+            InternshipApplicationStatus.PENDING.toString()
         };
 
         // Add the new application to the list in memory
