@@ -6,7 +6,9 @@ public class UpdatePasswordController {
     private static final Scanner sc = new Scanner(System.in);
     
     public void updatePassword(String userID) {
-        while (true) { 
+
+        boolean valid = true;
+        while (valid) { 
             System.out.println("");
             System.out.println("Password Requirements:");
             System.out.println("1. Between 8-15 Characters");
@@ -25,6 +27,7 @@ public class UpdatePasswordController {
             if (success) {
                 System.out.println("");
                 System.out.println("[SUCCESS] Password was succesfully changed");
+                valid = false;
             } else {
                 System.out.println("");
                 System.out.println("[ERROR] Password change unsuccessful");

@@ -33,7 +33,7 @@ public class ExploreInternshipService {
         }
 
         CSVBeutify2 beutify = new CSVBeutify2();
-        beutify.BeutifyNewFilter("AVAILABLE INTERNSHIP", internships, "title");
+        beutify.BeutifyNewFilter("AVAILABLE INTERNSHIP", internships, "title", "companyName", "major", "description");
         /*
         // print out available records
         System.out.println();
