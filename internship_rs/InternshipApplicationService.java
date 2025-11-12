@@ -11,7 +11,7 @@ import model.Student;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 // this class is for the student to apply for internships
 public class InternshipApplicationService {
@@ -19,26 +19,42 @@ public class InternshipApplicationService {
     private static final int MAX_APPLICATIONS = 3;
     private static final String STUDENT_INTERNSHIP_REL_CSV = "data/student_internship_rel.csv";
 
-    // this gets all the internships from the csv, filtered for the student
-    public List<Internship> getAvailableInternshipsForStudent(Student student) throws IOException {
+    /**
+     * This new method helps find internships for a student.
+     * It needs the 'student' to check their major.
+     * It also needs 'desiredLevels', which is a list of levels like "BASIC" or "ADVANCED" that the student wants to see.
+     *
+     * @param student The student who is looking for internships.
+     * @param desiredLevels The levels of internship the student wants to filter by.
+     * @return A list of internships that match what the student is looking for.
+     */
+    public List<Internship> getFilteredInternships(Student student, Set<InternshipLevel> desiredLevels) throws IOException {
         InternshipDataService dataService = new InternshipDataService();
         List<Internship> allInternships = dataService.readInternships();
-        int studentYear = student.getYearOfStudy();
+        
+        // Create an empty list to hold the internships we find.
+        List<Internship> filteredList = new ArrayList<>();
 
-        return allInternships.stream()
-                // Filter 1: Only show internships that are open for application
-                .filter(internship -> internship.getStatus() == InternshipStatus.APPROVED || internship.getStatus() == InternshipStatus.PENDING)
-                // Filter 2: Match student's major
-                .filter(internship -> internship.getMajor() == student.getMajor())
-                // Filter 3: Match student's year level
-                .filter(internship -> {
-                    if (studentYear <= 2) {
-                        return internship.getLevel() == InternshipLevel.BASIC;
-                    } else {
-                        return internship.getLevel() == InternshipLevel.INTERMEDIATE || internship.getLevel() == InternshipLevel.ADVANCED;
-                    }
-                })
-                .collect(Collectors.toList());
+        // Go through each internship one by one.
+        for (Internship internship : allInternships) {
+            
+            // Check 1: Is the internship open for applications? (Must be APPROVED or PENDING)
+            boolean isOpen = internship.getStatus() == InternshipStatus.APPROVED || internship.getStatus() == InternshipStatus.PENDING;
+
+            // Check 2: Does the internship's major match the student's major?
+            boolean isCorrectMajor = internship.getMajor() == student.getMajor();
+
+            // Check 3: Is the internship's level one of the levels the student wants to see?
+            boolean isDesiredLevel = desiredLevels.contains(internship.getLevel());
+
+            // If all three checks are true, add the internship to our list.
+            if (isOpen && isCorrectMajor && isDesiredLevel) {
+                filteredList.add(internship);
+            }
+        }
+
+        // Return the final list of matching internships.
+        return filteredList;
     }
 
     // new method for zhisheng to get all approved offers for a student
