@@ -10,7 +10,7 @@ public class CSVBeutify2 {
     //example usage: BeutifyNewFilter("All Accounts", allUsers, "ID", "Name", "Status", "Email") you can keep adding more fields if u want
     //the ... part is supposed to let you keep adding stuff
 
-    public void BeutifyNewFilter(String title, List<Object> objects, String... fieldNames){
+    public void BeutifyNewFilter(String title, List<?> objects, String... fieldNames){
 
         if (objects.isEmpty()){
             System.out.println("No Data was parsed");
