@@ -142,7 +142,7 @@ public class staffutilnew {
             System.out.println("Invalid Input");
         }
 
-        Object obj = object.get(rowIndex);
+        Object obj = object.get(rowIndex - 1);
 
         Internship intern = (Internship) obj;
         return intern.getID();
@@ -203,7 +203,7 @@ public class staffutilnew {
             int counter = Integer.parseInt(rowData[6]);
             LocalDate openingDate = LocalDate.parse(rowData[7]);
             LocalDate closingDate = LocalDate.parse(rowData[8]);
-            InternshipStatus InternshipStatus = enums.InternshipStatus.valueOf(rowData[8].toUpperCase());
+            InternshipStatus InternshipStatus = enums.InternshipStatus.valueOf(rowData[9].toUpperCase());
 
             Internship Internship = new Internship(rowData[0], rowData[1], rowData[2], rowData[3], Major, InternshipLevel, counter, openingDate, closingDate, InternshipStatus, rowData[10]);
 
