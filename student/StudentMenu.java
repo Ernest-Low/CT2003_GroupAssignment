@@ -2,7 +2,9 @@ package student;
 
 import java.util.Scanner;
 
+import dtos.LoginInfo;
 import model.*;
+import login.*;
 
 
 public class StudentMenu {
@@ -17,7 +19,7 @@ public class StudentMenu {
 
     private int openMenu() {
         System.out.println("Please select an action");
-        System.out.println("1: Edit Profile");
+        System.out.println("1: Change password");
         System.out.println("2: Explore Internship Opportunity");
         System.out.println("3: View Internships Applications");
         System.out.println("9: Logout");
@@ -27,8 +29,9 @@ public class StudentMenu {
         return num;
     }
 
-    public void StudentController() {
+    public void StudentController(LoginInfo loginInfo) {
         sc = new Scanner(System.in);
+
         int choice = 0;
         while (choice != 9) {
             System.out.println();
@@ -40,7 +43,8 @@ public class StudentMenu {
 
             switch (choice) {
                 case 1: // Call edit profile method
-                    System.out.println("1");
+                    UpdatePasswordController updatePasswordController = new UpdatePasswordController();
+                    updatePasswordController.updatePassword(loginInfo.getID());
                     break;
                 case 2: // Call explore internship opportunity method
                     ExploreInternshipService.exploreInternship(student);

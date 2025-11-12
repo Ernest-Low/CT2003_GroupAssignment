@@ -1,11 +1,9 @@
 package student;
 
-import java.io.IOError;
 import java.io.IOException;
 import java.util.*;
 
 import model.*;
-import CSVmethods.*;
 import internship_rs.*;
 
 public class StudentAcceptInternship {
@@ -20,9 +18,19 @@ public class StudentAcceptInternship {
         return num;
     }
 
-    public static void acceptInternship(Student student, List<Internship> internships) {
+    public static void acceptInternship(Student student) {
         // Print successful applications
         System.out.println();
+
+        InternshipApplicationService internshipApp = new InternshipApplicationService();
+        List<Internship> internships = new ArrayList<>();
+
+        try {
+            internships = internshipApp.getApprovedOffers(student);
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
         int count = internships.size();
         if (count > 0) {
             System.out.println("You have " + count + " successful application(s)!");
@@ -39,7 +47,6 @@ public class StudentAcceptInternship {
         // User input apply application
         if (choice > 0 && choice <= count) {
             // Update csv status -- to be run with method implemented by Daryl
-            InternshipApplicationService internshipApp = new InternshipApplicationService();
             try {
                 internshipApp.acceptInternshipOffer(student, internships.get(choice - 1));
             } catch (IOException e) {

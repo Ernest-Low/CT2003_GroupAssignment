@@ -38,6 +38,7 @@ public class Central {
             loginInfo = authController.openMenu();
             System.out.println();
         }
+        
 
         System.out.println("Welcome, " + loginInfo.getID() + " (" + loginInfo.getUserType() + ")");
 
@@ -59,18 +60,18 @@ public class Central {
         CareerStaff fakeCareerStaff = new CareerStaff("C000001S", "jtan001", "John Tan", "Career Advisory");
 
         switch (loginInfo.getUserType()) {
-            case STUDENT -> studentMenu(fakeStudent);
+            case STUDENT -> studentMenu(fakeStudent, loginInfo);
             case CAREERSTAFF -> careerStaffMenu(fakeCareerStaff);
             case COMPANYREP -> cRepGateway(loginInfo);
             default -> System.out.println("Logic error");
         }
     }
 
-    private void studentMenu(Student student) {
+    private void studentMenu(Student student, LoginInfo loginInfo) {
         // * Entry point Student
         // ? Replace with your own method call (be it static / instance)
         StudentMenu studentController = new StudentMenu(student);
-        studentController.StudentController();
+        studentController.StudentController(loginInfo);
     }
 
     private void careerStaffMenu(CareerStaff careerStaff) {
