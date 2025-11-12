@@ -12,7 +12,7 @@ import dtos.LoginInfo;
 import student.*;
 import StaffFiles.*;
 
-import dto.LoginInfo;
+import dtos.LoginInfo;
 
 import login.AuthController;
 import login.UpdatePasswordController;
@@ -38,6 +38,7 @@ public class Central {
             loginInfo = authController.openMenu();
             System.out.println();
         }
+        
 
         System.out.println("Welcome, " + loginInfo.getID() + " (" + loginInfo.getUserType() + ")");
 
@@ -58,19 +59,19 @@ public class Central {
         Student fakeStudent = new Student("S000001T", "U1000001A", "Aaron Tan", 1, Major.COMPUTER_SCIENCE);
         CareerStaff fakeCareerStaff = new CareerStaff("C000001S", "jtan001", "John Tan", "Career Advisory");
 
-        switch (logininfo.getUserType()) {
-            case STUDENT -> studentMenu(fakeStudent);
+        switch (loginInfo.getUserType()) {
+            case STUDENT -> studentMenu(fakeStudent, loginInfo);
             case CAREERSTAFF -> careerStaffMenu(fakeCareerStaff);
-            case COMPANYREP -> cRepGateway(logininfo);
+            case COMPANYREP -> cRepGateway(loginInfo);
             default -> System.out.println("Logic error");
         }
     }
 
-    private void studentMenu(Student student) {
+    private void studentMenu(Student student, LoginInfo loginInfo) {
         // * Entry point Student
         // ? Replace with your own method call (be it static / instance)
         StudentMenu studentController = new StudentMenu(student);
-        studentController.StudentController();
+        studentController.StudentController(loginInfo);
     }
 
     private void careerStaffMenu(CareerStaff careerStaff) {

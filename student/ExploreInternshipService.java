@@ -3,6 +3,7 @@ package student;
 import java.io.IOException;
 import java.util.*;
 
+import CSVMethods.CSVBeutify2;
 import model.*;
 import internship_rs.*;
 
@@ -31,6 +32,9 @@ public class ExploreInternshipService {
             return;
         }
 
+        CSVBeutify2 beutify = new CSVBeutify2();
+        beutify.BeutifyNewFilter("AVAILABLE INTERNSHIP", internships, "title", "companyName", "major", "description");
+        /*
         // print out available records
         System.out.println();
         System.out.println("-- AVAILABLE INTERNSHIP --");
@@ -39,6 +43,7 @@ public class ExploreInternshipService {
             Internship internship = internships.get(i-1);
             System.out.println(i + ". " + internship.getCompanyName() + ": " + internship.getTitle() + " (" + internship.getLevel().getDisplayName() + ")");
         }
+         */
 
         // Prompt user for input (apply/exit)
         while (true) {
