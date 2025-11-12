@@ -59,14 +59,15 @@ public class CSVBeutify2 {
         System.out.print("# ");
         for (String head : hValue){
             //first part is lean left + 15 char, second part is if header > 12 take the first 12 char and put ... at the back;
-            System.out.printf("%-15s", head.length() > 12 ? head.substring(0,12) + "..." : head + "\n");
+            System.out.printf("%-30s", head.length() > 40 ? head.substring(0,30) + "..." : head);
         }
+        System.out.println();
         System.out.println("-".repeat(25));
 
         for (int i = 1; i < data.size(); i++){
             System.out.print(i + ". ");
             for (String val : data.get(i)){
-                System.out.printf("%-15s", val.length() > 12 ? val.substring(0,12) + "..." : val + "\n\n");
+                System.out.printf("%-30s", val.length() > 50 ? val.substring(0,45) + "..." : val);
             }
         }
     }

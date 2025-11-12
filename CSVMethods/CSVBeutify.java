@@ -59,7 +59,7 @@ public class CSVBeutify {
             totalWidth += w;
         }
         System.out.println();
-        System.out.println("-".repeat(50));
+        System.out.println("-".repeat(35));
 
         for (int r = 1; r < table.size(); r++){
 
