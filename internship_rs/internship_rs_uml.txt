@@ -1,0 +1,77 @@
+UML Class Diagram for `internship_rs` package
+
+This document outlines the classes, their members, and their relationships within the `internship_rs` package.
+
+---
+Class: InternshipApplicationService
+---
+- Attributes:
+- MAX_APPLICATIONS: int {static}
+- STUDENT_INTERNSHIP_REL_CSV: String {static}
+
+- Methods:
+  - + getFilteredInternships(student: Student, desiredLevels: Set<InternshipLevel>): List<Internship>
+  - + getApprovedOffers(student: Student): List<Internship>
+  - + acceptInternshipOffer(student: Student, internship: Internship): boolean
+  - + applyForInternship(student: Student, internship: Internship): boolean
+  - - processPostAcceptanceTasks(student: Student, allApplications: List<String[]>)
+
+- Relationships:
+  - Uses --> InternshipDataService
+  - Depends on --> model.Student, model.Internship
+  - Depends on --> CSVRead, CSVWrite
+
+---
+Class: InternshipReviewService
+---
+- Attributes:
+  - - APPROVAL_LIMIT: int {static}
+  - - STUDENT_INTERNSHIP_REL_CSV: String {static}
+
+- Methods:
+  - + getApplicantsForInternship(internshipId: String): List<String[]>
+  - + updateApplicationStatus(studentId: String, internshipId: String, newStatus: InternshipApplicationStatus): boolean
+  - + rejectAllApplicantsForInternship(internshipId: String): void
+  - - rejectAllPendingApplications(internshipId: String): void
+
+- Relationships:
+  - Uses --> InternshipDataService
+  - Throws --> ApprovalLimitExceededException
+  - Depends on --> model.Internship
+  - Depends on --> CSVRead, CSVWrite, CSVFilter
+
+---
+Class: InternshipDataService
+---
+- Attributes:
+  - - INTERNSHIPS_CSV: String {static}
+  - - INTERNSHIP_CAPACITY: int {static}
+
+- Methods:
+  - + readInternships(): List<Internship>
+  - + getInternshipById(internshipId: String): Internship
+  - + incrementInternshipCounter(internshipId: String): void
+
+- Relationships:
+  - Depends on --> model.Internship
+  - Depends on --> CSVRead, CSVWrite
+
+---
+Class: ApprovalLimitExceededException
+---
+- Attributes:
+  - (None)
+
+- Methods:
+  - + ApprovalLimitExceededException(message: String)
+
+- Relationships:
+  - Inherits from --> java.lang.Exception
+
+---
+Summary of Key Relationships
+---
+- Dependency: InternshipApplicationService --> InternshipDataService
+- Dependency: InternshipReviewService --> InternshipDataService
+- Dependency: InternshipReviewService --> ApprovalLimitExceededException
+- Inheritance: ApprovalLimitExceededException --|> Exception
