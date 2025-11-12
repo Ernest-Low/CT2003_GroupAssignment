@@ -10,7 +10,7 @@ public class CSVBeutify2 {
     //example usage: BeutifyNewFilter("All Accounts", allUsers, "ID", "Name", "Status", "Email") you can keep adding more fields if u want
     //the ... part is supposed to let you keep adding stuff
 
-    public void BeutifyNewFilter(String title, List<Object> objects, String... fieldNames){
+    public static void BeutifyNewFilter(String title, List<?> objects, String... fieldNames){
 
         if (objects.isEmpty()){
             System.out.println("No Data was parsed");
@@ -32,7 +32,7 @@ public class CSVBeutify2 {
         outTable(title, newData);
     }
 
-    private String genericGetter(Object obj, String fieldName){
+    private static String genericGetter(Object obj, String fieldName){
 
         try {
             String getter = "get" + fieldName.substring(0,1).toUpperCase() + fieldName.substring(1);
@@ -53,8 +53,8 @@ public class CSVBeutify2 {
     //by right no need to use, but you can try if u want?
     private static void outTable(String title, List<String[]> data){
 
-        System.out.println("==================================\n" + title +"\n==================================");
-
+        System.out.println("==================================\n" + title);
+        System.out.println("==================================");
         String[] hValue = data.get(0);
         System.out.print("# ");
         for (String head : hValue){

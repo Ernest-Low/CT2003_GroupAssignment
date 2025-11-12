@@ -27,15 +27,19 @@ public class staffmainnew {
             int choice = getUserInput();
             switch(choice){
                 case 1:
-                    staffutil.getAllAcc();
+                    //view All Acc
+                    staffutil.mapToAllAccount();
                     break;
                 case 2:
+                    //view pending accounts
                     staffutil.getPenCSV();
                     break;
                 case 3:
+                    //view pending intern
                     staffutil.getPenCSV();
                     break;
                 case 4:
+                    //please help me mabel ty ty
                     //changpassword()
                     break;
                 case 5:
@@ -56,7 +60,7 @@ public class staffmainnew {
         System.out.println("2. Review Account Creation");
         System.out.println("3. Review Internship Creation");
         System.out.println("4. Change Account Password?");
-        System.out.println("5. Log Out? \n Enter choice here: ");
+        System.out.println("5. Log Out? \nEnter choice here: ");
 
     }
 

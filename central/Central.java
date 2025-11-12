@@ -12,7 +12,7 @@ import dtos.LoginInfo;
 import student.*;
 import StaffFiles.*;
 
-import dto.LoginInfo;
+import dtos.*;
 
 import login.AuthController;
 import login.UpdatePasswordController;
@@ -58,10 +58,10 @@ public class Central {
         Student fakeStudent = new Student("S000001T", "U1000001A", "Aaron Tan", 1, Major.COMPUTER_SCIENCE);
         CareerStaff fakeCareerStaff = new CareerStaff("C000001S", "jtan001", "John Tan", "Career Advisory");
 
-        switch (logininfo.getUserType()) {
+        switch (loginInfo.getUserType()) {
             case STUDENT -> studentMenu(fakeStudent);
             case CAREERSTAFF -> careerStaffMenu(fakeCareerStaff);
-            case COMPANYREP -> cRepGateway(logininfo);
+            case COMPANYREP -> cRepGateway(loginInfo);
             default -> System.out.println("Logic error");
         }
     }

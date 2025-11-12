@@ -1,14 +1,16 @@
-package CSVmethods;
+package CSVMethods;
 
 //imports below here please, add if needed
 import java.io.*;
 import java.util.*;
+import java.lang.reflect.*;
 
 //Ethan - Please only use this file after you got the output from CSVRead.java
 //This file is for only filtering data and does not print any data, Please use readfilter in CSVRead.java.
 
 public class CSVFilter {
 
+    //kept the original String method
     public static List<String[]> moreFilter(List<String[]> colTable, List<String[]> userRules){
 
         if (userRules.isEmpty()){ //this check if the parsing filter is empty.
@@ -63,7 +65,54 @@ public class CSVFilter {
             }
 
         }return newTable;
+    }
 
+    //Overload Method here for List<Object>
+    //new usage method should be the same-ish? u add rule into a List String and u parse the obj through here.
+    public static List<?> filter4Obj(List<?> objects, List<String[]> userRules){
+
+        if (objects.isEmpty()){
+
+            System.out.println("Object input error, no object was parse");
+            return objects;
+
+        }
+
+        List<Object> filteredData = new ArrayList<>();
+
+        for (Object obj : objects){
+            boolean ifrule = true;
+
+            for (String[] rules: userRules){
+                String head = rules[0];
+                String wantedVal = rules[1];
+
+                if (!matchGetterRule (obj, head, wantedVal)){
+                    ifrule = false;
+                    break;
+
+                }
+            }
+            if (ifrule){
+                filteredData.add(obj);
+            }
+        } return filteredData;
+
+    }
+
+    private static boolean matchGetterRule(Object obj, String field, String value){
+
+        try {
+            String getObj = "get" + field.substring(0,1).toUpperCase() + field.substring(1);
+
+            Method method = obj.getClass().getMethod(getObj);
+            Object trueValue = method.invoke(obj);
+
+            return value.equals(trueValue.toString());
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
 
     }
     
