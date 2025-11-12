@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import model.Credential;
-import CSVMethods.CSVMethods;
-import dto.LoginInfo;
+import CSVMethods.*;
+import dtos.LoginInfo;
 
 import enums.AccountStatus;
 import enums.UserType;

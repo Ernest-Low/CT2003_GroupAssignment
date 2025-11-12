@@ -39,7 +39,8 @@ public class InternshipDataService {
                     Integer.parseInt(record[6]),                // counter
                     Date.valueOf(record[7]),                    // openingDate
                     Date.valueOf(record[8]),                    // closingDate
-                    InternshipStatus.valueOf(record[9].toUpperCase()) // status
+                    InternshipStatus.valueOf(record[9].toUpperCase()), // status
+                    record[10]
             );
             internships.add(internship);
         }
@@ -66,7 +67,8 @@ public class InternshipDataService {
                         Integer.parseInt(record[6]),
                         Date.valueOf(record[7]),
                         Date.valueOf(record[8]),
-                        InternshipStatus.valueOf(record[9].toUpperCase())
+                        InternshipStatus.valueOf(record[9].toUpperCase()),
+                        record[10]
                 );
             }
         }

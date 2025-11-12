@@ -2,7 +2,7 @@ package login;
 
 import java.util.Scanner;
 
-import dto.LoginInfo;
+import dtos.LoginInfo;
 
 public class AuthController {
 
