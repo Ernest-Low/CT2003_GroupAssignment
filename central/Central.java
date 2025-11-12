@@ -12,7 +12,7 @@ import dtos.LoginInfo;
 import student.*;
 import StaffFiles.*;
 
-import dtos.LoginInfo;
+import dtos.*;
 
 import login.AuthController;
 import login.UpdatePasswordController;
@@ -38,7 +38,6 @@ public class Central {
             loginInfo = authController.openMenu();
             System.out.println();
         }
-        
 
         System.out.println("Welcome, " + loginInfo.getID() + " (" + loginInfo.getUserType() + ")");
 
