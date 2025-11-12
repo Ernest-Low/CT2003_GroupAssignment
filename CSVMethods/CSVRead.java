@@ -1,4 +1,4 @@
-package CSVmethods;//this is for file path
+package CSVMethods;//this is for file path
 
 //Please put any required import below here
 import java.io.*;

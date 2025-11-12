@@ -1,4 +1,4 @@
-package CSVmethods;
+package CSVMethods;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
