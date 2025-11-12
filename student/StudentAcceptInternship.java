@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.*;
 
 import model.*;
-import CSVmethods.*;
+import CSVMethods.*;
 import internship_rs.*;
 
 public class StudentAcceptInternship {

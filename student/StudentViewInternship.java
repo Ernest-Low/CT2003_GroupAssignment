@@ -4,7 +4,7 @@ import java.util.*;
 import java.io.*;
 
 import model.*;
-import CSVmethods.*;
+import CSVMethods.*;
 
 import java.sql.Date;
 
@@ -45,14 +45,14 @@ public class StudentViewInternship {
             userRule.clear();
             userRule.add(new String[] {"ID", filtered.get(i)[1]});
             entry = CSVFilter.moreFilter(internships, userRule).get(1);
-            Internship internship = new Internship(entry[0],entry[1],entry[2],entry[3], Major.valueOf(entry[4]), InternshipLevel.valueOf(entry[5]), Integer.parseInt(entry[6]), Date.valueOf(entry[7]), Date.valueOf(entry[8]), InternshipStatus.valueOf(entry[9]));
+           //Internship internship = new Internship(entry[0],entry[1],entry[2],entry[3], Major.valueOf(entry[4]), InternshipLevel.valueOf(entry[5]), Integer.parseInt(entry[6]), Date.valueOf(entry[7]), Date.valueOf(entry[8]), InternshipStatus.valueOf(entry[9]));
 
             // If internship is successful, store it in the successfulInternships list
             if (filtered.get(i)[2].equals("Successful")) {
-                successfulInternships.add(internship);
+                //successfulInternships.add(internship);
             }
 
-            System.out.println(i + ". " + internship.getCompanyName() + ": " + internship.getTitle() + " ("+ internship.getLevel().getDisplayName() + ") -- " + filtered.get(i)[2]);
+            //System.out.println(i + ". " + internship.getCompanyName() + ": " + internship.getTitle() + " ("+ internship.getLevel().getDisplayName() + ") -- " + filtered.get(i)[2]);
 
         }
 
