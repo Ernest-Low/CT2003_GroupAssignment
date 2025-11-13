@@ -1,0 +1,55 @@
+package companyRep;
+
+import java.util.Scanner;
+
+import config.Services;
+import login.UpdatePasswordController;
+import model.CompanyRep;
+
+public class CompanyRepEditProfile {
+
+    private final Services services;
+    private CompanyRep companyRep;
+    private final Scanner sc;
+    UpdatePasswordController updatePasswordController;
+
+    public CompanyRepEditProfile(Services services, CompanyRep companyRep, Scanner sc,
+            UpdatePasswordController updatePasswordController) {
+        this.services = services;
+        this.companyRep = companyRep;
+        this.sc = sc;
+        this.updatePasswordController = updatePasswordController;
+    }
+
+    private int openMenu() {
+        System.out.println("Please select an action");
+        System.out.println("1: Edit email");
+        System.out.println("2: Edit password");
+        System.out.println("9: Return");
+        int num = Integer.parseInt(sc.next());
+
+        return num;
+    }
+
+    public void CRepEditProfileController() {
+
+        System.out.println("Editing Profile...");
+        int choice = 0;
+        while (choice != 9) {
+            try {
+                choice = openMenu();
+            } catch (NumberFormatException e) {
+                System.out.println("Not a valid input");
+            }
+
+            switch (choice) {
+                case 1 -> System.out.println("1"); // Call edit email
+                case 2 -> this.updatePasswordController.updatePassword(companyRep.getId()); // Call edit password
+                case 9 -> System.out.println("Returning..."); // Exit back to menu
+                default -> System.out.println("Not a valid input. Try again.");
+            }
+        }
+        return;
+    }
+
+}
