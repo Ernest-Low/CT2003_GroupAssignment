@@ -55,7 +55,7 @@ public class Central {
         // TODO: Could rename it as gateway (idk why i feel like naming it that)
 
         // ! Temp, mock up a user for each
-        Student fakeStudent = new Student("S000001T", "U1000001A", "Aaron Tan", 1, Major.COMPUTER_SCIENCE);
+        Student fakeStudent = new Student("S000001T", "U1000001A", "Aaron Tan", 3, Major.COMPUTER_SCIENCE);
         CareerStaff fakeCareerStaff = new CareerStaff("C000001S", "jtan001", "John Tan", "Career Advisory");
 
         switch (loginInfo.getUserType()) {

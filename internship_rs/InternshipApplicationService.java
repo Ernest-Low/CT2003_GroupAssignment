@@ -225,4 +225,9 @@ public class InternshipApplicationService {
         System.out.println("Internship application process finished.");
         return true;
     }
+
+    public List<Internship> getAvailableInternshipsForStudent(Student student) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAvailableInternshipsForStudent'");
+    }
 }
