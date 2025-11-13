@@ -6,18 +6,29 @@ import config.Services;
 import dtos.InternshipFilter;
 import model.CompanyRep;
 
-public class CRepViewInternship {
+public class CompanyRepViewInternship {
 
     private final Services services;
     private CompanyRep companyRep;
     private final InternshipFilter internshipFilter;
     private final Scanner sc;
+    private boolean addFilter = true;
 
-    public CRepViewInternship(Services services, CompanyRep companyRep, Scanner sc, InternshipFilter internshipFilter) {
+    public CompanyRepViewInternship(Services services, CompanyRep companyRep, Scanner sc, InternshipFilter internshipFilter) {
         this.services = services;
         this.companyRep = companyRep;
         this.sc = sc;
         this.internshipFilter = internshipFilter;
+    }
+
+    private void addOrRemove() {
+        System.out.println("1: Add filter");
+        System.out.println("2: Remove filter");
+        System.out.println("9: Back");
+    }
+
+    private void filterMajor() {
+
     }
 
     // private Set<String> companyNames;

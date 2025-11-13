@@ -9,27 +9,27 @@ import config.Services;
 import dtos.InternshipFilter;
 import model.CompanyRep;
 
-public class CRep {
+public class CompanyRepMain {
 
     private CompanyRep companyRep;
     private final Scanner sc;
 
-    private final CRepPostInternship cRepPostInternship;
-    private final CRepEditProfile cRepEditProfile;
-    private final CRepViewInternship cRepViewInternship;
+    private final CompanyRepPostInternship cRepPostInternship;
+    private final CompanyRepEditProfile cRepEditProfile;
+    private final CompanyRepViewInternship cRepViewInternship;
     private final Services services;
     private final InternshipFilter internshipFilter;
 
-    public CRep(Services services, CompanyRep companyRep) {
+    public CompanyRepMain(Services services, CompanyRep companyRep) {
         this.sc = new Scanner(System.in);
         this.companyRep = companyRep;
         this.services = services;
         this.internshipFilter = new InternshipFilter();
         Set<String> companyNames = new HashSet<>(Arrays.asList(companyRep.getCompanyName()));
         this.internshipFilter.setCompanyNames(companyNames);
-        this.cRepPostInternship = new CRepPostInternship(this.services, this.companyRep, sc);
-        this.cRepEditProfile = new CRepEditProfile(this.services, this.companyRep, sc);
-        this.cRepViewInternship = new CRepViewInternship(services, companyRep, sc, internshipFilter);
+        this.cRepPostInternship = new CompanyRepPostInternship(this.services, this.companyRep, sc);
+        this.cRepEditProfile = new CompanyRepEditProfile(this.services, this.companyRep, sc);
+        this.cRepViewInternship = new CompanyRepViewInternship(services, companyRep, sc, internshipFilter);
     }
 
     private int openMenu() {

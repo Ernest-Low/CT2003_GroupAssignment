@@ -5,13 +5,13 @@ import java.util.Scanner;
 import config.Services;
 import model.CompanyRep;
 
-public class CRepEditProfile {
+public class CompanyRepEditProfile {
 
     private final Services services;
     private CompanyRep companyRep;
     private final Scanner sc;
 
-    public CRepEditProfile(Services services, CompanyRep companyRep, Scanner sc) {
+    public CompanyRepEditProfile(Services services, CompanyRep companyRep, Scanner sc) {
         this.services = services;
         this.companyRep = companyRep;
         this.sc = sc;
