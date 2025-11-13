@@ -1,12 +1,11 @@
 package companyRep;
 
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
-import java.util.Set;
 
 import config.Services;
 import dtos.InternshipFilter;
+import internshipFilter.InternshipFilterMain;
 import login.UpdatePasswordController;
 import model.CompanyRep;
 
@@ -26,45 +25,44 @@ public class CompanyRepMain {
         this.sc = new Scanner(System.in);
         this.companyRep = companyRep;
         this.services = services;
-        this.internshipFilter = new InternshipFilter();
-        Set<String> companyNames = new HashSet<>(Arrays.asList(companyRep.getCompanyName()));
-        this.internshipFilter.setCompanyNames(companyNames);
+
+        InternshipFilterMain internshipFilterMain = new InternshipFilterMain(companyRep, sc);
+        this.internshipFilter = internshipFilterMain.getInternshipFilter();
         this.cRepPostInternship = new CompanyRepPostInternship(this.services, this.companyRep, sc);
         // this.cRepEditProfile = new CompanyRepEditProfile(this.services, this.companyRep, sc);
-        this.cRepViewInternship = new CompanyRepViewInternship(services, companyRep, sc, internshipFilter);
+        this.cRepViewInternship = new CompanyRepViewInternship(services, sc, internshipFilter, internshipFilterMain);
     }
 
-    private int openMenu() {
+    private String openMenu() {
         System.out.println("Please select an action");
         System.out.println("1: Edit Password");
         System.out.println("2: Post new internship");
         System.out.println("3: View posted internships");
         System.out.println("4: View internship applications");
-        System.out.println("9: Logout");
-        int num = Integer.parseInt(sc.next());
+        System.out.println("X: Logout");
+        System.out.print("Enter choice: ");
+        String input = sc.nextLine().toLowerCase();
 
-        return num;
+        return input;
     }
 
     public void CompanyRepController() {
         updatePasswordController = new UpdatePasswordController();
-        
         System.out.println("Welcome " + companyRep.getName());
-        int choice = 0;
-        while (choice != 9) {
+        String choice = "";
+        while (!choice.equalsIgnoreCase("X")) {
             try {
                 choice = openMenu();
-            } catch (NumberFormatException e) {
-                System.out.println("Not a valid input");
-            }
-
-            switch (choice) {
-                case 1 -> updatePasswordController.updatePassword(companyRep.getId()); // Call edit profile method
-                case 2 -> cRepPostInternship.CRepPostInternshipController(); // Call create new internship opportunity method
-                case 3 -> cRepViewInternship.CRepViewInternshipController(); // Call view internship posted
-                case 4 -> System.out.println("4"); // Call view internship applications for review
-                case 9 -> System.out.println("Exiting..."); // Exit
-                default -> System.out.println("Not a valid input. Try again.");
+                switch (choice) {
+                    case "1" -> updatePasswordController.updatePassword(companyRep.getId()); // Call edit profile method
+                    case "2" -> cRepPostInternship.CRepPostInternshipController(); // Call create new internship opportunity method
+                    case "3" -> cRepViewInternship.CRepViewInternshipController(); // Call view internship posted
+                    case "4" -> System.out.println("4"); // Call view internship applications for review
+                    case "x" -> System.out.println("Exiting..."); // Exit
+                    default -> System.out.println("Not a valid input. Try again.");
+                }
+            } catch (NoSuchElementException e) {
+                System.out.println("Input was closed. Try again.");
             }
         }
 

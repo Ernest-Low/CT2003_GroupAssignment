@@ -17,7 +17,7 @@ public class StudentRepoImpl implements StudentRepo {
 
     @Override
     public Student findFirstByColumn(String value, int columnNo) {
-        try (BufferedReader br = new BufferedReader(new FileReader(CSVPaths.CAREER_STAFF_CSV))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(CSVPaths.STUDENTS_CSV))) {
             String line = br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
@@ -25,7 +25,7 @@ public class StudentRepoImpl implements StudentRepo {
                 if (recordId.equals(value)) {
                     // String GUID, String ID, String name, int yearOfStudy, Major major
                     return new Student(
-                            recordId,
+                            values[0],
                             values[1], // String
                             values[2],
                             Integer.parseInt(values[3]), // Int
@@ -39,8 +39,33 @@ public class StudentRepoImpl implements StudentRepo {
     }
 
     @Override
+    public List<Student> findAllByColumn(String value, int columnNo) {
+        List<Student> list = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(CSVPaths.STUDENTS_CSV))) {
+            String line = br.readLine();
+            while ((line = br.readLine()) != null) {
+                String[] values = line.split(",");
+                String recordId = values[columnNo];
+                if (recordId.equals(value)) {
+                    Student student = new Student(
+                            values[0],
+                            values[1],
+                            values[2],
+                            Integer.parseInt(values[3]), // Int
+                            Major.valueOf(values[4]) // Major
+                    );
+                    list.add(student);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    @Override
     public void save(Student student) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(CSVPaths.CAREER_STAFF_CSV, true))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(CSVPaths.STUDENTS_CSV, true))) {
             String line = String.join(",",
                     student.getGUID(), // String
                     student.getId(),
@@ -58,7 +83,7 @@ public class StudentRepoImpl implements StudentRepo {
     @Override
     public void update(Student student) {
         List<String> lines = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(CSVPaths.CAREER_STAFF_CSV))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(CSVPaths.STUDENTS_CSV))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(",");
@@ -79,7 +104,7 @@ public class StudentRepoImpl implements StudentRepo {
             e.printStackTrace();
             return;
         }
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(CSVPaths.CAREER_STAFF_CSV))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(CSVPaths.STUDENTS_CSV))) {
             for (String headers : lines) {
                 bw.write(headers);
                 bw.newLine();
@@ -92,7 +117,7 @@ public class StudentRepoImpl implements StudentRepo {
     @Override
     public void delete(String GUID) {
         List<String> lines = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(CSVPaths.CAREER_STAFF_CSV))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(CSVPaths.STUDENTS_CSV))) {
             String line = br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(",");
@@ -105,7 +130,7 @@ public class StudentRepoImpl implements StudentRepo {
             e.printStackTrace();
             return;
         }
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(CSVPaths.CAREER_STAFF_CSV))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(CSVPaths.STUDENTS_CSV))) {
             for (String headers : lines) {
                 bw.write(headers);
                 bw.newLine();
@@ -118,7 +143,7 @@ public class StudentRepoImpl implements StudentRepo {
     @Override
     public List<Student> findAll() {
         List<Student> list = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(CSVPaths.CAREER_STAFF_CSV))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(CSVPaths.STUDENTS_CSV))) {
             String line = br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
