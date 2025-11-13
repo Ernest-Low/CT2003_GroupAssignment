@@ -7,6 +7,7 @@ import java.util.Set;
 
 import config.Services;
 import dtos.InternshipFilter;
+import login.UpdatePasswordController;
 import model.CompanyRep;
 
 public class CompanyRepMain {
@@ -15,10 +16,11 @@ public class CompanyRepMain {
     private final Scanner sc;
 
     private final CompanyRepPostInternship cRepPostInternship;
-    private final CompanyRepEditProfile cRepEditProfile;
+    // private final CompanyRepEditProfile cRepEditProfile;
     private final CompanyRepViewInternship cRepViewInternship;
     private final Services services;
     private final InternshipFilter internshipFilter;
+    private UpdatePasswordController updatePasswordController;
 
     public CompanyRepMain(Services services, CompanyRep companyRep) {
         this.sc = new Scanner(System.in);
@@ -28,13 +30,13 @@ public class CompanyRepMain {
         Set<String> companyNames = new HashSet<>(Arrays.asList(companyRep.getCompanyName()));
         this.internshipFilter.setCompanyNames(companyNames);
         this.cRepPostInternship = new CompanyRepPostInternship(this.services, this.companyRep, sc);
-        this.cRepEditProfile = new CompanyRepEditProfile(this.services, this.companyRep, sc);
+        // this.cRepEditProfile = new CompanyRepEditProfile(this.services, this.companyRep, sc);
         this.cRepViewInternship = new CompanyRepViewInternship(services, companyRep, sc, internshipFilter);
     }
 
     private int openMenu() {
         System.out.println("Please select an action");
-        System.out.println("1: Edit Profile");
+        System.out.println("1: Edit Password");
         System.out.println("2: Post new internship");
         System.out.println("3: View posted internships");
         System.out.println("4: View internship applications");
@@ -45,7 +47,8 @@ public class CompanyRepMain {
     }
 
     public void CompanyRepController() {
-
+        updatePasswordController = new UpdatePasswordController();
+        
         System.out.println("Welcome " + companyRep.getName());
         int choice = 0;
         while (choice != 9) {
@@ -56,7 +59,7 @@ public class CompanyRepMain {
             }
 
             switch (choice) {
-                case 1 -> cRepEditProfile.CRepEditProfileController(); // Call edit profile method
+                case 1 -> updatePasswordController.updatePassword(companyRep.getId()); // Call edit profile method
                 case 2 -> cRepPostInternship.CRepPostInternshipController(); // Call create new internship opportunity method
                 case 3 -> cRepViewInternship.CRepViewInternshipController(); // Call view internship posted
                 case 4 -> System.out.println("4"); // Call view internship applications for review
