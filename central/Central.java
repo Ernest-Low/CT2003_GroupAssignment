@@ -13,6 +13,7 @@ import student.*;
 import StaffFiles.*;
 
 import dtos.*;
+import CSVMethods.*;
 
 import login.AuthController;
 import login.UpdatePasswordController;
@@ -22,6 +23,11 @@ public class Central {
     private final Services services;
 
     private CRep crep;
+
+    //CSV files
+    private static final String CREDS_CSV = "data/careerStaff_list.csv";
+    private static final String INTERN_CSV = "data/students_list.csv";
+    private static final String INTERN_CSV = "data/companyReps_list.csv";
 
     public Central(Services services) {
         this.services = services;
@@ -55,14 +61,27 @@ public class Central {
         // TODO: Could rename it as gateway (idk why i feel like naming it that)
 
         // ! Temp, mock up a user for each
-        Student fakeStudent = new Student("S000001T", "U1000001A", "Aaron Tan", 3, Major.COMPUTER_SCIENCE);
-        CareerStaff fakeCareerStaff = new CareerStaff("C000001S", "jtan001", "John Tan", "Career Advisory");
+        //Student fakeStudent = new Student("S000001T", "U1000001A", "Aaron Tan", 3, Major.COMPUTER_SCIENCE);
+        //CareerStaff fakeCareerStaff = new CareerStaff("C000001S", "jtan001", "John Tan", "Career Advisory");
 
         switch (loginInfo.getUserType()) {
-            case STUDENT -> studentMenu(fakeStudent, loginInfo);
-            case CAREERSTAFF -> careerStaffMenu(fakeCareerStaff);
-            case COMPANYREP -> cRepGateway(loginInfo);
-            default -> System.out.println("Logic error");
+
+            new List<String []> userData = new ArrayList();
+
+            case STUDENT:
+                userData1 = CSVRead.readByID(loginInfo.getID());
+                System.out.println(userData1.get(0));
+            
+                studentMenu(fakeStudent, loginInfo);
+            case CAREERSTAFF: 
+            
+                careerStaffMenu(fakeCareerStaff);
+            case COMPANYREP:
+            
+                cRepGateway(loginInfo);
+
+            default:
+                System.out.println("Logic error");
         }
     }
 
