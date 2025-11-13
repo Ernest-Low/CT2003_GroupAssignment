@@ -65,10 +65,6 @@ public class Central {
         // TODO: It will be calling the different services anyway, should I just put it there?
         // TODO: Could rename it as gateway (idk why i feel like naming it that)
 
-        // ! Temp, mock up a user for each
-        //Student fakeStudent = new Student("S000001T", "U1000001A", "Aaron Tan", 3, Major.COMPUTER_SCIENCE);
-        //CareerStaff fakeCareerStaff = new CareerStaff("C000001S", "jtan001", "John Tan", "Career Advisory");
-
         switch (loginInfo.getUserType()) {
 
             case STUDENT:
@@ -84,9 +80,16 @@ public class Central {
                 Student Student = new Student(userRow[0], userRow[1], userRow[2], year, Major);
             
                 studentMenu(Student, loginInfo);
-            case CAREERSTAFF: 
+            case CAREERSTAFF:
+
+                List<String[]> staffData = new ArrayList<>();
+
+                userData = CSVRead.readByID(STAFF_CSV, loginInfo.getID(), "ID");
+                String[] staffRow = staffData.get(0);
+
+                CareerStaff CareerStaff = new CareerStaff(staffRow[0], staffRow[1], staffRow[2], staffRow[3]);
             
-                //careerStaffMenu(fakeCareerStaff);
+                careerStaffMenu(CareerStaff, loginInfo);
                 break;
             case COMPANYREP:
             
@@ -105,7 +108,7 @@ public class Central {
         studentController.StudentController(loginInfo);
     }
 
-    private void careerStaffMenu(CareerStaff careerStaff) {
+    private void careerStaffMenu(CareerStaff careerStaff, LoginInfo LoginInfo) {
         // * Entry point Career Staff
         // ? Replace with your own method call (be it static / instance)
 
