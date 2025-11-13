@@ -101,5 +101,37 @@ public class CSVRead {
             //Expected output will be something like this
             //[[StaffID,Name,Role],[ID001,Ethan,CCDS],[ID002,Ernest,CCDS]] basically an array in an array
         }
-    
+
+        public static List <String[]> readByID(String CSVFile, String userID, String idCol) {
+
+        //there was a try here before but was facing an error so i removed it lemme know if there are any issues without it
+            CSVRead CSVRead = new CSVRead();
+            List<String[]> allData = CSVRead.ReadAll(CSVFile);
+
+            String[] header = allData.get(0); // get headers first
+
+            int colPos = -1;
+
+            for (int x = 0; x < header.length; x++){
+                if (header[x].equals(idCol)){
+                    System.out.println("tester");
+                    colPos = x;
+                    break;
+                }
+            }
+
+            for (int i = 1; i < allData.size(); i++) {
+                String[] row = allData.get(i);
+                //System.out.println(Arrays.toString(row));
+
+                if (row[colPos].equals(userID)) {
+                    System.out.println("User has been identified, processing information..." + Arrays.toString(row));
+                    List <String[]> results = new ArrayList<>();
+                    results.add(row);
+                    //System.out.println(results);
+                    return results;
+                }
+            }
+            return null;
+        } 
 }

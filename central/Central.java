@@ -14,6 +14,12 @@ import StaffFiles.*;
 
 import dtos.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import CSVMethods.*;
+
 import login.AuthController;
 import login.UpdatePasswordController;
 
@@ -22,6 +28,11 @@ public class Central {
     private final Services services;
 
     private CRep crep;
+
+    //CSV files
+    private static final String STAFF_CSV = "data/careerStaff_list.csv";
+    private static final String STUDENT_CSV = "data/students_list.csv";
+    private static final String CREP_CSV = "data/companyReps_list.csv";
 
     public Central(Services services) {
         this.services = services;
@@ -54,15 +65,39 @@ public class Central {
         // TODO: It will be calling the different services anyway, should I just put it there?
         // TODO: Could rename it as gateway (idk why i feel like naming it that)
 
-        // ! Temp, mock up a user for each
-        Student fakeStudent = new Student("S000001T", "U1000001A", "Aaron Tan", 3, Major.COMPUTER_SCIENCE);
-        CareerStaff fakeCareerStaff = new CareerStaff("C000001S", "jtan001", "John Tan", "Career Advisory");
-
         switch (loginInfo.getUserType()) {
-            case STUDENT -> studentMenu(fakeStudent, loginInfo);
-            case CAREERSTAFF -> careerStaffMenu(fakeCareerStaff);
-            case COMPANYREP -> cRepGateway(loginInfo);
-            default -> System.out.println("Logic error");
+
+            case STUDENT:
+
+                List<String []> userData = new ArrayList<>();
+
+                userData = CSVRead.readByID(STUDENT_CSV, loginInfo.getID(), "ID");
+
+                String[] userRow = userData.get(0);
+                int year = Integer.parseInt(userRow[3]);
+                Major Major = enums.Major.valueOf(userRow[4].toUpperCase());
+                //System.out.println(Arrays.toString(userData));
+                Student Student = new Student(userRow[0], userRow[1], userRow[2], year, Major);
+            
+                studentMenu(Student, loginInfo);
+            case CAREERSTAFF:
+
+                List<String[]> staffData = new ArrayList<>();
+
+                userData = CSVRead.readByID(STAFF_CSV, loginInfo.getID(), "ID");
+                String[] staffRow = staffData.get(0);
+
+                CareerStaff CareerStaff = new CareerStaff(staffRow[0], staffRow[1], staffRow[2], staffRow[3]);
+            
+                careerStaffMenu(CareerStaff, loginInfo);
+                break;
+            case COMPANYREP:
+            
+                cRepGateway(loginInfo);
+                break;
+
+            default:
+                System.out.println("Logic error");
         }
     }
 
@@ -73,7 +108,7 @@ public class Central {
         studentController.StudentController(loginInfo);
     }
 
-    private void careerStaffMenu(CareerStaff careerStaff) {
+    private void careerStaffMenu(CareerStaff careerStaff, LoginInfo LoginInfo) {
         // * Entry point Career Staff
         // ? Replace with your own method call (be it static / instance)
 
