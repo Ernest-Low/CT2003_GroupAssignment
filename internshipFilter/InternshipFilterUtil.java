@@ -18,9 +18,11 @@ public class InternshipFilterUtil {
                     case "1":
                         sc.close();
                         addFilter = true; // Add
+                        break;
                     case "2":
                         sc.close();
                         addFilter = false; // Remove
+                        break;
                     case "x":
                         return; // Exit
                     default:

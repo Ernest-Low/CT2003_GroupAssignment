@@ -85,6 +85,7 @@ public class InternshipFilterMajor {
             Major chosen = menuMap.get(selected);
             if (chosen == null) {
                 System.out.println("Selection out of range. Try again.");
+                continue;
             }
 
             if (addFilter) {

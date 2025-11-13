@@ -18,6 +18,10 @@ public class InternshipAppService {
         return internshipAppRepo.findAllByColumn(value, columnNo);
     }
 
+    public void updateInternshipApp(InternshipApp internshipApp) {
+        internshipAppRepo.update(internshipApp);
+    }
+
     public List<InternshipApp> filterInternshipApps(InternshipAppFilter filter) {
         return internshipAppRepo.findAll().stream()
                 .filter(internshipApp -> filter.getStudentIDs() == null
