@@ -18,7 +18,7 @@ public class Credential {
         this.accountStatus = accountStatus;
     }
 
-    public String getid() {
+    public String getId() {
         return id;
     }
 

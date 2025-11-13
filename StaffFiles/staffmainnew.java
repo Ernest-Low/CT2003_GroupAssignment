@@ -5,6 +5,9 @@ import java.util.*;
 
 //import goes here
 import model.*;
+import CSVMethods.CSVBeutify2;
+import CSVMethods.CSVFilter;
+
 
 public class staffmainnew {
 
@@ -24,19 +27,30 @@ public class staffmainnew {
 
             uiMenu();
 
-            int choice = getUserInput();
+            int choice = staffutil.getUserInput();
             switch(choice){
                 case 1:
                     //view All Acc
-                    staffutil.mapToAllAccount();
+                    List <?> Allaccount = new ArrayList<>();
+                    Allaccount = staffutil.mapToAllAccount();
+                    //System.out.println(Allaccount);
+
+                    CSVBeutify2.BeutifyNewFilter("All Accounts", Allaccount,"id", "userType", "accountStatus");
                     break;
                 case 2:
                     //view pending accounts
-                    staffutil.getPenCSV();
+                    List <String[]> ruleFilter1 = new ArrayList<>();
+                    ruleFilter1.add(new String[] {"accountStatus", "PENDING"});
+                    ruleFilter1.add(new String[] {"userType", "CAREERSTAFF"});
+
+                    staffutil.updateStatACC(ruleFilter1,"All Pending Accounts");
                     break;
                 case 3:
-                    //view pending intern
-                    staffutil.getPenCSV();
+                    List <String[]> ruleFilter2 = new ArrayList<>();
+                    ruleFilter2.add(new String[] {"status", "PENDING"});
+
+                    staffutil.updateStatINT(ruleFilter2, "All Pending Internship");
+
                     break;
                 case 4:
                     //please help me mabel ty ty
@@ -60,17 +74,10 @@ public class staffmainnew {
         System.out.println("2. Review Account Creation");
         System.out.println("3. Review Internship Creation");
         System.out.println("4. Change Account Password?");
-        System.out.println("5. Log Out? \nEnter choice here: ");
+        System.out.println("5. Log Out?");
+        System.out.print("Option: ");
 
     }
 
-    private int getUserInput(){
-
-        try {
-            return scanner.nextInt();
-        }catch (Exception e){
-            scanner.nextLine();
-            return -1;
-        }
-    }
+   
 }
