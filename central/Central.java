@@ -1,12 +1,13 @@
 package central;
 
 import enums.Major;
-import enums.UserType;
 
 import model.Student;
+import student.StudentMenu;
 import model.CareerStaff;
 import model.CompanyRep;
-import companyRep.CRep;
+import StaffFiles.staffmainnew;
+import companyRep.CompanyRepMain;
 import config.Services;
 import dtos.LoginInfo;
 import student.*;
@@ -21,13 +22,14 @@ import java.util.List;
 import CSVMethods.*;
 
 import login.AuthController;
-import login.UpdatePasswordController;
+// import login.UpdatePasswordController;
 
 public class Central {
 
     private final Services services;
-
-    private CRep crep;
+    private CompanyRepMain companyRepMain;
+    private StudentMenu studentMain;
+    private staffmainnew careerStaffMain;
 
     //CSV files
     private static final String STAFF_CSV = "data/careerStaff_list.csv";
@@ -39,7 +41,6 @@ public class Central {
     }
 
     public void centralController() {
-
         // * Entry point from main
 
         // ! Login, get user ID & user type back
@@ -50,11 +51,16 @@ public class Central {
             System.out.println();
         }
 
-        System.out.println("Welcome, " + loginInfo.getID() + " (" + loginInfo.getUserType() + ")");
+        System.out.println("Welcome, " + loginInfo.getID() + " (" + loginInfo.getUserType() + ")"); // ? Is this debug or intentional?
 
         // UpdatePasswordController updatePasswordController = new UpdatePasswordController();
         // updatePasswordController.updatePassword(loginInfo.getID());
 
+        switch (loginInfo.getUserType()) {
+            case STUDENT -> studentGateway(loginInfo);
+            case CAREERSTAFF -> careerStaffGateway(loginInfo);
+            case COMPANYREP -> companyRepGateway(loginInfo);
+            default -> System.out.println("Logic error");
         // ! Temp, pretend got the logininfo back from login
         // ! Change this logininfo's UserType to your menu
 
@@ -101,36 +107,41 @@ public class Central {
         }
     }
 
-    private void studentMenu(Student student, LoginInfo loginInfo) {
+    private void studentGateway(LoginInfo loginInfo) {
         // * Entry point Student
-        // ? Replace with your own method call (be it static / instance)
-        StudentMenu studentController = new StudentMenu(student);
-        studentController.StudentController(loginInfo);
-    }
 
-    private void careerStaffMenu(CareerStaff careerStaff, LoginInfo LoginInfo) {
-        // * Entry point Career Staff
-        // ? Replace with your own method call (be it static / instance)
-
-        staffmainnew staffStart = new staffmainnew(careerStaff);
-        staffStart.staffEntry();
-
-        // CareerStaffController careerStaffController = new CareerStaffController();
-        // careerStaffController.openMenu(careerStaff);
-    }
-
-    private void cRepGateway(LoginInfo loginInfo) {
-        // * Entry point Company Rep
-
-        // TODO: Utilize Logininfo into crep service to get crep out
+        Student student = services.studentService.getStudentByID(loginInfo.getID());
 
         // ! Mock user
-        CompanyRep companyRep = new CompanyRep("C000001R", "alex.choi@novalink.com", "Alex Choi", "Novalink",
+        student = new Student("S000001T", "U1000001A", "Aaron Tan", 1, Major.COMPUTER_SCIENCE);
+
+        this.studentMain = new StudentMenu(student);
+        this.studentMain.StudentController(loginInfo);
+    }
+
+    private void careerStaffGateway(LoginInfo loginInfo) {
+        // * Entry point Career Staff
+
+        CareerStaff careerStaff = services.careerStaffService.getCareerStaffByID(loginInfo.getID());
+
+        // ! Mock user
+        careerStaff = new CareerStaff("C000001S", "jtan001", "John Tan", "Career Advisory");
+
+        this.careerStaffMain = new staffmainnew(careerStaff);
+        this.careerStaffMain.staffEntry();
+    }
+
+    private void companyRepGateway(LoginInfo loginInfo) {
+        // * Entry point Company Rep
+        CompanyRep companyRep = services.companyRepService.getCompanyRepByID(loginInfo.getID());
+
+        // ! Mock user
+        companyRep = new CompanyRep("C000001R", "alex.choi@novalink.com", "Alex Choi", "Novalink",
                 "Engineering",
                 "Software Engineer");
 
-        this.crep = new CRep(services, companyRep);
-        crep.CompanyRepController();
+        this.companyRepMain = new CompanyRepMain(services, companyRep);
+        this.companyRepMain.CompanyRepController();
     }
 
 }

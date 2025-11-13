@@ -13,7 +13,7 @@ import enums.Major;
 import enums.TableIndex;
 import model.CompanyRep;
 
-public class CRepPostInternship {
+public class CompanyRepPostInternship {
 
     DateTimeFormatter dateFormat = new DateTimeFormatterBuilder()
             .appendValue(ChronoField.DAY_OF_MONTH)
@@ -34,7 +34,7 @@ public class CRepPostInternship {
     private LocalDate closingDate;
     private String description = "";
 
-    public CRepPostInternship(Services services, CompanyRep companyRep, Scanner sc) {
+    public CompanyRepPostInternship(Services services, CompanyRep companyRep, Scanner sc) {
         this.services = services;
         this.companyRep = companyRep;
         this.sc = sc;
