@@ -54,8 +54,8 @@ public class AuthService {
             String hash = hashedPassword.get(1);
 
             // CSVRead csvWrite = new CSVWrite();
-            csvwrite.updateByID(CREDENTIALS_CSV_FILE, userID, "ID", "salt", salt);
-            csvwrite.updateByID(CREDENTIALS_CSV_FILE, userID, "ID", "hash", hash);
+            CSVWrite.updateByID(CREDENTIALS_CSV_FILE, userID, "ID", "salt", salt);
+            CSVWrite.updateByID(CREDENTIALS_CSV_FILE, userID, "ID", "hash", hash);
             
             return true;
         } else {
@@ -78,7 +78,7 @@ public class AuthService {
         // CSVWrite csvWrite = new CSVWrite();
         String[] colHeader = {"ID"};
 
-        List<String[]> usernameList = csvread.ReadByColumn(COMPANYREP_CSV_FILE, colHeader);
+        List<String[]> usernameList = CSVRead.ReadByColumn(COMPANYREP_CSV_FILE, colHeader);
         
         for (String[] arr : usernameList) {
             if ((arr.length > 0) && (arr[0].equals(username))) {
@@ -93,7 +93,7 @@ public class AuthService {
         // store new credentials into csv
         crendentialList.add(new String[]{username, hashedPassword.get(0), hashedPassword.get(1), UserType.COMPANYREP.name(), AccountStatus.PENDING.name()});
         // System.out.println(crendentialList);
-        csvwrite.writeToCSV(CREDENTIALS_CSV_FILE, crendentialList);
+        CSVWrite.writeToCSV(CREDENTIALS_CSV_FILE, crendentialList);
         return true;
     }
 
@@ -109,7 +109,7 @@ public class AuthService {
         // store new credentials into csv
         profileList.add(new String[]{username, name, companyName, department, position});
         // System.out.println(profileList);
-        csvwrite.writeToCSV(COMPANYREP_CSV_FILE, profileList);
+        CSVWrite.writeToCSV(COMPANYREP_CSV_FILE, profileList);
         return true;
     }
 }

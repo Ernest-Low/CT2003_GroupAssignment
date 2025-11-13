@@ -149,7 +149,7 @@ public class InternshipReviewService {
 
         if (changesMade) {
             CSVWrite csvWriter = new CSVWrite();
-            csvWriter.writeToCSV(STUDENT_INTERNSHIP_REL_CSV, allApplications);
+            CSVWrite.writeToCSV(STUDENT_INTERNSHIP_REL_CSV, allApplications);
             System.out.println("All pending applications for internship " + internshipId + " have been rejected.");
         }
     }

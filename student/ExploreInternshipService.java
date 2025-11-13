@@ -65,7 +65,7 @@ public class ExploreInternshipService {
             System.out.println("No internship available for your major and year level at the moment.");
             return;
         }
-        
+
         // Print out internships using CSVBeutify class
         CSVBeutify2.BeutifyNewFilter("AVAILABLE INTERNSHIP", internships, "title", "companyName", "major", "level", "closingDate");
 
@@ -82,6 +82,7 @@ public class ExploreInternshipService {
                     int choice = sc.nextInt();
                     if (choice > 0 && choice < internships.size()) {
                         // Get details
+                        ViewInternshipDetails.viewDetails(student, internships.get(choice - 1));
                     }
                     else {
                         System.out.println("Invalid index");
@@ -98,15 +99,16 @@ public class ExploreInternshipService {
                         while (true) {
 
                             try {
-                                System.out.print("Filter by 1.BASIC  |  2.INTERMEDIATE  |  3.ADVANCED  | 4.reset |  0.Return ");
+                                System.out.println();
+                                System.out.print("Filter by 1.BASIC  |  2.INTERMEDIATE  |  3.ADVANCED  |  4.reset  |  0.Return  |  Input: ");
                                 int input = sc.nextInt();
                                 if (input == 0) break; // Go back
+                                else if (input == 4) {
+                                    levelSet = resetLevelFilter(student, levelSet);
+                                }
                                 else if (input < 1 || input > levels.size()) {
                                     System.out.println("Invalid choice.");
                                     continue;
-                                }
-                                else if (input == 4) {
-                                    levelSet = resetLevelFilter(student, levelSet);
                                 }
                                 else {
                                     levelSet.clear();
@@ -114,7 +116,7 @@ public class ExploreInternshipService {
                                 }
 
                                 internships = internshipApp.getFilteredInternships(student, levelSet);
-                                break;
+                                CSVBeutify2.BeutifyNewFilter("AVAILABLE INTERNSHIP", internships, "title", "companyName", "major", "level", "closingDate");
 
                             } catch (IOException e) {
                                 System.out.println("Error filtering internships: " + e.getMessage());
@@ -126,6 +128,7 @@ public class ExploreInternshipService {
                     System.out.println("Going back to main menu..");
                     return;
             }
+    
             /*
             // If user apply internship
             if (selection > 0 && selection <=internships.size()) {
