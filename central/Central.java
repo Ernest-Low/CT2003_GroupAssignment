@@ -13,6 +13,11 @@ import student.*;
 import StaffFiles.*;
 
 import dtos.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import CSVMethods.*;
 
 import login.AuthController;
@@ -25,9 +30,9 @@ public class Central {
     private CRep crep;
 
     //CSV files
-    private static final String CREDS_CSV = "data/careerStaff_list.csv";
-    private static final String INTERN_CSV = "data/students_list.csv";
-    private static final String INTERN_CSV = "data/companyReps_list.csv";
+    private static final String STAFF_CSV = "data/careerStaff_list.csv";
+    private static final String STUDENT_CSV = "data/students_list.csv";
+    private static final String CREP_CSV = "data/companyReps_list.csv";
 
     public Central(Services services) {
         this.services = services;
@@ -66,19 +71,27 @@ public class Central {
 
         switch (loginInfo.getUserType()) {
 
-            new List<String []> userData = new ArrayList();
-
             case STUDENT:
-                userData1 = CSVRead.readByID(loginInfo.getID());
-                System.out.println(userData1.get(0));
+
+                List<String []> userData = new ArrayList<>();
+
+                userData = CSVRead.readByID(STUDENT_CSV, loginInfo.getID(), "ID");
+
+                String[] userRow = userData.get(0);
+                int year = Integer.parseInt(userRow[3]);
+                Major Major = enums.Major.valueOf(userRow[4].toUpperCase());
+                //System.out.println(Arrays.toString(userData));
+                Student Student = new Student(userRow[0], userRow[1], userRow[2], year, Major);
             
-                studentMenu(fakeStudent, loginInfo);
+                studentMenu(Student, loginInfo);
             case CAREERSTAFF: 
             
-                careerStaffMenu(fakeCareerStaff);
+                //careerStaffMenu(fakeCareerStaff);
+                break;
             case COMPANYREP:
             
                 cRepGateway(loginInfo);
+                break;
 
             default:
                 System.out.println("Logic error");

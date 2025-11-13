@@ -105,46 +105,33 @@ public class CSVRead {
         public static List <String[]> readByID(String CSVFile, String userID, String idCol) {
 
         //there was a try here before but was facing an error so i removed it lemme know if there are any issues without it
-            
-            List<String[]> allData = ReadAll(CSVFile);
+            CSVRead CSVRead = new CSVRead();
+            List<String[]> allData = CSVRead.ReadAll(CSVFile);
 
-            String[] AllCol = allData.get(0); // get headers first
+            String[] header = allData.get(0); // get headers first
 
             int colPos = -1;
-            int updateColPos = -1;
 
-            for (int i = 0; i < AllCol.length; i++) {
-                if (AllCol[i].equals(idCol)) {
-                    colPos = i;
-                }
-                if (AllCol[i].equals(updateCol)) {
-                    updateColPos = i;
-                }
-            }
-
-            if (colPos == -1 || updateColPos == -1) {
-                System.out.println("Error 404, Column was not found or Column does not exist");
-                return;
-            }
-
-            boolean successful = false;
-            for (int i = 0; i < allData.size(); i++) {
-                String[] row = allData.get(i);
-                if (row[colPos].equals(userID)) {
-                    String oldVal = row[updateColPos];
-                    row[updateColPos] = updatedVal;
-                    successful = true;
-                    System.out.println("Changes have been made...\nUpdating to Database...");
+            for (int x = 0; x < header.length; x++){
+                if (header[x].equals(idCol)){
+                    System.out.println("tester");
+                    colPos = x;
                     break;
                 }
             }
 
-            if (!successful) {
-                System.out.println("Error updating file, please check with system admin");
-            } else {
-                return allData;
+            for (int i = 1; i < allData.size(); i++) {
+                String[] row = allData.get(i);
+                //System.out.println(Arrays.toString(row));
+
+                if (row[colPos].equals(userID)) {
+                    System.out.println("User has been identified, processing information..." + Arrays.toString(row));
+                    List <String[]> results = new ArrayList<>();
+                    results.add(row);
+                    //System.out.println(results);
+                    return results;
+                }
             }
-            
+            return null;
         } 
-    
 }

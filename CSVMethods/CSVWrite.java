@@ -60,6 +60,7 @@ public class CSVWrite {
             if (!successful) {
                 System.out.println("Error updating file, please check with system admin");
             } else {
+                System.out.println(allData);
                 writeToCSV(CSVFile, allData);
             }
             
