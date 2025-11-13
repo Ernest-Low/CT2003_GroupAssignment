@@ -100,7 +100,7 @@ public class InternshipDataService {
 
         if (recordFound) {
             CSVWrite csvWriter = new CSVWrite();
-            csvWriter.writeToCSV(INTERNSHIPS_CSV, allInternships);
+            CSVWrite.writeToCSV(INTERNSHIPS_CSV, allInternships);
         } else {
             // This case should ideally not happen if called after a successful offer acceptance.
             System.err.println("Warning: Could not find internship with ID " + internshipId + " to increment counter.");

@@ -18,18 +18,18 @@ public class AuthService {
     private static final String CREDENTIALS_CSV_FILE = "data/credentials_list.csv";
     private static final String COMPANYREP_CSV_FILE = "data/companyReps_list.csv";
 
-    private static final CSVMethods csvmethods = new CSVMethods();
+    //private static final CSVMethods csvmethods = new CSVMethods();
     private static final CSVRead csvread = new CSVRead();
     private static final CSVWrite csvwrite = new CSVWrite();
 
     protected static LoginInfo login(String input_username, String input_password) {
         // check if username exists in csv
         // CSVMethods csvmethods = new CSVMethods();
-        List<Credential> credentials = csvmethods.readCredentials();
+        List<Credential> credentials = CSVMethods.readCredentials();
         for (int i=0; i<credentials.size(); i++) {
             Credential current = credentials.get(i);
             if (current.getAccountStatus() == AccountStatus.ACTIVE) {
-                if (current.getid().equals(input_username)) {
+                if (current.getId().equals(input_username)) {
                     boolean passwordMatch = PasswordUtil.verifyPassword(input_password, current.getSalt(), current.getHash());
                     if (passwordMatch) {
                         return new LoginInfo(input_username, current.getUserType());
@@ -54,8 +54,8 @@ public class AuthService {
             String hash = hashedPassword.get(1);
 
             // CSVRead csvWrite = new CSVWrite();
-            csvwrite.updateByID(CREDENTIALS_CSV_FILE, userID, "ID", "salt", salt);
-            csvwrite.updateByID(CREDENTIALS_CSV_FILE, userID, "ID", "hash", hash);
+            CSVWrite.updateByID(CREDENTIALS_CSV_FILE, userID, "ID", "salt", salt);
+            CSVWrite.updateByID(CREDENTIALS_CSV_FILE, userID, "ID", "hash", hash);
             
             return true;
         } else {
@@ -78,7 +78,7 @@ public class AuthService {
         // CSVWrite csvWrite = new CSVWrite();
         String[] colHeader = {"ID"};
 
-        List<String[]> usernameList = csvread.ReadByColumn(COMPANYREP_CSV_FILE, colHeader);
+        List<String[]> usernameList = CSVRead.ReadByColumn(COMPANYREP_CSV_FILE, colHeader);
         
         for (String[] arr : usernameList) {
             if ((arr.length > 0) && (arr[0].equals(username))) {
@@ -93,7 +93,7 @@ public class AuthService {
         // store new credentials into csv
         crendentialList.add(new String[]{username, hashedPassword.get(0), hashedPassword.get(1), UserType.COMPANYREP.name(), AccountStatus.PENDING.name()});
         // System.out.println(crendentialList);
-        csvwrite.writeToCSV(CREDENTIALS_CSV_FILE, crendentialList);
+        CSVWrite.writeToCSV(CREDENTIALS_CSV_FILE, crendentialList);
         return true;
     }
 
@@ -109,7 +109,7 @@ public class AuthService {
         // store new credentials into csv
         profileList.add(new String[]{username, name, companyName, department, position});
         // System.out.println(profileList);
-        csvwrite.writeToCSV(COMPANYREP_CSV_FILE, profileList);
+        CSVWrite.writeToCSV(COMPANYREP_CSV_FILE, profileList);
         return true;
     }
 }
