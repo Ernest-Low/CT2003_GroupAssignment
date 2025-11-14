@@ -92,6 +92,7 @@ public class ExploreInternshipService {
             } else {
                 // Print out internships using CSVBeutify class
                 CSVBeutify.BeutifyNewFilter("AVAILABLE INTERNSHIP", internships, "title", "title", "companyName", "major", "level", "closingDate");
+                
             }
 
             System.out.println();

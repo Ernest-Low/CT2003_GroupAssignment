@@ -43,13 +43,13 @@ public class staffmainnew {
                     //view pending accounts
                     List <String[]> ruleFilter1 = new ArrayList<>();
                     ruleFilter1.add(new String[] {"accountStatus", "PENDING"});
-                    ruleFilter1.add(new String[] {"userType", "CAREERSTAFF"});
+                    ruleFilter1.add(new String[] {"userType", "COMPANYREP"});
 
                     staffutil.updateStatACC(ruleFilter1,"All Pending Accounts");
                     break;
                 case 3:
                     List <String[]> ruleFilter2 = new ArrayList<>();
-                    ruleFilter2.add(new String[] {"status", "PENDING"});
+                    //ruleFilter2.add(new String[] {"status", "PENDING"});
 
                     staffutil.updateStatINT(ruleFilter2, "All Pending Internship");
 

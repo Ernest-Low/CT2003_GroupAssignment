@@ -40,14 +40,14 @@ public class staffutilnew {
         while (dashboard){
 
             AllaccPending = mapToAllAccount();
-            AllaccPending = CSVFilter.filter4Obj(AllaccPending, penFilter);
+            AllaccPending = CSVFilter.filter4Obj(AllaccPending, penFilter, "accountStatus");
 
             if (AllaccPending.isEmpty()){
                 dashboard = false;
                 System.out.println("No Pending Account...");
                 return;
             }
-            CSVBeutify.BeutifyNewFilter(title, AllaccPending, "id", "id","userType", "accountStatus");
+            CSVBeutify.BeutifyNewFilter(title, AllaccPending, "accountStatus", "id","userType", "accountStatus");
 
             uiStatus();
             int choice = getUserInput();
@@ -56,7 +56,7 @@ public class staffutilnew {
                 case 1:
                     int rowIndex1 = statDashboard("Approve");
                     String userID1 = finduserID(AllaccPending, rowIndex1);
-                    CSVWrite.updateByID(CREDS_CSV, userID1, "title", "AccountStatus", "ACTIVE");
+                    CSVWrite.updateByID(CREDS_CSV, userID1, "ID", "AccountStatus", "ACTIVE");
                     break;
                 case 2:
                     int rowIndex2 = statDashboard("Reject");
@@ -82,7 +82,7 @@ public class staffutilnew {
         while (dashboard){
 
             AllIntPending = mapToAllInternship();
-            AllIntPending = CSVFilter.filter4Obj(AllIntPending, penFilter);
+            AllIntPending = CSVFilter.filter4Obj(AllIntPending, penFilter, "title");
             CSVBeutify.BeutifyNewFilter(title, AllIntPending, "title", "ID","title", "companyName", "major", "level", "status", "description");
 
             uiStatus();

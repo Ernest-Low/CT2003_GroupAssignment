@@ -18,6 +18,7 @@ public class CSVWrite {
     //1 -> Read the entire file 2-> find tha specific ID and change the value 3-> write back to file
 
     public static void updateByID(String CSVFile, String userID, String idCol, String updateCol, String updatedVal) {
+        System.out.println(userID + " " + idCol);
 
     //there was a try here before but was facing an error so i removed it lemme know if there are any issues without it
             CSVRead CSVRead = new CSVRead();

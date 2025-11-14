@@ -96,11 +96,11 @@ public class CSVBeutify {
 
         int sortColumnIndex = -1;
         for (int i = 0; i < fieldNames.length; i++){
-            if (fieldNames[i].equalsIgnoreCase(sortByCol)){
-                sortColumnIndex = i;
-                break;
-            }
-        }
+             if (fieldNames[i].equalsIgnoreCase(sortByCol)){
+                 sortColumnIndex = i;
+                 break;
+             }
+         }
 
         for (Object obj : objects){
 
@@ -112,9 +112,9 @@ public class CSVBeutify {
             newData.add(data);
         }
 
-        int finalCol = sortColumnIndex != -1 ? sortColumnIndex : 0;
-        //find the first data to the last and sort, between 2 var a , b. If sortColumnIndex not found then it will just sort by first Col
-        newData.subList(1, newData.size()).sort((a, b) -> a[finalCol].compareToIgnoreCase(b[finalCol]));
+         int finalCol = sortColumnIndex != -1 ? sortColumnIndex : 0;
+         //find the first data to the last and sort, between 2 var a , b. If sortColumnIndex not found then it will just sort by first Col
+         newData.subList(1, newData.size()).sort((a, b) -> a[finalCol].compareToIgnoreCase(b[finalCol]));
 
         outTable(title, newData);
     }
