@@ -43,10 +43,10 @@ public class StudentViewInternship {
         printing.add(new String[] {"Company Name", "Title", "Level", "Status"});
         for (int i = 1; i < filtered.size(); i++) {
             try {
-                Internship internship = dataApp.getInternshipById(filtered.get(i)[2]);
+                Internship internship = dataApp.getInternshipById(filtered.get(i)[1]);
             
             // Append to print out
-            String[] entry = new String[] {internship.getCompanyName(), internship.getTitle(), internship.getLevel().getDisplayName(), filtered.get(i)[3]};
+            String[] entry = new String[] {internship.getCompanyName(), internship.getTitle(), internship.getLevel().getDisplayName(), filtered.get(i)[2]};
             printing.add(entry);
             } catch(IOException e) {
                 System.out.println(e);
