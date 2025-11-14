@@ -34,7 +34,7 @@ public class InternshipFilterClosingDate {
         System.out.println("2: Within next 14 days");
         System.out.println("3: Within next 1 month");
         System.out.println("4: Within next 3 months");
-        System.out.println("5: Custom range (D-M-YYYY)");
+        System.out.println("5: Custom range (DD-MM-YYYYYY)");
         System.out.println("6: Clear closing date filter");
         System.out.println("X: Back");
         System.out.print("Enter choice: ");
@@ -63,7 +63,7 @@ public class InternshipFilterClosingDate {
         LocalDate end = null;
 
         while (true) {
-            System.out.print("\nEnter start date (D-M-YYYY) or blank for none: ");
+            System.out.print("\nEnter start date (DD-MM-YYYYYY) or blank for none: ");
             String raw = readLine();
             if (raw == null)
                 return;
@@ -83,7 +83,7 @@ public class InternshipFilterClosingDate {
         }
 
         while (true) {
-            System.out.print("\nEnter end date (D-M-YYYY) or blank for none: ");
+            System.out.print("\nEnter end date (DD-MM-YYYYYY) or blank for none: ");
             String raw = readLine();
             if (raw == null)
                 return;
