@@ -1,11 +1,14 @@
 package companyRep;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import config.Services;
 import dtos.InternshipAppFilter;
@@ -33,9 +36,9 @@ public class CompanyRepViewInternshipApp {
         this.companyRep = companyRep;
         this.sc = sc;
 
-        this.internships = List.of();
-        this.internshipApps = List.of();
-        this.students = List.of();
+        this.internships = new ArrayList<>();
+        this.internshipApps = new ArrayList<>();
+        this.students = new ArrayList<>();
         this.internshipAppFilter = new InternshipAppFilter();
         this.menuMap = new LinkedHashMap<>();
         this.internshipAppMap = new LinkedHashMap<>();
@@ -50,8 +53,8 @@ public class CompanyRepViewInternshipApp {
         int idx = 1;
         for (InternshipApp internshipApp : internshipApps) { // For every app, make a nice string
             Internship internship = internships.stream()
-                    .filter(item -> item.getID() == internshipApp.getInternshipID()).findFirst().orElse(null);
-            Student student = students.stream().filter(item -> item.getId() == internshipApp.getStudentID())
+                    .filter(item -> item.getID().equals(internshipApp.getInternshipID())).findFirst().orElse(null);
+            Student student = students.stream().filter(item -> item.getId().equals(internshipApp.getStudentID()))
                     .findFirst().orElse(null);
             String description = internship.getTitle() + " -- " + student.getName() + "(" + student.getYearOfStudy() // Internship name -- Student Name (Year of Study) - Major
                     + ")" + " - " + student.getMajor();
@@ -69,21 +72,26 @@ public class CompanyRepViewInternshipApp {
     }
 
     private void findInternshipApps() {
-        for (Internship internship : internships) {
-            Set<String> internshipIDs = Set.of(internship.getID());
-            Set<InternshipApplicationStatus> internshipAppStatuses = Set.of(InternshipApplicationStatus.PENDING);
-            internshipAppFilter.setInternshipApplicationStatuses(internshipAppStatuses);
-            internshipAppFilter.setInternshipIDs(internshipIDs);
-            List<InternshipApp> newInternshipApps = this.services.internshipAppService
-                    .filterInternshipApps(internshipAppFilter);
-            for (InternshipApp internshipApp : newInternshipApps) {
-                this.internshipApps.add(internshipApp);
-            }
+        // Get all internship IDs for the company
+        Set<String> internshipIDs = internships.stream()
+                .map(Internship::getID)
+                .collect(Collectors.toSet());
+
+        if (internshipIDs.isEmpty()) {
+            return; // No internships, so no applications
         }
+
+        // Set filter for PENDING applications for these internships
+        Set<InternshipApplicationStatus> internshipAppStatuses = Set.of(InternshipApplicationStatus.PENDING);
+        internshipAppFilter.setInternshipApplicationStatuses(internshipAppStatuses);
+        internshipAppFilter.setInternshipIDs(internshipIDs);
+
+        // Fetch all relevant applications in one go
+        this.internshipApps = this.services.internshipAppService.filterInternshipApps(internshipAppFilter);
     }
 
     private void findStudents() { // StudentIDs set
-        Set<String> studentIDs = Set.of();
+        Set<String> studentIDs = new HashSet<>();
         for (InternshipApp internshipApp : this.internshipApps) {
             studentIDs.add(internshipApp.getStudentID());
         }
@@ -133,12 +141,12 @@ public class CompanyRepViewInternshipApp {
 
         // ? The calls to CSVs, try to avoid recalling it all the time (as if it's a DB)
         findInternships(); // Get Internships belonging to company rep
+        findInternshipApps(); // Use Internships to find InternshipApps, populate internshipApps
 
         if (internshipApps == null || internshipApps.isEmpty()) {
             System.out.println("\nNo current internship applications awaiting action. Returning.");
             return;
         }
-        findInternshipApps(); // Use Internships to find InternshipApps, populate internshipApps
         findStudents(); // Now to find the students using InternshipApps
 
         while (true) {
