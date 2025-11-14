@@ -23,6 +23,9 @@ public class InternshipRepoImpl implements InternshipRepo {
         try (BufferedReader br = new BufferedReader(new FileReader(CSVPaths.INTERNSHIPS_CSV))) {
             String line = br.readLine();
             while ((line = br.readLine()) != null) {
+                if (line.trim().isEmpty()) {
+                    continue;
+                }
                 String[] values = line.split(",");
                 String recordId = values[0];
                 if (recordId.equals(id)) {
@@ -55,6 +58,9 @@ public class InternshipRepoImpl implements InternshipRepo {
         try (BufferedReader br = new BufferedReader(new FileReader(CSVPaths.INTERNSHIPS_CSV))) {
             String line = br.readLine();
             while ((line = br.readLine()) != null) {
+                if (line.trim().isEmpty()) {
+                    continue;
+                }
                 String[] values = line.split(",");
                 String recordId = values[columnNo];
                 if (recordId.equals(value)) {
@@ -99,8 +105,8 @@ public class InternshipRepoImpl implements InternshipRepo {
                     internship.getClosingDate().toString(),
                     internship.getStatus().name(),
                     internship.getDescription());
-            bw.newLine();
             bw.write(line);
+            bw.newLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -112,6 +118,9 @@ public class InternshipRepoImpl implements InternshipRepo {
         try (BufferedReader br = new BufferedReader(new FileReader(CSVPaths.INTERNSHIPS_CSV))) {
             String line;
             while ((line = br.readLine()) != null) {
+                if (line.trim().isEmpty()) {
+                    continue;
+                }
                 String[] parts = line.split(",");
                 String recordId = parts[0];
                 if (recordId.equals(internship.getID())) {
@@ -151,6 +160,9 @@ public class InternshipRepoImpl implements InternshipRepo {
         try (BufferedReader br = new BufferedReader(new FileReader(CSVPaths.INTERNSHIPS_CSV))) {
             String line = br.readLine();
             while ((line = br.readLine()) != null) {
+                if (line.trim().isEmpty()) {
+                    continue;
+                }
                 String[] parts = line.split(",");
                 String recordId = parts[0];
                 if (!recordId.equals(id)) {
@@ -178,6 +190,9 @@ public class InternshipRepoImpl implements InternshipRepo {
         try (BufferedReader br = new BufferedReader(new FileReader(CSVPaths.INTERNSHIPS_CSV))) {
             String line = br.readLine();
             while ((line = br.readLine()) != null) {
+                if (line.trim().isEmpty()) {
+                    continue;
+                }
                 String[] values = line.split(",");
                 Internship internship = new Internship(
                         values[0], // ID
