@@ -14,6 +14,7 @@ public class ExploreInternshipService {
 
     // Initialization
     private static Scanner sc = new Scanner(System.in);
+    private static List<Internship> lastFilteredInternships = null;
     private static List<InternshipLevel> levels = List.of(
         InternshipLevel.BASIC,
         InternshipLevel.INTERMEDIATE,

@@ -1,8 +1,10 @@
 package student;
 
+import java.util.List;
 import java.util.Scanner;
 
 import dtos.LoginInfo;
+import internship_rs.InternshipApplicationService;
 import model.*;
 import login.*;
 
@@ -32,7 +34,6 @@ public class StudentMenu {
 
     public void StudentController(LoginInfo loginInfo) {
         sc = new Scanner(System.in);
-
         int choice = 0;
         while (choice != 9) {
             System.out.println();
