@@ -17,7 +17,6 @@ public class Main {
         AppContext context = new AppContext();
 
         context.getCentral().centralController();
-
     }
 
 }
