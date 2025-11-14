@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ID,title,companyName,companyID,major,level,counter,slots,openingDate,closingDate,status,description
 123,Software Engineer,Google,111,COMPUTER_SCIENCE,BASIC,1,10,2025-11-11,2025-12-12,APPROVED,NA
 124,Software Engineer,Meta,112,COMPUTER_SCIENCE,INTERMEDIATE,0,5,2025-11-11,2025-12-12,APPROVED,NA
@@ -8,14 +7,3 @@ ID,title,companyName,companyID,major,level,counter,slots,openingDate,closingDate
 I000003P,This is a test,Novalink,alex.choi@novalink.com,COMPUTER_SCIENCE,ADVANCED,0,3,2025-02-02,2025-12-10,PENDING,Hi there
 I000004P,Great new internship,Novalink,alex.choi@novalink.com,CHEMISTRY,BASIC,0,5,2026-04-03,2026-05-07,PENDING,Hot internship position
 I000005P,Great chemistry opportunity,Novalink,C000001R,CHEMISTRY,ADVANCED,0,1,2025-12-14,2025-12-16,PENDING,Apply fast
-=======
-ID,title,companyName,companyID,major,level,counter,openingDate,closingDate,status,description
-123,Software Engineer,Google,111,COMPUTER_SCIENCE,BASIC,1,2025-11-11,2025-12-12,APPROVED,NA
-124,Software Engineer,Meta,112,COMPUTER_SCIENCE,INTERMEDIATE,0,2025-11-11,2025-12-12,APPROVED,NA
-125,Senior Software Engineer,Meta,112,COMPUTER_SCIENCE,ADVANCED,0,2025-11-11,2025-12-12,APPROVED,NA
-126,Data Engineer,Google,111,DATA_SCIENCE,BASIC,0,2025-11-11,2025-12-12,APPROVED,NA
-127,Software Engineer2,Google,111,COMPUTER_SCIENCE,BASIC,0,2025-11-11,2025-12-12,APPROVED,NA
-I000003P,This is a test,Novalink,alex.choi@novalink.com,COMPUTER_SCIENCE,ADVANCED,0,2025-02-02,2025-12-10,PENDING,Hi there
-I000004P,Great new internship,Novalink,alex.choi@novalink.com,CHEMISTRY,BASIC,0,2026-04-03,2026-05-07,REJECTED,Hot internship position
-I000005P,Great chemistry opportunity,Novalink,C000001R,CHEMISTRY,ADVANCED,0,2025-12-14,2025-12-16,PENDING,Apply fast
->>>>>>> 2c0693bf4cc96d54263fe40d383c298299fd3a11

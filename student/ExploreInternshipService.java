@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.util.*;
 
 import CSVMethods.CSVBeutify;
+import dtos.InternshipFilter;
 import model.*;
 import internship_rs.*;
+import internshipFilter.*;
 
 import enums.*;
 
@@ -14,16 +16,11 @@ public class ExploreInternshipService {
 
     // Initialization
     private static Scanner sc = new Scanner(System.in);
-    private static List<InternshipLevel> levels = List.of(
-        InternshipLevel.BASIC,
-        InternshipLevel.INTERMEDIATE,
-        InternshipLevel.ADVANCED
-    );
 
     private static int openMenu() {
         System.out.println("Please select an action");
         System.out.println("1: View Internship Details");
-        System.out.println("2: Filter Level");
+        System.out.println("2: Edit Filters");
         System.out.println("9: Return");
         System.out.print("Input: ");
         int num = Integer.parseInt(sc.next());
@@ -31,16 +28,35 @@ public class ExploreInternshipService {
         return num;
     }
 
-    // Help to initialize based on student YOS and reseting of filter as well.
-    private static Set<InternshipLevel> resetLevelFilter(Student student, Set<InternshipLevel> levelSet) {
-        // Add filter based on student yearOfStudy
-        levelSet.clear();
-        levelSet.add(levels.get(0));
-        if (student.getYearOfStudy() > 2) {
-            levelSet.add(levels.get(1));
-            levelSet.add(levels.get(2));
+    private static void openFilterMenu(InternshipFilter filter, Student student) {
+        while (true) {
+            System.out.println("\n--- Edit Filters ---");
+            System.out.println("1: Filter by Level");
+            System.out.println("2: Filter by Closing Date");
+            System.out.println("9: Back to Internships");
+            System.out.print("Enter choice: ");
+            String choice = sc.next();
+            sc.nextLine(); // consume newline
+
+            switch (choice) {
+                case "1":
+                    if (student.getYearOfStudy() < 3) {
+                        System.out.println("Filter by level is not available for Y1/2 Students.");
+                        break;
+                    }
+                    InternshipFilterLevel levelFilter = new InternshipFilterLevel(filter, sc);
+                    levelFilter.InternshipFilterLevelController();
+                    break;
+                case "2":
+                    InternshipFilterClosingDate closingDateFilter = new InternshipFilterClosingDate(filter, sc);
+                    closingDateFilter.InternshipFilterClosingDateController();
+                    break;
+                case "9":
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
         }
-        return levelSet;
     }
 
     public static void exploreInternship(Student student) {
@@ -49,28 +65,34 @@ public class ExploreInternshipService {
         InternshipApplicationService internshipApp = new InternshipApplicationService();
         List<Internship> internships = new ArrayList<>();
 
-        // Add filter based on student yearOfStudy
-        Set<InternshipLevel> levelSet = new HashSet<>();
-        levelSet = resetLevelFilter(student, levelSet);
-
-        // retrieve available internships for student
-        try {
-            internships = internshipApp.getFilteredInternships(student, levelSet);
-        } catch (IOException e) {
-            System.out.println(e);
+        // Initialize filter and set default level based on student's year of study
+        InternshipFilter internshipFilter = new InternshipFilter();
+        Set<InternshipLevel> defaultLevels = new HashSet<>();
+        defaultLevels.add(InternshipLevel.BASIC);
+        if (student.getYearOfStudy() > 2) {
+            defaultLevels.add(InternshipLevel.INTERMEDIATE);
+            defaultLevels.add(InternshipLevel.ADVANCED);
         }
+        internshipFilter.setLevels(defaultLevels);
 
-        // check if there are records
-        if (internships == null || internships.isEmpty()) {
-            System.out.println("No internship available for your major and year level at the moment.");
-            return;
-        }
-
-        // Print out internships using CSVBeutify class
-        CSVBeutify.BeutifyNewFilter("AVAILABLE INTERNSHIP", internships, "title", "companyName", "major", "level", "closingDate");
 
         // Prompt user for input (apply/exit)
         while (true) {
+            // retrieve available internships for student
+            try {
+                internships = internshipApp.getFilteredInternships(student, internshipFilter);
+            } catch (IOException e) {
+                System.out.println(e);
+                return;
+            }
+
+            // check if there are records
+            if (internships == null || internships.isEmpty()) {
+                System.out.println("No internship available for your major and current filters.");
+            } else {
+                // Print out internships using CSVBeutify class
+                CSVBeutify.BeutifyNewFilter("AVAILABLE INTERNSHIP", internships, "title", "companyName", "major", "level", "closingDate");
+            }
 
             System.out.println();
             int selection = openMenu();
@@ -78,6 +100,10 @@ public class ExploreInternshipService {
             switch (selection) {
                 // View Internship Detais
                 case 1:
+                    if (internships.isEmpty()) {
+                        System.out.println("No internships to view.");
+                        break;
+                    }
                     System.out.print("Select index to view details: ");
                     int choice = sc.nextInt();
                     if (choice > 0 && choice <= internships.size()) {
@@ -89,60 +115,16 @@ public class ExploreInternshipService {
                     }
                     break;
 
-                // Filter base on student preference (ONLY FOR Y3/4 STUDENT)
+                // Edit Filters
                 case 2:
-                    if (student.getYearOfStudy() < 3) {
-                        System.out.println("Filter not available for Y1/2 Students.");
-                        break;
-                    }
-                    else {
-                        while (true) {
-
-                            try {
-                                System.out.println();
-                                System.out.print("Filter by 1.BASIC  |  2.INTERMEDIATE  |  3.ADVANCED  |  4.reset  |  0.Return  |  Input: ");
-                                int input = sc.nextInt();
-                                if (input == 0) break; // Go back
-                                else if (input == 4) {
-                                    levelSet = resetLevelFilter(student, levelSet);
-                                }
-                                else if (input < 1 || input > levels.size()) {
-                                    System.out.println("Invalid choice.");
-                                    continue;
-                                }
-                                else {
-                                    levelSet.clear();
-                                    levelSet.add(levels.get(input - 1));
-                                }
-
-                                internships = internshipApp.getFilteredInternships(student, levelSet);
-                                CSVBeutify.BeutifyNewFilter("AVAILABLE INTERNSHIP", internships, "title", "companyName", "major", "level", "closingDate");
-
-                            } catch (IOException e) {
-                                System.out.println("Error filtering internships: " + e.getMessage());
-                            }
-                        }
-                    }
+                    openFilterMenu(internshipFilter, student);
                     break;
                 case 9:
                     System.out.println("Going back to main menu..");
                     return;
+                default:
+                    System.out.println("Invalid input. Please try again.");
             }
-    
-            /*
-            // If user apply internship
-            if (selection > 0 && selection <=internships.size()) {
-                internshipApp.applyForInternship(student, internships.get(selection - 1));
-                System.out.println("Going back to main menu..");
-                return;
-            }
-            else if (selection != 0) {
-                System.out.println("Invalid input!");
-            }
-            else {
-                return;
-            }
-             */
         }
     }
 }
