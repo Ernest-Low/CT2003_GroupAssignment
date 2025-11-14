@@ -6,7 +6,9 @@ import java.util.Scanner;
 import java.util.Set;
 
 import dtos.InternshipFilter;
-import enums.UserType;
+import enums.InternshipLevel;
+import enums.InternshipStatus;
+import enums.Major;
 import model.CareerStaff;
 import model.CompanyRep;
 import model.Student;
@@ -15,7 +17,6 @@ public class InternshipFilterMain {
 
     private final InternshipFilter internshipFilter;
     private final Scanner sc;
-    private final UserType userType;
 
     private final InternshipFilterMajor internshipFilterMajor;
     private final InternshipFilterLevel internshipFilterLevel;
@@ -23,10 +24,9 @@ public class InternshipFilterMain {
     private final InternshipFilterClosingDate internshipFilterClosingDate;
 
     public InternshipFilterMain(CompanyRep companyRep) {
-        // * Company Rep: Can only see Internships that are of their own (companyNames)
+        // * Company Rep: Default: Can only see Internships that are of their own (companyNames)
         this.sc = new Scanner(System.in);
         internshipFilter = new InternshipFilter();
-        userType = UserType.COMPANYREP;
 
         this.internshipFilterMajor = new InternshipFilterMajor(internshipFilter, sc);
         this.internshipFilterLevel = new InternshipFilterLevel(internshipFilter, sc);
@@ -39,27 +39,38 @@ public class InternshipFilterMain {
     }
 
     public InternshipFilterMain(Student student) {
-        // * Students: Can only see Internships that are of their Major, and within level
+        // * Students: Default: Can only see Internships that are of their Major, and within level
         this.sc = new Scanner(System.in);
         internshipFilter = new InternshipFilter();
-        userType = UserType.STUDENT;
 
         this.internshipFilterMajor = new InternshipFilterMajor(internshipFilter, sc);
         this.internshipFilterLevel = new InternshipFilterLevel(internshipFilter, sc);
         this.internshipFilterStatus = new InternshipFilterStatus(internshipFilter, sc);
         this.internshipFilterClosingDate = new InternshipFilterClosingDate(internshipFilter, sc);
+
+        Set<Major> majors = new HashSet<>();
+        majors.add(student.getMajor());
+        this.internshipFilter.setMajors(majors);
+        if (student.getYearOfStudy() < 3) { // Year 1 / 2 students can ONLY apply for basic-level internnship
+            Set<InternshipLevel> levels = new HashSet<>();
+            levels.add(InternshipLevel.BASIC);
+            this.internshipFilter.setLevels(levels);
+        }
     }
 
     public InternshipFilterMain(CareerStaff careerStaff) {
-        // * Career Staff: Should only see Internships that are status = PENDING?
+        // * Career Staff: Default: Should only see Internships that are status = PENDING?
         this.sc = new Scanner(System.in);
         internshipFilter = new InternshipFilter();
-        userType = UserType.CAREERSTAFF;
 
         this.internshipFilterMajor = new InternshipFilterMajor(internshipFilter, sc);
         this.internshipFilterLevel = new InternshipFilterLevel(internshipFilter, sc);
         this.internshipFilterStatus = new InternshipFilterStatus(internshipFilter, sc);
         this.internshipFilterClosingDate = new InternshipFilterClosingDate(internshipFilter, sc);
+
+        Set<InternshipStatus> statuses = new HashSet<>();
+        statuses.add(InternshipStatus.PENDING);
+        this.internshipFilter.setStatuses(statuses);
     }
 
     private void openMenu() {
@@ -68,9 +79,7 @@ public class InternshipFilterMain {
         System.out.println("2: Filter by Levels");
         System.out.println("3: Filter by Statuses");
         System.out.println("4: Filter by Closing Date");
-        if (userType != UserType.COMPANYREP) {
-            System.out.println("5: Filter by Company Name");
-        }
+        System.out.println("5: Filter by Company Name");
         System.out.println("X: Return");
     }
 

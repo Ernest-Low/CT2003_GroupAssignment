@@ -1,5 +1,7 @@
 package constants;
 
+
+// * Any update to CSV Constant / Add more, edit config\CSVInitializer.java too
 public final class CSVPaths {
 
     private CSVPaths() {

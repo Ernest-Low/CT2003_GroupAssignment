@@ -47,13 +47,14 @@ public class InternshipService {
 
     }
 
+    // Cancel all the pending internship request / offers too, handle the students that were confirmed (too bad gotta apply again)
+    // Doesn't happen in this service, but on whatever calls this method
     // * Company Rep can only delete their own internship
     public void deleteInternship(String internshipID, String repID) {
         Internship target = internshipRepo.findById(internshipID);
         if (target.getCompanyID().equals(repID)) {
             internshipRepo.delete(internshipID);
             System.out.println("Successfully deleted");
-            // TODO: Cancel all the pending internship request / offers too, handle the students that were confirmed (too bad gotta apply again)
         } else {
             System.out.println("You can't delete an internship that's not yours!");
         }
@@ -62,10 +63,16 @@ public class InternshipService {
     public List<Internship> filterInternships(InternshipFilter filter) {
         return internshipRepo.findAll().stream()
                 .filter(internship -> filter.getCompanyNames() == null
+                        || filter.getCompanyNames().isEmpty()
                         || filter.getCompanyNames().contains(internship.getCompanyName()))
-                .filter(internship -> filter.getMajors() == null || filter.getMajors().contains(internship.getMajor()))
-                .filter(internship -> filter.getLevels() == null || filter.getLevels().contains(internship.getLevel()))
+                .filter(internship -> filter.getMajors() == null
+                        || filter.getMajors().isEmpty()
+                        || filter.getMajors().contains(internship.getMajor()))
+                .filter(internship -> filter.getLevels() == null
+                        || filter.getLevels().isEmpty()
+                        || filter.getLevels().contains(internship.getLevel()))
                 .filter(internship -> filter.getStatuses() == null
+                        || filter.getStatuses().isEmpty()
                         || filter.getStatuses().contains(internship.getStatus()))
                 .filter(internship -> filter.getClosingDateBefore() == null
                         || (internship.getClosingDate() != null
