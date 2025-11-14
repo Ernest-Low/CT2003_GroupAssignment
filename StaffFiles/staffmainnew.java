@@ -5,7 +5,7 @@ import java.util.*;
 
 //import goes here
 import model.*;
-import CSVMethods.CSVBeutify2;
+import CSVMethods.CSVBeutify;
 import CSVMethods.CSVFilter;
 
 
@@ -13,7 +13,7 @@ public class staffmainnew {
 
     private CareerStaff staff;
     private staffutilnew staffutil;
-    private Scanner scanner = new Scanner(System.in);
+    //private Scanner scanner = new Scanner(System.in);
 
     public staffmainnew (CareerStaff staff){
         this.staff = staff;
@@ -35,7 +35,7 @@ public class staffmainnew {
                     Allaccount = staffutil.mapToAllAccount();
                     //System.out.println(Allaccount);
 
-                    CSVBeutify2.BeutifyNewFilter("All Accounts", Allaccount,"id", "userType", "accountStatus");
+                    CSVBeutify.BeutifyNewFilter("All Accounts", Allaccount,"id", "userType", "accountStatus");
                     break;
                 case 2:
                     //view pending accounts

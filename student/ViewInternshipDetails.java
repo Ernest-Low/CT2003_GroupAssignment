@@ -1,6 +1,6 @@
 package student;
 
-import CSVMethods.CSVBeutify2;
+import CSVMethods.CSVBeutify;
 import internship_rs.InternshipApplicationService;
 import model.*;
 import java.util.*;
@@ -23,9 +23,8 @@ public class ViewInternshipDetails {
     public static void viewDetails(Student student, Internship internship) {
         System.out.println();
         InternshipApplicationService internshipApp = new InternshipApplicationService();
-        CSVBeutify2.BeutifyNewFilter("INTERNSHIP DETAIL", List.of(internship), "title","companyName", "major","level", "openingDate","closingDate");
-        System.out.println();
-        System.out.print("Description :");
+        CSVBeutify.BeutifyNewFilter("INTERNSHIP DETAIL", List.of(internship), "title","companyName", "major","level", "openingDate","closingDate");
+        System.out.println("Description:");
         System.out.println(internship.getDescription());
         System.out.println();
         int choice = 0;

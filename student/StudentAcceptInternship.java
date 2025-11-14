@@ -3,7 +3,7 @@ package student;
 import java.io.IOException;
 import java.util.*;
 
-import CSVMethods.CSVBeutify2;
+import CSVMethods.CSVBeutify;
 import model.*;
 import internship_rs.*;
 
@@ -44,7 +44,7 @@ public class StudentAcceptInternship {
                 System.out.println(i + ". ACCEPT - " + internships.get(i-1).getCompanyName() + ": " + internships.get(i-1).getTitle() + " ("+ internships.get(i-1).getLevel().getDisplayName() + ") ");
             }
             */
-            CSVBeutify2.BeutifyNewFilter("SUCCESSFUL APPLICATIONS", internships, "companyName", "title", "level" );
+            CSVBeutify.BeutifyNewFilter("SUCCESSFUL APPLICATIONS", internships, "companyName", "title", "level" );
         }
         else {
             System.out.println("You have no successful application.");
