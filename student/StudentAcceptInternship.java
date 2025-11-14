@@ -3,6 +3,7 @@ package student;
 import java.io.IOException;
 import java.util.*;
 
+import CSVMethods.CSVBeutify2;
 import model.*;
 import internship_rs.*;
 
@@ -32,20 +33,31 @@ public class StudentAcceptInternship {
         }
 
         int count = internships.size();
+        
         if (count > 0) {
             System.out.println("You have " + count + " successful application(s)!");
+            System.out.println();
+            /*
             System.out.println("Please select an action");
             for (int i = 1; i <= count; i++) {
                 System.out.println(i + ". ACCEPT - " + internships.get(i-1).getCompanyName() + ": " + internships.get(i-1).getTitle() + " ("+ internships.get(i-1).getLevel().getDisplayName() + ") ");
             }
+            */
+            CSVBeutify2.BeutifyNewFilter("SUCCESSFUL APPLICATIONS", internships, "companyName", "title", "level" );
         }
         else {
             System.out.println("You have no successful application.");
         }
+        System.out.println();
+        System.out.println("Please select an action");
+            for (int i = 1; i <= count; i++) {
+                System.out.println(i + ". ACCEPT - " + internships.get(i-1).getCompanyName() + ": " + internships.get(i-1).getTitle() + " ("+ internships.get(i-1).getLevel().getDisplayName() + ") ");
+            }
         int choice = openMenu();
 
         // User input apply application
         if (choice > 0 && choice <= count) {
+            
             // Update csv status -- to be run with method implemented by Daryl
             try {
                 internshipApp.acceptInternshipOffer(student, internships.get(choice - 1));
