@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // this class is for the company rep to review applications
+// this class handles the logic for approving and rejecting applications, as well as retrieving applicants for a specific internship.
 public class InternshipReviewService {
 
     private static final int APPROVAL_LIMIT = 10;

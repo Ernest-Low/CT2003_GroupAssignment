@@ -12,7 +12,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-// this class is for the student to apply for internships
+
+
+// this class is for the student to apply for internships 
+// this class handles the application logic, restrictions and validations of the code. 
 public class InternshipApplicationService {
 
     private static final int MAX_APPLICATIONS = 3;

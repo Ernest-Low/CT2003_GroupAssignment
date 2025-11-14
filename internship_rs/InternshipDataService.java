@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // this class is for getting data about internships
+// this is to read from the csv file and convert to Internship objects ensuring that the data is tracked across the different changes of approval and rejection by both the company rep and the student. 
 public class InternshipDataService {
 
     private static final String INTERNSHIPS_CSV = "data/internships.csv";
