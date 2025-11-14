@@ -43,7 +43,7 @@ public class CompanyRepEditInternship {
         this.companyRep = companyRep;
     }
 
-    private void PostInternshipInputs() {
+    private void EditInternshipInputs() {
         while (title.length() < 3 || title.length() > 50) {
             System.out.print("\nEnter title (Within 3-50 characters): ");
             title = sc.nextLine().trim();
@@ -124,7 +124,7 @@ public class CompanyRepEditInternship {
         closingDate = null;
         description = "";
 
-        PostInternshipInputs();
+        EditInternshipInputs();
 
         // String ID, String title, String companyName, String companyID, Major major, InternshipLevel level, int counter, int slots, LocalDate openingDate, LocalDate closingDate, InternshipStatus status, String description
         Internship editedInternship = new Internship(internship.getID(), this.title, internship.getCompanyName(),

@@ -39,7 +39,7 @@ public class CompanyRepMain {
         System.out.println("\nPlease select an action");
         System.out.println("1: Edit Password");
         System.out.println("2: Post new internship");
-        System.out.println("3: View posted internships");
+        System.out.println("3: View/Edit/Delete posted internships");
         System.out.println("4: View internship applications");
         System.out.println("X: Logout");
         System.out.print("\nEnter choice: ");
