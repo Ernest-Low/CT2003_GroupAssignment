@@ -7,12 +7,11 @@ import CSVMethods.CSVFilter;
 import CSVMethods.CSVWrite;
 import enums.InternshipApplicationStatus;
 import model.Internship;
-import model.Student;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 // this class is for the company rep to review applications
 public class InternshipReviewService {
@@ -87,8 +86,7 @@ public class InternshipReviewService {
 
                 // If the record was found, overwrite the CSV file with the updated data.
                 if (recordFound) {
-                    CSVWrite csvWriter = new CSVWrite();
-                    csvWriter.writeToCSV(STUDENT_INTERNSHIP_REL_CSV, allData);
+                    CSVWrite.writeToCSV(STUDENT_INTERNSHIP_REL_CSV, allData);
                     System.out.println("Status updated successfully.");
                     return true;
                 } else {
@@ -117,15 +115,14 @@ public class InternshipReviewService {
             String currentStatus = row[2];
 
             // check if its the right internship and if the status is pending
-            if (currentInternshipId.equals(internshipId) && currentStatus.equals("PENDING")) {
-                row[2] = "UNSUCCESSFUL"; // change to unsuccessful
+            if (currentInternshipId.equals(internshipId) && currentStatus.equals(InternshipApplicationStatus.PENDING.toString())) {
+                row[2] = InternshipApplicationStatus.UNSUCCESSFUL.toString(); // change to unsuccessful
                 changesMade = true;
             }
         }
 
         if (changesMade) {
-            CSVWrite csvWriter = new CSVWrite();
-            csvWriter.writeToCSV(STUDENT_INTERNSHIP_REL_CSV, allApplications);
+            CSVWrite.writeToCSV(STUDENT_INTERNSHIP_REL_CSV, allApplications);
             System.out.println("All pending application for this internship are rejected.");
         } else {
             System.out.println("No pending application to reject.");
@@ -148,7 +145,6 @@ public class InternshipReviewService {
         }
 
         if (changesMade) {
-            CSVWrite csvWriter = new CSVWrite();
             CSVWrite.writeToCSV(STUDENT_INTERNSHIP_REL_CSV, allApplications);
             System.out.println("All pending applications for internship " + internshipId + " have been rejected.");
         }

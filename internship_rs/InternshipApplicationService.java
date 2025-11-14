@@ -121,7 +121,7 @@ public class InternshipApplicationService {
                     offerIsSuccessful = true;
                     recordIndex = i; // save the line number
                 }
-                break;
+                // Removed break to correctly check all applications for the student
             }
         }
 
@@ -134,8 +134,7 @@ public class InternshipApplicationService {
             processPostAcceptanceTasks(student, allApplications);
 
             // write it back to the file using the public method
-            CSVWrite csvWriter = new CSVWrite();
-            csvWriter.writeToCSV(STUDENT_INTERNSHIP_REL_CSV, allApplications);
+            CSVWrite.writeToCSV(STUDENT_INTERNSHIP_REL_CSV, allApplications);
 
             // update the main internship list
             InternshipDataService dataService = new InternshipDataService();
@@ -218,8 +217,7 @@ public class InternshipApplicationService {
         allApplications.add(newApplicationData);
 
         // Now, write the entire updated list back to the CSV file.
-        CSVWrite csvWriter = new CSVWrite();
-        csvWriter.writeToCSV(STUDENT_INTERNSHIP_REL_CSV, allApplications);
+        CSVWrite.writeToCSV(STUDENT_INTERNSHIP_REL_CSV, allApplications);
 
         System.out.println("Application submitted successfully!");
         System.out.println("Internship application process finished.");

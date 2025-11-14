@@ -80,7 +80,7 @@ public class ExploreInternshipService {
                 case 1:
                     System.out.print("Select index to view details: ");
                     int choice = sc.nextInt();
-                    if (choice > 0 && choice < internships.size()) {
+                    if (choice > 0 && choice <= internships.size()) {
                         // Get details
                         ViewInternshipDetails.viewDetails(student, internships.get(choice - 1));
                     }

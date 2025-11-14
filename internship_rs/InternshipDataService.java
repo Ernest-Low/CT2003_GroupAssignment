@@ -99,7 +99,6 @@ public class InternshipDataService {
         }
 
         if (recordFound) {
-            CSVWrite csvWriter = new CSVWrite();
             CSVWrite.writeToCSV(INTERNSHIPS_CSV, allInternships);
         } else {
             // This case should ideally not happen if called after a successful offer acceptance.

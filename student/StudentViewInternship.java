@@ -61,6 +61,7 @@ public class StudentViewInternship {
         switch(choice) {
             case 1:
                 StudentAcceptInternship.acceptInternship(student);
+                break;
             case 9:
                 System.out.println("Returning to previous menu...");
                 break;
