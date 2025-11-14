@@ -46,7 +46,7 @@ public class CSVWrite {
             for (int i = 0; i < allData.size(); i++) {
                 String[] row = allData.get(i);
                 if (row[colPos].equals(userID)) {
-                    String oldVal = row[updateColPos];
+                    //String oldVal = row[updateColPos];
                     row[updateColPos] = updatedVal;
                     successful = true;
                     System.out.println("Changes have been made...\nUpdating to Database...");
@@ -57,7 +57,7 @@ public class CSVWrite {
             if (!successful) {
                 System.out.println("Error updating file, please check with system admin");
             } else {
-                System.out.println(allData);
+                //System.out.println(allData);
                 writeToCSV(CSVFile, allData);
             }
             

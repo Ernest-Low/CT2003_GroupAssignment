@@ -5,22 +5,24 @@ import java.util.*;
 
 //import goes here
 import model.*;
-import CSVMethods.CSVBeutify2;
+import CSVMethods.CSVBeutify;
+import login.*;
 import CSVMethods.CSVFilter;
+import dtos.LoginInfo;
 
 
 public class staffmainnew {
 
     private CareerStaff staff;
     private staffutilnew staffutil;
-    private Scanner scanner = new Scanner(System.in);
+    //private Scanner scanner = new Scanner(System.in);
 
     public staffmainnew (CareerStaff staff){
         this.staff = staff;
         this.staffutil = new staffutilnew();
     }
 
-    public void staffEntry(){
+    public void staffEntry(LoginInfo loginInfo){
         boolean dashboard = true;
 
         while(dashboard){
@@ -35,7 +37,7 @@ public class staffmainnew {
                     Allaccount = staffutil.mapToAllAccount();
                     //System.out.println(Allaccount);
 
-                    CSVBeutify2.BeutifyNewFilter("All Accounts", Allaccount,"id", "userType", "accountStatus");
+                    CSVBeutify.BeutifyNewFilter("All Accounts", Allaccount,"id", "userType", "accountStatus");
                     break;
                 case 2:
                     //view pending accounts
@@ -53,8 +55,8 @@ public class staffmainnew {
 
                     break;
                 case 4:
-                    //please help me mabel ty ty
-                    //changpassword()
+                    UpdatePasswordController updatePasswordController = new UpdatePasswordController();
+                    updatePasswordController.updatePassword(loginInfo.getID());
                     break;
                 case 5:
                     dashboard = false;
