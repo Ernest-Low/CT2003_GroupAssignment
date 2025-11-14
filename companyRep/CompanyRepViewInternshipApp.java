@@ -122,11 +122,13 @@ public class CompanyRepViewInternshipApp {
                 case "1":
                     selectedApp.setStatus(InternshipApplicationStatus.SUCCESSFUL);
                     services.internshipAppService.updateInternshipApp(selectedApp);
+                    internshipApps.remove(selectedApp);
                     System.out.println("\nAccepted the application, awaiting student confirmation.");
                     return;
                 case "2":
                     selectedApp.setStatus(InternshipApplicationStatus.UNSUCCESSFUL);
                     services.internshipAppService.updateInternshipApp(selectedApp);
+                    internshipApps.remove(selectedApp);
                     System.out.println("\nRejected the application.");
                     return;
                 default:
