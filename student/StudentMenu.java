@@ -23,6 +23,7 @@ public class StudentMenu {
         System.out.println("2: Explore Internship Opportunity");
         System.out.println("3: View Internships Applications");
         System.out.println("9: Logout");
+        System.out.println();
         System.out.print("Input: ");
         int num = Integer.parseInt(sc.next());
 

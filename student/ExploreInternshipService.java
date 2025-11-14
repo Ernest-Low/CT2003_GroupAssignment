@@ -25,6 +25,7 @@ public class ExploreInternshipService {
         System.out.println("1: View Internship Details");
         System.out.println("2: Filter Level");
         System.out.println("9: Return");
+        System.out.println();
         System.out.print("Input: ");
         int num = Integer.parseInt(sc.next());
 

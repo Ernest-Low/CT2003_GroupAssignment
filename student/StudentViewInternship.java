@@ -19,6 +19,7 @@ public class StudentViewInternship {
         System.out.println("Please select an action");
         System.out.println("1: Accept Successful Internship Application");
         System.out.println("9: Return");
+        System.out.println();
         System.out.print("Input: ");
         int num = Integer.parseInt(sc.next());
 

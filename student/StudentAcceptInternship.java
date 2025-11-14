@@ -13,6 +13,7 @@ public class StudentAcceptInternship {
 
     private static int openMenu() {
         System.out.println("9: Return");
+        System.out.println();
         System.out.print("Input: ");
         int num = Integer.parseInt(sc.next());
 
