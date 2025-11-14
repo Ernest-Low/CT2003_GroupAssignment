@@ -15,8 +15,6 @@ public class InternshipFilter {
     private Set<InternshipStatus> statuses = null;
     private LocalDate closingDateBefore = null;
     private LocalDate closingDateAfter = null;
-    private LocalDate openingDateBefore = null;
-    private LocalDate openingDateAfter = null;
 
     public Set<String> getCompanyNames() {
         return this.companyNames;
@@ -42,14 +40,6 @@ public class InternshipFilter {
         return this.closingDateAfter;
     }
 
-    public LocalDate getOpeningDateBefore() {
-        return this.openingDateBefore;
-    }
-
-    public LocalDate getOpeningDateAfter() {
-        return this.openingDateAfter;
-    }
-
     public void setCompanyNames(Set<String> companyNames) {
         this.companyNames = companyNames;
     }
@@ -72,14 +62,6 @@ public class InternshipFilter {
 
     public void setClosingDateAfter(LocalDate closingDateAfter) {
         this.closingDateAfter = closingDateAfter;
-    }
-
-    public void setOpeningDateBefore(LocalDate openingDateBefore) {
-        this.openingDateBefore = openingDateBefore;
-    }
-
-    public void setOpeningDateAfter(LocalDate openingDateAfter) {
-        this.openingDateAfter = openingDateAfter;
     }
 
 }

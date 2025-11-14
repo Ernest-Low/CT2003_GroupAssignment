@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-import CSVMethods.CSVBeutify2;
 import config.Services;
 import dtos.InternshipFilter;
 import internshipFilter.InternshipFilterMain;
@@ -26,48 +25,63 @@ public class CompanyRepViewInternship {
         this.internshipFilterMain = internshipFilterMain;
     }
 
-    private String openMenu() {
+    private void openMenu() {
         System.out.println("\nPlease select an action");
         System.out.println("1: Display Internships");
         System.out.println("2: Edit Filters");
         System.out.println("X: Return");
         System.out.print("\nEnter choice: ");
-        String input = sc.nextLine();
-
-        return input;
     }
 
     private void viewFilteredInternship() {
         List<Internship> results = services.internshipService.filterInternships(internshipFilter);
 
-        // * Will make this better later
-        CSVBeutify2.BeutifyNewFilter("Your Internships", results, "ID", "Title", "Company Name", "CompanyID", "Major",
-                "Level", "Counter", "Opening Date", "Closing Date", "Status", "Description");
+        String format = "%-33s %-18s %-12s %-12s %-12s %-12s %-60s";
 
-        // String ID, String title, String companyName, String companyID, Major major, InternshipLevel level,
-        //     int counter,
-        //     LocalDate openingDate, LocalDate closingDate, InternshipStatus status, String description
+        System.out.println("\nYour Internships:");
+        String header = String.format(
+                format,
+                "Title", "Major", "Level", "Opening", "Closing", "Status", "Description");
+        StringBuilder sb = new StringBuilder();
+        sb.append(header).append(System.lineSeparator());
 
+        for (Internship i : results) {
+            sb.append(String.format(
+                    format,
+                    i.getTitle(),
+                    i.getMajor().getDisplayName(),
+                    i.getLevel().getDisplayName(),
+                    i.getOpeningDate(),
+                    i.getClosingDate(),
+                    i.getStatus().name(),
+                    i.getDescription())).append(System.lineSeparator());
+        }
+
+        String table = sb.toString();
+        System.out.println(table);
     }
 
     public void CRepViewInternshipController() {
         String choice = "";
-        choice = openMenu();
-        while (choice.equalsIgnoreCase("x")) {
+        while (true) {
             try {
-                choice = openMenu();
-
+                openMenu();
+                choice = sc.nextLine();
                 switch (choice) {
-                    case "1" -> viewFilteredInternship();
-                    case "2" -> internshipFilterMain.InternshipFilterController();
-                    case "x", "X" -> System.out.println("\nReturning..."); // Exit back to menu
-                    default -> System.out.println("\nNot a valid input. Try again.");
+                    case "1":
+                        viewFilteredInternship();
+                        break;
+                    case "2":
+                        internshipFilterMain.InternshipFilterController();
+                        break;
+                    case "x", "X":
+                        return; // Exit back to menu
+                    default:
+                        System.out.println("\nNot a valid input. Try again.");
                 }
             } catch (NoSuchElementException e) {
                 System.out.println("\nInput was closed. Try again.");
             }
         }
-        return;
-
     }
 }
