@@ -143,9 +143,9 @@ public class InternshipAppRepoImpl implements InternshipAppRepo {
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
                 InternshipApp internshipApp = new InternshipApp(
+                        values[0],
                         values[1],
-                        values[2],
-                        InternshipApplicationStatus.valueOf(values[3]));
+                        InternshipApplicationStatus.valueOf(values[2]));
                 list.add(internshipApp);
             }
         } catch (IOException e) {
