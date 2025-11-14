@@ -104,7 +104,6 @@ public class Central {
 
         Student student = services.studentService.getStudentByID(loginInfo.getID());
 
-
         this.studentMain = new StudentMenu(student);
         this.studentMain.StudentController(loginInfo);
     }
@@ -120,12 +119,8 @@ public class Central {
 
     private void companyRepGateway(LoginInfo loginInfo) {
         // * Entry point Company Rep
-        CompanyRep companyRep = services.companyRepService.getCompanyRepByID(loginInfo.getID());
 
-        // ! Mock user
-        companyRep = new CompanyRep("C000001R", "alex.choi@novalink.com", "Alex Choi", "Novalink",
-                "Engineering",
-                "Software Engineer");
+        CompanyRep companyRep = services.companyRepService.getCompanyRepByID(loginInfo.getID());
 
         this.companyRepMain = new CompanyRepMain(services, companyRep);
         this.companyRepMain.CompanyRepController();
