@@ -114,7 +114,7 @@ public class Central {
         CareerStaff careerStaff = services.careerStaffService.getCareerStaffByID(loginInfo.getID());
 
         this.careerStaffMain = new staffmainnew(careerStaff);
-        this.careerStaffMain.staffEntry();
+        this.careerStaffMain.staffEntry(loginInfo);
     }
 
     private void companyRepGateway(LoginInfo loginInfo) {

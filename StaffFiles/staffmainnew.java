@@ -6,7 +6,9 @@ import java.util.*;
 //import goes here
 import model.*;
 import CSVMethods.CSVBeutify;
+import login.*;
 import CSVMethods.CSVFilter;
+import dtos.LoginInfo;
 
 
 public class staffmainnew {
@@ -20,7 +22,7 @@ public class staffmainnew {
         this.staffutil = new staffutilnew();
     }
 
-    public void staffEntry(){
+    public void staffEntry(LoginInfo loginInfo){
         boolean dashboard = true;
 
         while(dashboard){
@@ -53,8 +55,8 @@ public class staffmainnew {
 
                     break;
                 case 4:
-                    //please help me mabel ty ty
-                    //changpassword()
+                    UpdatePasswordController updatePasswordController = new UpdatePasswordController();
+                    updatePasswordController.updatePassword(loginInfo.getID());
                     break;
                 case 5:
                     dashboard = false;
