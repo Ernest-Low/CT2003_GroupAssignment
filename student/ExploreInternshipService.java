@@ -91,7 +91,7 @@ public class ExploreInternshipService {
                 System.out.println("No internship available for your major and current filters.");
             } else {
                 // Print out internships using CSVBeutify class
-                CSVBeutify.BeutifyNewFilter("AVAILABLE INTERNSHIP", internships, "title", "companyName", "major", "level", "closingDate");
+                CSVBeutify.BeutifyNewFilter("AVAILABLE INTERNSHIP", internships, "title", "title", "companyName", "major", "level", "closingDate");
             }
 
             System.out.println();
