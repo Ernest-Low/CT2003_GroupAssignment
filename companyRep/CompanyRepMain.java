@@ -36,13 +36,13 @@ public class CompanyRepMain {
     }
 
     private String openMenu() {
-        System.out.println("Please select an action");
+        System.out.println("\nPlease select an action");
         System.out.println("1: Edit Password");
         System.out.println("2: Post new internship");
         System.out.println("3: View posted internships");
         System.out.println("4: View internship applications");
         System.out.println("X: Logout");
-        System.out.print("Enter choice: ");
+        System.out.print("\nEnter choice: ");
         String input = sc.nextLine().toLowerCase();
 
         return input;
@@ -50,7 +50,7 @@ public class CompanyRepMain {
 
     public void CompanyRepController() {
         updatePasswordController = new UpdatePasswordController();
-        System.out.println("Welcome " + companyRep.getName());
+        // System.out.println("\nWelcome " + companyRep.getName());
         String choice = "";
         while (!choice.equalsIgnoreCase("X")) {
             try {
@@ -60,11 +60,11 @@ public class CompanyRepMain {
                     case "2" -> companyRepPostInternship.CRepPostInternshipController(); // Call create new internship opportunity method
                     case "3" -> companyRepViewInternship.CRepViewInternshipController(); // Call view internship posted
                     case "4" -> companyRepViewInternshipApp.viewInternshipAppController(); // Call view internship applications for review
-                    case "x" -> System.out.println("Exiting..."); // Exit
-                    default -> System.out.println("Not a valid input. Try again.");
+                    case "x" -> System.out.println("\nExiting..."); // Exit
+                    default -> System.out.println("\nNot a valid input. Try again.");
                 }
             } catch (NoSuchElementException e) {
-                System.out.println("Input was closed. Try again.");
+                System.out.println("\nInput was closed. Try again.");
             }
         }
 

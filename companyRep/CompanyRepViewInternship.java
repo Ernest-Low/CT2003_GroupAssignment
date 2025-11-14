@@ -27,11 +27,11 @@ public class CompanyRepViewInternship {
     }
 
     private String openMenu() {
-        System.out.println("Please select an action");
+        System.out.println("\nPlease select an action");
         System.out.println("1: Display Internships");
         System.out.println("2: Edit Filters");
         System.out.println("X: Return");
-        System.out.print("Enter choice: ");
+        System.out.print("\nEnter choice: ");
         String input = sc.nextLine();
 
         return input;
@@ -51,7 +51,6 @@ public class CompanyRepViewInternship {
     }
 
     public void CRepViewInternshipController() {
-        System.out.println("Entering view internship controller");
         String choice = "";
         choice = openMenu();
         while (choice.equalsIgnoreCase("x")) {
@@ -61,11 +60,11 @@ public class CompanyRepViewInternship {
                 switch (choice) {
                     case "1" -> viewFilteredInternship();
                     case "2" -> internshipFilterMain.InternshipFilterController();
-                    case "x", "X" -> System.out.println("Returning..."); // Exit back to menu
-                    default -> System.out.println("Not a valid input. Try again.");
+                    case "x", "X" -> System.out.println("\nReturning..."); // Exit back to menu
+                    default -> System.out.println("\nNot a valid input. Try again.");
                 }
             } catch (NoSuchElementException e) {
-                System.out.println("Input was closed. Try again.");
+                System.out.println("\nInput was closed. Try again.");
             }
         }
         return;

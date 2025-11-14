@@ -42,75 +42,73 @@ public class CompanyRepPostInternship {
 
     private void PostInternshipInputs() {
         while (title.length() < 3 || title.length() > 50) {
-            System.out.print("Enter title (Within 3-50 characters): ");
+            System.out.print("\nEnter title (Within 3-50 characters): ");
             title = sc.nextLine().trim();
-            if (title.length() > 0 && title.length() < 50) {
-                System.out.println("Invalid number of characters. Try again.");
+            if (title.length() < 3 || title.length() > 50) {
+                System.out.println("\nInvalid number of characters. Try again.");
             }
         }
         while (major == null) {
             System.out.println(
-                    "Majors: Computer Engineering -- Data Science -- Computer Science -- Information Engineering -- Electrical Engineering -- Mechanical Engineering -- Civil Engineering -- Business Administration -- Economics -- Psychology -- Biology -- Chemistry -- Physics -- Mathematics -- English Literature -- History -- Political Science -- Sociology -- Education -- Fine Arts");
-            System.out.print("Enter major: ");
+                    "\nMajors: Computer Engineering -- Data Science -- Computer Science -- Information Engineering -- Electrical Engineering -- Mechanical Engineering -- Civil Engineering -- Business Administration -- Economics -- Psychology -- Biology -- Chemistry -- Physics -- Mathematics -- English Literature -- History -- Political Science -- Sociology -- Education -- Fine Arts");
+            System.out.print("\nEnter major: ");
             String input = sc.nextLine().trim();
             try {
                 major = Major.fromString(input);
             } catch (IllegalArgumentException e) {
-                System.out.println("Invalid major. Try again.");
+                System.out.println("\nInvalid major. Try again.");
             }
         }
         while (level == null) {
-            System.out.print("Enter internship level (Basic, Intermediate, Advanced): ");
+            System.out.print("\nEnter internship level (Basic, Intermediate, Advanced): ");
             String input = sc.nextLine().trim();
             try {
                 level = InternshipLevel.fromString(input);
             } catch (IllegalArgumentException e) {
-                System.out.println("Invalid level. Try again.");
+                System.out.println("\nInvalid internship level. Try again.");
             }
         }
         while (openingDate == null) {
-            System.out.print("Enter opening date (D-M-YYYY): ");
+            System.out.print("\nEnter opening date (D-M-YYYY): ");
             try {
                 openingDate = LocalDate.parse(sc.nextLine().trim(), dateFormat);
             } catch (DateTimeParseException e) {
-                System.out.println("Invalid date format. Try again.");
+                System.out.println("\nInvalid date format. Try again.");
             }
         }
         while (closingDate == null) {
-            System.out.print("Enter closing date (D-M-YYYY): ");
+            System.out.print("\nEnter closing date (D-M-YYYY): ");
             try {
                 LocalDate inputDate = LocalDate.parse(sc.nextLine().trim(), dateFormat);
                 if (inputDate.isAfter(openingDate)) {
                     closingDate = inputDate;
                 } else {
-                    System.out.println("Closing date cannot be before opening date. Try again.");
+                    System.out.println("\nClosing date cannot be before opening date. Try again.");
                 }
             } catch (DateTimeParseException e) {
                 System.out.println("Invalid date format. Try again.");
             }
         }
         while (description.length() < 3 || description.length() > 150) {
-            System.out.print("Enter Description (Within 3-150 characters): ");
+            System.out.print("\nEnter Description (Within 3-150 characters): ");
             description = sc.nextLine().trim();
-            if (description.length() > 0 && description.length() < 150) {
-                System.out.println("Invalid number of characters. Try again.");
+            if (description.length() < 3 || description.length() > 150) {
+                System.out.println("\nInvalid number of characters. Try again.");
             }
         }
     }
 
     public void CRepPostInternshipController() {
-
-        System.out.println("Posting new Internship Opportunity...");
         PostInternshipInputs();
 
         String nextId = services.autoNumberService.generateNextId(TableIndex.INTERNSHIP);
         String companyName = this.companyRep.getCompanyName();
-        String companyID = this.companyRep.getId();
+        String companyID = this.companyRep.getGUID();
         services.internshipService.createInternship(nextId, title,
                 companyName,
                 companyID, major, level, openingDate,
                 closingDate, description);
-        System.out.println("Successfully created internship!");
+        System.out.println("\nSuccessfully created internship!");
         return;
     }
 

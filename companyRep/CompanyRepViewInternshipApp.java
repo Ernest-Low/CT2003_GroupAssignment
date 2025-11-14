@@ -26,13 +26,16 @@ public class CompanyRepViewInternshipApp {
     private List<Student> students;
 
     private Map<Integer, String> menuMap; // Display map
-    private Map<Integer, InternshipApp> internshipAppMap; // Access map
+    private Map<Integer, InternshipApp> internshipAppMap ; // Access map
 
     public CompanyRepViewInternshipApp(Services services, CompanyRep companyRep, Scanner sc) {
         this.services = services;
         this.companyRep = companyRep;
         this.sc = sc;
 
+        this.internships = List.of();
+        this.internshipApps = List.of();
+        this.students = List.of();
         this.internshipAppFilter = new InternshipAppFilter();
         this.menuMap = new LinkedHashMap<>();
         this.internshipAppMap = new LinkedHashMap<>();
@@ -43,11 +46,6 @@ public class CompanyRepViewInternshipApp {
     private void createDisplayMap() {
         this.menuMap.clear();
         this.internshipAppMap.clear();
-
-        if (internshipApps.isEmpty()) {
-            System.out.println("No current internship applications awaiting action. Enter X to go back.");
-            return;
-        }
 
         int idx = 1;
         for (InternshipApp internshipApp : internshipApps) { // For every app, make a nice string
@@ -61,9 +59,9 @@ public class CompanyRepViewInternshipApp {
             this.internshipAppMap.put(idx, internshipApp);
             idx++;
         }
-        System.out.println("Select an internship application");
+        System.out.println("\nSelect an internship application");
         menuMap.forEach((number, description) -> System.out.println(number + ": " + description));
-        System.out.println("X: Back");
+        System.out.println("X: Back\n");
     }
 
     private void findInternships() {
@@ -84,8 +82,7 @@ public class CompanyRepViewInternshipApp {
         }
     }
 
-    private void findStudents() {
-        // StudentIDs set
+    private void findStudents() { // StudentIDs set
         Set<String> studentIDs = Set.of();
         for (InternshipApp internshipApp : this.internshipApps) {
             studentIDs.add(internshipApp.getStudentID());
@@ -99,16 +96,16 @@ public class CompanyRepViewInternshipApp {
 
     private void handleInternshipApp(InternshipApp selectedApp, int selected) {
         while (true) {
-            System.out.println("Selected: " + menuMap.get(selected));
+            System.out.println("\nSelected: " + menuMap.get(selected));
             System.out.println("1: Accept");
             System.out.println("2: Reject");
             System.out.println("X: Return");
             String input = "";
-            System.out.print("Enter choice: ");
+            System.out.print("\nEnter choice: ");
             try {
                 input = sc.nextLine();
             } catch (NoSuchElementException e) {
-                System.out.println("Input was closed. Try again.");
+                System.out.println("\nInput was closed. Try again.");
             }
             if (input.equalsIgnoreCase("X")) {
                 return;
@@ -117,15 +114,15 @@ public class CompanyRepViewInternshipApp {
                 case "1":
                     selectedApp.setStatus(InternshipApplicationStatus.SUCCESSFUL);
                     services.internshipAppService.updateInternshipApp(selectedApp);
-                    System.out.println("Accepted the application, awaiting student confirmation.");
+                    System.out.println("\nAccepted the application, awaiting student confirmation.");
                     return;
                 case "2":
                     selectedApp.setStatus(InternshipApplicationStatus.UNSUCCESSFUL);
                     services.internshipAppService.updateInternshipApp(selectedApp);
-                    System.out.println("Rejected the application.");
+                    System.out.println("\nRejected the application.");
                     return;
                 default:
-                    System.out.println("Not a valid input. Try again.");
+                    System.out.println("\nNot a valid input. Try again.");
             }
         }
     }
@@ -136,17 +133,22 @@ public class CompanyRepViewInternshipApp {
 
         // ? The calls to CSVs, try to avoid recalling it all the time (as if it's a DB)
         findInternships(); // Get Internships belonging to company rep
+
+        if (internshipApps == null || internshipApps.isEmpty()) {
+            System.out.println("\nNo current internship applications awaiting action. Returning.");
+            return;
+        }
         findInternshipApps(); // Use Internships to find InternshipApps, populate internshipApps
         findStudents(); // Now to find the students using InternshipApps
 
         while (true) {
             createDisplayMap();
             String input = "";
-            System.out.print("Enter choice: ");
+            System.out.print("\nEnter choice: ");
             try {
                 input = sc.nextLine();
             } catch (NoSuchElementException e) {
-                System.out.println("Input was closed. Try again.");
+                System.out.println("\nInput was closed. Try again.");
             }
             if (input.equalsIgnoreCase("X")) {
                 return;
@@ -155,12 +157,12 @@ public class CompanyRepViewInternshipApp {
             try {
                 selected = Integer.parseInt(input);
             } catch (NumberFormatException nfe) {
-                System.out.println("Invalid selection. Enter a number or X to go back.");
+                System.out.println("\nInvalid selection. Enter a number or X to go back.");
                 continue;
             }
             InternshipApp selectedApp = internshipAppMap.get(selected);
             if (selectedApp == null) {
-                System.out.println("Selection out of range. Try again.");
+                System.out.println("\nSelection out of range. Try again.");
                 continue;
             }
             handleInternshipApp(selectedApp, selected);

@@ -58,17 +58,18 @@ public class InternshipRepoImpl implements InternshipRepo {
                 String recordId = values[columnNo];
                 if (recordId.equals(value)) {
                     Internship internship = new Internship(
-                            values[0], // ID
-                            values[1],
-                            values[2],
-                            values[3],
-                            Major.valueOf(values[4]),
-                            InternshipLevel.valueOf(values[5]),
-                            Integer.parseInt(values[6]),
-                            LocalDate.parse(values[7]),
-                            LocalDate.parse(values[8]),
-                            InternshipStatus.valueOf(values[9]),
-                            values[10]);
+                            values[0], // String ID
+                            values[1], // String title
+                            values[2], // String companyName
+                            values[3], // String companyID
+                            Major.valueOf(values[4]), // Major major
+                            InternshipLevel.valueOf(values[5]), // Internshiplevel level
+                            Integer.parseInt(values[6]), // int counter
+                            LocalDate.parse(values[7]), // LocalDate openingDate
+                            LocalDate.parse(values[8]), // LocalDate closingDate
+                            InternshipStatus.valueOf(values[9]), // Internshipstatus status
+                            values[10] // String description
+                    );
                     list.add(internship);
                 }
             }
