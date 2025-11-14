@@ -14,9 +14,10 @@ public class CompanyRepMain {
     private CompanyRep companyRep;
     private final Scanner sc;
 
-    private final CompanyRepPostInternship cRepPostInternship;
+    private final CompanyRepPostInternship companyRepPostInternship;
     // private final CompanyRepEditProfile cRepEditProfile;
-    private final CompanyRepViewInternship cRepViewInternship;
+    private final CompanyRepViewInternship companyRepViewInternship;
+    private final CompanyRepViewInternshipApp companyRepViewInternshipApp;
     private final Services services;
     private final InternshipFilter internshipFilter;
     private UpdatePasswordController updatePasswordController;
@@ -28,9 +29,10 @@ public class CompanyRepMain {
 
         InternshipFilterMain internshipFilterMain = new InternshipFilterMain(companyRep, sc);
         this.internshipFilter = internshipFilterMain.getInternshipFilter();
-        this.cRepPostInternship = new CompanyRepPostInternship(this.services, this.companyRep, sc);
+        this.companyRepPostInternship = new CompanyRepPostInternship(this.services, this.companyRep, sc);
         // this.cRepEditProfile = new CompanyRepEditProfile(this.services, this.companyRep, sc);
-        this.cRepViewInternship = new CompanyRepViewInternship(services, sc, internshipFilter, internshipFilterMain);
+        this.companyRepViewInternship = new CompanyRepViewInternship(services, sc, internshipFilter, internshipFilterMain);
+        this.companyRepViewInternshipApp = new CompanyRepViewInternshipApp(services, companyRep, sc);
     }
 
     private String openMenu() {
@@ -55,9 +57,9 @@ public class CompanyRepMain {
                 choice = openMenu();
                 switch (choice) {
                     case "1" -> updatePasswordController.updatePassword(companyRep.getId()); // Call edit profile method
-                    case "2" -> cRepPostInternship.CRepPostInternshipController(); // Call create new internship opportunity method
-                    case "3" -> cRepViewInternship.CRepViewInternshipController(); // Call view internship posted
-                    case "4" -> System.out.println("4"); // Call view internship applications for review
+                    case "2" -> companyRepPostInternship.CRepPostInternshipController(); // Call create new internship opportunity method
+                    case "3" -> companyRepViewInternship.CRepViewInternshipController(); // Call view internship posted
+                    case "4" -> companyRepViewInternshipApp.viewInternshipAppController(); // Call view internship applications for review
                     case "x" -> System.out.println("Exiting..."); // Exit
                     default -> System.out.println("Not a valid input. Try again.");
                 }
