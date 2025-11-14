@@ -18,13 +18,14 @@ public class Internship {
     private Major major; // Prefered Major
     private InternshipLevel level; // BASIC, INTERMEDIATE, ADVANCED
     private int counter; // Count of internships confirmed
+    private int slots;
     private LocalDate openingDate;
     private LocalDate closingDate;
     private InternshipStatus status; // PENDING, APPROVED, REJECTED, FILLED
     private String description;
 
     public Internship(String ID, String title, String companyName, String companyID, Major major, InternshipLevel level,
-            int counter,
+            int counter, int slots,
             LocalDate openingDate, LocalDate closingDate, InternshipStatus status, String description) {
         this.ID = ID;
         this.title = title;
@@ -33,6 +34,7 @@ public class Internship {
         this.major = major;
         this.level = level;
         this.counter = counter;
+        this.slots = slots;
         this.openingDate = openingDate;
         this.closingDate = closingDate;
         this.status = status;
@@ -65,6 +67,10 @@ public class Internship {
 
     public int getCounter() {
         return this.counter;
+    }
+
+    public int getSlots() {
+        return this.slots;
     }
 
     public void incrementCounter() {
@@ -110,6 +116,10 @@ public class Internship {
 
     public void setCounter(int counter) {
         this.counter = counter;
+    }
+
+    public void setSlots(int slots) {
+        this.slots = slots;
     }
 
     public void setOpeningDate(LocalDate openingDate) {

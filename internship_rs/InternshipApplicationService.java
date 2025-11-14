@@ -2,6 +2,7 @@ package internship_rs;
 
 import CSVMethods.CSVRead;
 import CSVMethods.CSVWrite;
+import dtos.InternshipFilter;
 import enums.InternshipApplicationStatus;
 import enums.InternshipLevel;
 import enums.InternshipStatus;
@@ -19,16 +20,7 @@ public class InternshipApplicationService {
     private static final int MAX_APPLICATIONS = 3;
     private static final String STUDENT_INTERNSHIP_REL_CSV = "data/student_internship_rel.csv";
 
-    /**
-     * This new method helps find internships for a student.
-     * It needs the 'student' to check their major.
-     * It also needs 'desiredLevels', which is a list of levels like "BASIC" or "ADVANCED" that the student wants to see.
-     *
-     * @param student The student who is looking for internships.
-     * @param desiredLevels The levels of internship the student wants to filter by.
-     * @return A list of internships that match what the student is looking for.
-     */
-    public List<Internship> getFilteredInternships(Student student, Set<InternshipLevel> desiredLevels) throws IOException {
+    public List<Internship> getFilteredInternships(Student student, InternshipFilter filter) throws IOException {
         InternshipDataService dataService = new InternshipDataService();
         List<Internship> allInternships = dataService.readInternships();
         
@@ -45,10 +37,14 @@ public class InternshipApplicationService {
             boolean isCorrectMajor = internship.getMajor() == student.getMajor();
 
             // Check 3: Is the internship's level one of the levels the student wants to see?
-            boolean isDesiredLevel = desiredLevels.contains(internship.getLevel());
+            boolean isDesiredLevel = filter.getLevels().isEmpty() || filter.getLevels().contains(internship.getLevel());
 
-            // If all three checks are true, add the internship to our list.
-            if (isOpen && isCorrectMajor && isDesiredLevel) {
+            // Check 4: Closing date filter
+            boolean afterOk = filter.getClosingDateAfter() == null || !internship.getClosingDate().isBefore(filter.getClosingDateAfter());
+            boolean beforeOk = filter.getClosingDateBefore() == null || !internship.getClosingDate().isAfter(filter.getClosingDateBefore());
+
+            // If all checks are true, add the internship to our list.
+            if (isOpen && isCorrectMajor && isDesiredLevel && afterOk && beforeOk) {
                 filteredList.add(internship);
             }
         }
@@ -149,12 +145,7 @@ public class InternshipApplicationService {
         }
     }
 
-    /**
-     * Handles tasks after a student accepts an offer, such as withdrawing other applications.
-     * This method modifies the list of applications in memory.
-     * @param student The student who accepted the offer.
-     * @param allApplications The list of all applications, which will be modified.
-     */
+
     private void processPostAcceptanceTasks(Student student, List<String[]> allApplications) {
         // Iterate through all applications and withdraw any others from the same student
         for (int i = 1; i < allApplications.size(); i++) {
