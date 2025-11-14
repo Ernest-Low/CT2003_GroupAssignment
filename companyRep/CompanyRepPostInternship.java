@@ -70,13 +70,13 @@ public class CompanyRepPostInternship {
             }
         }
         while (slots <= 0) {
-            System.out.print("\nEnter number of slots available (must be > 0): ");
+            System.out.print("\nEnter number of slots available (1-10): ");
             try {
                 int inputSlots = Integer.parseInt(sc.nextLine().trim());
-                if (inputSlots > 0) {
+                if (inputSlots > 0 && inputSlots <= 10) {
                     slots = inputSlots;
                 } else {
-                    System.out.println("\nNumber of slots must be greater than 0. Try again.");
+                    System.out.println("\nNumber of slots must be between 1 and 10. Try again.");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("\nInvalid input. Please enter a number.");
