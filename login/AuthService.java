@@ -21,7 +21,6 @@ public class AuthService {
 
     //private static final CSVMethods csvmethods = new CSVMethods();
     private static final CSVRead csvread = new CSVRead();
-    private static final CSVWrite csvwrite = new CSVWrite();
 
     protected static LoginInfo login(String input_username, String input_password) {
         // check if username exists in csv
