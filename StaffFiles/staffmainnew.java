@@ -53,7 +53,7 @@ public class staffmainnew {
                     break;
                 case 3:
                     List <String[]> ruleFilter2 = new ArrayList<>();
-                    //ruleFilter2.add(new String[] {"status", "PENDING"});
+                    ruleFilter2.add(new String[] {"status", "PENDING"});
 
                     staffutil.updateStatINT(ruleFilter2, "All Pending Internship");
 
