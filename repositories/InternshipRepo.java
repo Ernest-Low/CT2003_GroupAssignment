@@ -7,6 +7,8 @@ import model.Internship;
 public interface InternshipRepo {
     Internship findById(String id);
 
+    List<Internship> findAllByColumn(String value, int columnNo);
+
     void save(Internship internship);
 
     void update(Internship internship);

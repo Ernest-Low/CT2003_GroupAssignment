@@ -24,7 +24,7 @@ public class CareerStaffRepoImpl implements CareerStaffRepo {
                 if (recordId.equals(value)) {
                     // String GUID, String ID, String name, String staffDepartment
                     return new CareerStaff(
-                            recordId,
+                            values[0],
                             values[1], // String
                             values[2],
                             values[3]

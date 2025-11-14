@@ -23,6 +23,10 @@ public class InternshipService {
         return internshipRepo.findById(ID);
     }
 
+    public List<Internship> getInternships(String value, int columnNo) {
+        return internshipRepo.findAllByColumn(value, columnNo);
+    }
+
     public void createInternship(String ID, String title, String companyName, String companyID, Major major,
             InternshipLevel level,
             LocalDate openingDate, LocalDate closingDate, String description) {
@@ -78,18 +82,5 @@ public class InternshipService {
                 .sorted(Comparator.comparing(Internship::getTitle, String.CASE_INSENSITIVE_ORDER))
                 .toList();
     }
-
-    // public void updateCompany(String companyID) {
-    //     // Take in companyID, read from CSV and update this
-    //     // ! Ensure the companyID exists!
-    //     // Remember to write to csv too
-    // }
-
-    // public void updateMajor(Major major) {
-    //     this.major = major;
-    //     // Remember to write to csv too
-    // }
-
-    // continue with other editable values
 
 }

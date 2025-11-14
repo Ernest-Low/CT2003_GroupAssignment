@@ -24,7 +24,7 @@ public class CompanyRepRepoImpl implements CompanyRepRepo {
                 if (recordId.equals(value)) {
                     // String GUID, String ID, String name, String companyName, String department, String position
                     return new CompanyRep(
-                            recordId,
+                            values[0],
                             values[1], // String
                             values[2],
                             values[3],

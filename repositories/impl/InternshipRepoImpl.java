@@ -49,6 +49,36 @@ public class InternshipRepoImpl implements InternshipRepo {
     }
 
     @Override
+    public List<Internship> findAllByColumn(String value, int columnNo) {
+        List<Internship> list = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(CSVPaths.INTERNSHIPS_CSV))) {
+            String line = br.readLine();
+            while ((line = br.readLine()) != null) {
+                String[] values = line.split(",");
+                String recordId = values[columnNo];
+                if (recordId.equals(value)) {
+                    Internship internship = new Internship(
+                            values[0], // ID
+                            values[1],
+                            values[2],
+                            values[3],
+                            Major.valueOf(values[4]),
+                            InternshipLevel.valueOf(values[5]),
+                            Integer.parseInt(values[6]),
+                            LocalDate.parse(values[7]),
+                            LocalDate.parse(values[8]),
+                            InternshipStatus.valueOf(values[9]),
+                            values[10]);
+                    list.add(internship);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    @Override
     public void save(Internship internship) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(CSVPaths.INTERNSHIPS_CSV, true))) {
             // String ID, String title, String companyName, String companyID, Major major, InternshipLevel level, int counter, LocalDate openingDate, LocalDate closingDate,

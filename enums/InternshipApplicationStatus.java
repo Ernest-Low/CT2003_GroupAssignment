@@ -2,7 +2,7 @@ package enums;
 
 public enum InternshipApplicationStatus {
     PENDING,
-    SUCCESSFUL,
-    UNSUCCESSFUL,
-    ACCEPTED
+    SUCCESSFUL, // Company Rep is interested
+    UNSUCCESSFUL, // Rejected
+    ACCEPTED // Student accepted after company rep
 }

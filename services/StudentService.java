@@ -1,5 +1,7 @@
 package services;
 
+import java.util.List;
+
 import model.Student;
 import repositories.StudentRepo;
 
@@ -17,6 +19,10 @@ public class StudentService {
 
     public Student getStudentByID(String id) {
         return studentRepo.findFirstByColumn(id, 1);
+    }
+
+    public List<Student> getStudentsByColumn(String value, int ColumnNo) {
+        return studentRepo.findAllByColumn(value, ColumnNo);
     }
 
 }
