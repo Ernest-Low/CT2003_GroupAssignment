@@ -44,7 +44,7 @@ public class staffutilnew {
 
             if (AllaccPending.isEmpty()){
                 dashboard = false;
-                System.out.println("No Pending Account...");
+                System.out.println("No Pending Account for Approval...");
                 return;
             }
             CSVBeutify.BeutifyNewFilter(title, AllaccPending, "accountStatus", "id","userType", "accountStatus");
@@ -83,6 +83,13 @@ public class staffutilnew {
 
             AllIntPending = mapToAllInternship();
             AllIntPending = CSVFilter.filter4Obj(AllIntPending, penFilter, "title");
+
+            if (AllIntPending.isEmpty()){
+                dashboard = false;
+                System.out.println("No Pending Internship for Approval...");
+                return;
+            }
+
             CSVBeutify.BeutifyNewFilter(title, AllIntPending, "title", "ID","title", "companyName", "major", "level", "status", "description");
 
             uiStatus();
