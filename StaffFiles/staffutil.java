@@ -86,6 +86,7 @@ public class staffutil {
                 System.out.println("Which Account would you like to Approve/Reject?");
                 System.out.println("Please choose by Row number: \n");
                 int approveChoice = scanner.nextInt();
+                scanner.nextLine();
 
                 if (approveChoice > 0){
 
@@ -117,6 +118,7 @@ public class staffutil {
         System.out.println("2. Reject D:");
 
         int choice = scanner.nextInt();
+        scanner.nextLine();
 
         switch(choice){
             case 1:
