@@ -19,7 +19,7 @@ public class CSVInitializer {
             CSVPaths.CREDENTIALS_CSV, "ID,salt,hash,usertype,AccountStatus",
             CSVPaths.AUTONUMBERS_CSV, "ID,tableIndex,prefix,currentValue,suffix,incrementStep,paddingLength",
             CSVPaths.INTERNSHIPS_CSV,
-            "ID,title,companyName,companyID,major,level,counter,openingDate,closingDate,status,description",
+            "ID,title,companyName,companyID,major,level,counter,slot,openingDate,closingDate,status,description",
             CSVPaths.INTERNSHIP_APPLICATION_CSV, "StudentID,InternshipID,Status");
 
     public static void initializeCSVs() {
