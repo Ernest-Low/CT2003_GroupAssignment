@@ -8,6 +8,7 @@ import CSVMethods.*;
 import dtos.LoginInfo;
 
 import enums.AccountStatus;
+import enums.TableIndex;
 import enums.UserType;
 import repositories.impl.AutoNumberRepoImpl;
 
@@ -111,7 +112,8 @@ public class AuthService {
         }
 
         // generate GUID
-        
+        AutoNumberService autoNumberService = new AutoNumberService(new AutoNumberRepoImpl());
+        String guid = autoNumberService.generateNextId(TableIndex.COMPANYREP);
 
         List<String[]> profileList = csvread.ReadAll(COMPANYREP_CSV_FILE);
         // store new credentials into csv
