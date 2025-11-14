@@ -3,5 +3,5 @@ ID,tableIndex,prefix,currentValue,suffix,incrementStep,paddingLength
 2,COMPANYREP,C,17,R,1,6
 3,CAREERSTAFF,C,10,S,1,6
 4,CREDENTIAL,C,0,L,1,6
-5,INTERNSHIP,I,14,P,1,6
+5,INTERNSHIP,I,15,P,1,6
 6,INTERNSHIPAPP,I,10,A,1,6
