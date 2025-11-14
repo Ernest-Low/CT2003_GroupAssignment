@@ -14,10 +14,15 @@ public class StudentAcceptInternship {
     private static int openMenu() {
         System.out.println("9: Return");
         System.out.println();
-        System.out.print("Input: ");
-        int num = Integer.parseInt(sc.next());
-
-        return num;
+        while (true) {
+            try{
+                System.out.print("Input: ");
+                int num = Integer.parseInt(sc.next());
+                    return num;
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid Input!");
+            }
+        }
     }
 
     public static void acceptInternship(Student student) {

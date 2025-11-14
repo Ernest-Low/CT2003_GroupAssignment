@@ -15,16 +15,22 @@ public class ViewInternshipDetails {
         System.out.println("1: Apply internship");
         System.out.println("9: Return");
         System.out.println();
-        System.out.print("Input: ");
-        int num = Integer.parseInt(sc.next());
-
-        return num;
+        while (true) {
+            try{
+                System.out.print("Input: ");
+                int num = Integer.parseInt(sc.next());
+                    return num;
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid Input!");
+            }
+        }
     }
     public static void viewDetails(Student student, Internship internship) {
         System.out.println();
         InternshipApplicationService internshipApp = new InternshipApplicationService();
         CSVBeutify.BeutifyNewFilter("INTERNSHIP DETAIL", List.of(internship), "title", "title", "companyName", "major","level", "openingDate","closingDate");
-        System.out.println("Description:");
+        System.out.println();
+        System.out.print("Description: ");
         System.out.println(internship.getDescription());
         System.out.println();
         int choice = 0;

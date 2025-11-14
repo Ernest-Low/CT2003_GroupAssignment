@@ -20,10 +20,15 @@ public class StudentViewInternship {
         System.out.println("1: Accept Successful Internship Application");
         System.out.println("9: Return");
         System.out.println();
-        System.out.print("Input: ");
-        int num = Integer.parseInt(sc.next());
-
-        return num;
+        while (true) {
+            try{
+                System.out.print("Input: ");
+                int num = Integer.parseInt(sc.next());
+                    return num;
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid Input!");
+            }
+        }
     }
 
     public static void viewAppliedInternship(Student student) {

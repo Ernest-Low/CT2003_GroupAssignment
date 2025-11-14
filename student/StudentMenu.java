@@ -1,5 +1,6 @@
 package student;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -26,10 +27,15 @@ public class StudentMenu {
         System.out.println("3: View Internships Applications");
         System.out.println("9: Logout");
         System.out.println();
-        System.out.print("Input: ");
-        int num = Integer.parseInt(sc.next());
-
-        return num;
+        while (true) {
+            try{
+                System.out.print("Input: ");
+                int num = Integer.parseInt(sc.next());
+                    return num;
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid Input!");
+            }
+        }
     }
 
     public void StudentController(LoginInfo loginInfo) {
