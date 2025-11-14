@@ -19,10 +19,16 @@ public class StudentViewInternship {
         System.out.println("Please select an action");
         System.out.println("1: Accept Successful Internship Application");
         System.out.println("9: Return");
-        System.out.print("Input: ");
-        int num = Integer.parseInt(sc.next());
-
-        return num;
+        System.out.println();
+        while (true) {
+            try{
+                System.out.print("Input: ");
+                int num = Integer.parseInt(sc.next());
+                    return num;
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid Input!");
+            }
+        }
     }
 
     public static void viewAppliedInternship(Student student) {

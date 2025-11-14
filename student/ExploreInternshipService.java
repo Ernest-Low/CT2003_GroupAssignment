@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.*;
 
 import CSVMethods.CSVBeutify;
+import CSVMethods.CSVFilter;
 import dtos.InternshipFilter;
 import model.*;
 import internship_rs.*;
@@ -22,10 +23,16 @@ public class ExploreInternshipService {
         System.out.println("1: View Internship Details");
         System.out.println("2: Edit Filters");
         System.out.println("9: Return");
-        System.out.print("Input: ");
-        int num = Integer.parseInt(sc.next());
-
-        return num;
+        System.out.println();
+        while (true) {
+            try{
+                System.out.print("Input: ");
+                int num = Integer.parseInt(sc.next());
+                    return num;
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid Input!");
+            }
+        }
     }
 
     private static void openFilterMenu(InternshipFilter filter, Student student) {
@@ -35,8 +42,11 @@ public class ExploreInternshipService {
             System.out.println("2: Filter by Closing Date");
             System.out.println("9: Back to Internships");
             System.out.print("Enter choice: ");
-            String choice = sc.next();
+            String choice = "";
+
+            choice = sc.next();
             sc.nextLine(); // consume newline
+
 
             switch (choice) {
                 case "1":
@@ -92,7 +102,7 @@ public class ExploreInternshipService {
             } else {
                 // Print out internships using CSVBeutify class
                 CSVBeutify.BeutifyNewFilter("AVAILABLE INTERNSHIP", internships, "title", "title", "companyName", "major", "level", "closingDate");
-                
+                internships.sort(Comparator.comparing(Internship::getTitle));
             }
 
             System.out.println();
