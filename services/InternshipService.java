@@ -40,7 +40,6 @@ public class InternshipService {
         Internship target = internshipRepo.findById(internship.getID());
         if (target.getCompanyID().equals(repID)) {
             internshipRepo.update(internship);
-            System.out.println("Successfully updated");
         } else {
             System.out.println("You can't update an internship that's not yours!");
         }
@@ -54,7 +53,6 @@ public class InternshipService {
         Internship target = internshipRepo.findById(internshipID);
         if (target.getCompanyID().equals(repID)) {
             internshipRepo.delete(internshipID);
-            System.out.println("Successfully deleted");
         } else {
             System.out.println("You can't delete an internship that's not yours!");
         }

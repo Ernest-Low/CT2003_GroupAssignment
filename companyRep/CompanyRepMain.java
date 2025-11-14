@@ -29,10 +29,10 @@ public class CompanyRepMain {
 
         InternshipFilterMain internshipFilterMain = new InternshipFilterMain(companyRep);
         this.internshipFilter = internshipFilterMain.getInternshipFilter();
-        this.companyRepPostInternship = new CompanyRepPostInternship(this.services, this.companyRep, sc);
+        this.companyRepPostInternship = new CompanyRepPostInternship(this.services, companyRep, sc);
         // this.cRepEditProfile = new CompanyRepEditProfile(this.services, this.companyRep, sc);
-        this.companyRepViewInternship = new CompanyRepViewInternship(services, sc, internshipFilter, internshipFilterMain);
-        this.companyRepViewInternshipApp = new CompanyRepViewInternshipApp(services, companyRep, sc);
+        this.companyRepViewInternship = new CompanyRepViewInternship(this.services, sc, internshipFilter, internshipFilterMain, companyRep);
+        this.companyRepViewInternshipApp = new CompanyRepViewInternshipApp(this.services, companyRep, sc);
     }
 
     private String openMenu() {
