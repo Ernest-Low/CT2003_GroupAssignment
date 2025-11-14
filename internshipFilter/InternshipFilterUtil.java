@@ -4,8 +4,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class InternshipFilterUtil {
-    public static void addOrRemove(Boolean addFilter) {
-        Scanner sc = new Scanner(System.in);
+    public static boolean addOrRemove(boolean addFilter, Scanner sc) {
         String choice = "";
         while (true) {
             try {
@@ -16,21 +15,17 @@ public class InternshipFilterUtil {
                 choice = sc.nextLine().toLowerCase();
                 switch (choice) {
                     case "1":
-                        sc.close();
-                        addFilter = true; // Add
-                        break;
+                        return true; // Add
                     case "2":
-                        sc.close();
-                        addFilter = false; // Remove
-                        break;
+                        return false; // Remove
                     case "x":
-                        return; // Exit
+                        return addFilter; // Exit
                     default:
                         System.out.println("Not a valid input. Try again.");
                 }
             } catch (NoSuchElementException e) {
-                System.out.println("Input was closed. Try again.");
-                return;
+                System.out.println("Input was closed. Returning...");
+                return addFilter;
             }
         }
     }

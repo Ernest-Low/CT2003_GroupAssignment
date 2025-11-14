@@ -10,64 +10,64 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import dtos.InternshipFilter;
-import enums.Major;
+import enums.InternshipLevel;
 
-public class InternshipFilterMajor {
+public class InternshipFilterLevel {
 
     private InternshipFilter internshipFilter;
     private Scanner sc;
     private boolean addFilter;
 
-    public InternshipFilterMajor(InternshipFilter incomingFilter, Scanner sc) {
+    public InternshipFilterLevel(InternshipFilter incomingFilter, Scanner sc) {
         this.internshipFilter = incomingFilter;
         this.sc = sc;
     }
 
-    private void filterMajor() {
+    private void filterLevel() {
 
         String input = "";
         while (true) {
-            Set<Major> majors = new LinkedHashSet<>(
-                    internshipFilter.getMajors() == null ? Collections.emptySet() : internshipFilter.getMajors());
+            Set<InternshipLevel> levels = new LinkedHashSet<>(
+                    internshipFilter.getLevels() == null ? Collections.emptySet() : internshipFilter.getLevels());
             String mode = this.addFilter ? "add" : "remove";
-            System.out.println("\n-- Major filter (" + (this.addFilter ? "ADDING" : "REMOVING") + ") --");
+            System.out.println("\n-- Level filter (" + (this.addFilter ? "ADDING" : "REMOVING") + ") --");
 
-            if (majors.isEmpty()) {
+            if (levels.isEmpty()) {
                 System.out.println("Current filter: <none>");
             } else {
                 System.out.print("Current filter: ");
-                System.out.println(majors.stream().map(Enum::name).collect(Collectors.joining(", ")));
+                System.out.println(levels.stream().map(Enum::name).collect(Collectors.joining(", ")));
             }
-            Major[] allMajors = Major.values();
-            Map<Integer, Major> menuMap = new LinkedHashMap<>();
+            InternshipLevel[] allLevels = InternshipLevel.values();
+            Map<Integer, InternshipLevel> menuMap = new LinkedHashMap<>();
             int idx = 1;
-            for (Major m : allMajors) {
-                boolean showInMenu = this.addFilter ? !majors.contains(m) : majors.contains(m);
+            for (InternshipLevel l : allLevels) {
+                boolean showInMenu = this.addFilter ? !levels.contains(l) : levels.contains(l);
                 if (showInMenu) {
-                    menuMap.put(idx++, m);
+                    menuMap.put(idx++, l);
                 }
             }
             if (menuMap.isEmpty()) {
                 System.out.println(this.addFilter
-                        ? "No remaining majors to add."
-                        : "No majors in filter to remove.");
+                        ? "No remaining levels to add."
+                        : "No levels in filter to remove.");
                 System.out.println("Enter X to go back or press A to toggle add/remove mode.");
             } else {
-                System.out.println("Select a major to " + mode + ":");
-                menuMap.forEach((number, major) -> System.out.println(number + ": " + major.getDisplayName()));
+                System.out.println("Select a level to " + mode + ":");
+                menuMap.forEach((number, level) -> System.out.println(number + ": " + level.getDisplayName()));
                 System.out.println("A: Toggle add/remove");
                 System.out.println("X: Back");
             }
             System.out.print("Enter choice: ");
             try {
                 input = sc.nextLine();
-            } catch (NoSuchElementException e) { 
+            } catch (NoSuchElementException e) {
                 System.out.println("\nInput was closed. Returning to previous menu.");
                 return;
             }
             input = input.trim();
             if (input.equalsIgnoreCase("X")) {
-                internshipFilter.setMajors(majors);
+                internshipFilter.setLevels(levels);
                 return;
             }
             if (input.equalsIgnoreCase("A")) {
@@ -81,31 +81,31 @@ public class InternshipFilterMajor {
                 System.out.println("Invalid selection. Enter a number, A to toggle mode, or X to go back.");
                 continue;
             }
-            Major chosen = menuMap.get(selected);
+            InternshipLevel chosen = menuMap.get(selected);
             if (chosen == null) {
                 System.out.println("Selection out of range. Try again.");
                 continue;
             }
 
             if (this.addFilter) {
-                if (majors.add(chosen)) { // Adding to set
+                if (levels.add(chosen)) { // Adding to set
                     System.out.println(chosen.getDisplayName() + " added to filter.");
                 } else {
                     System.out.println(chosen.getDisplayName() + " was already in the filter.");
                 }
             } else {
-                if (majors.remove(chosen)) { // Removing from set
+                if (levels.remove(chosen)) { // Removing from set
                     System.out.println(chosen.getDisplayName() + " removed from filter.");
                 } else {
                     System.out.println(chosen.getDisplayName() + " was not in the filter.");
                 }
             }
-            internshipFilter.setMajors(majors);
+            internshipFilter.setLevels(levels);
         }
     }
 
-    public void InternshipFilterMajorController() {
-        this.addFilter = InternshipFilterUtil.addOrRemove(this.addFilter, sc); // Toggle addFilter, though seems unncessary
-        filterMajor();
+    public void InternshipFilterLevelController() {
+        this.addFilter = InternshipFilterUtil.addOrRemove(this.addFilter, sc);
+        filterLevel();
     }
 }

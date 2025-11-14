@@ -10,64 +10,64 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import dtos.InternshipFilter;
-import enums.Major;
+import enums.InternshipStatus;
 
-public class InternshipFilterMajor {
+public class InternshipFilterStatus {
 
     private InternshipFilter internshipFilter;
     private Scanner sc;
     private boolean addFilter;
 
-    public InternshipFilterMajor(InternshipFilter incomingFilter, Scanner sc) {
+    public InternshipFilterStatus(InternshipFilter incomingFilter, Scanner sc) {
         this.internshipFilter = incomingFilter;
         this.sc = sc;
     }
 
-    private void filterMajor() {
+    private void filterStatus() {
 
         String input = "";
         while (true) {
-            Set<Major> majors = new LinkedHashSet<>(
-                    internshipFilter.getMajors() == null ? Collections.emptySet() : internshipFilter.getMajors());
+            Set<InternshipStatus> statuses = new LinkedHashSet<>(
+                    internshipFilter.getStatuses() == null ? Collections.emptySet() : internshipFilter.getStatuses());
             String mode = this.addFilter ? "add" : "remove";
-            System.out.println("\n-- Major filter (" + (this.addFilter ? "ADDING" : "REMOVING") + ") --");
+            System.out.println("\n-- Status filter (" + (this.addFilter ? "ADDING" : "REMOVING") + ") --");
 
-            if (majors.isEmpty()) {
+            if (statuses.isEmpty()) {
                 System.out.println("Current filter: <none>");
             } else {
                 System.out.print("Current filter: ");
-                System.out.println(majors.stream().map(Enum::name).collect(Collectors.joining(", ")));
+                System.out.println(statuses.stream().map(Enum::name).collect(Collectors.joining(", ")));
             }
-            Major[] allMajors = Major.values();
-            Map<Integer, Major> menuMap = new LinkedHashMap<>();
+            InternshipStatus[] allStatuses = InternshipStatus.values();
+            Map<Integer, InternshipStatus> menuMap = new LinkedHashMap<>();
             int idx = 1;
-            for (Major m : allMajors) {
-                boolean showInMenu = this.addFilter ? !majors.contains(m) : majors.contains(m);
+            for (InternshipStatus s : allStatuses) {
+                boolean showInMenu = this.addFilter ? !statuses.contains(s) : statuses.contains(s);
                 if (showInMenu) {
-                    menuMap.put(idx++, m);
+                    menuMap.put(idx++, s);
                 }
             }
             if (menuMap.isEmpty()) {
                 System.out.println(this.addFilter
-                        ? "No remaining majors to add."
-                        : "No majors in filter to remove.");
+                        ? "No remaining statuses to add."
+                        : "No statuses in filter to remove.");
                 System.out.println("Enter X to go back or press A to toggle add/remove mode.");
             } else {
-                System.out.println("Select a major to " + mode + ":");
-                menuMap.forEach((number, major) -> System.out.println(number + ": " + major.getDisplayName()));
+                System.out.println("Select a status to " + mode + ":");
+                menuMap.forEach((number, status) -> System.out.println(number + ": " + status.name()));
                 System.out.println("A: Toggle add/remove");
                 System.out.println("X: Back");
             }
             System.out.print("Enter choice: ");
             try {
                 input = sc.nextLine();
-            } catch (NoSuchElementException e) { 
+            } catch (NoSuchElementException e) {
                 System.out.println("\nInput was closed. Returning to previous menu.");
                 return;
             }
             input = input.trim();
             if (input.equalsIgnoreCase("X")) {
-                internshipFilter.setMajors(majors);
+                internshipFilter.setStatuses(statuses);
                 return;
             }
             if (input.equalsIgnoreCase("A")) {
@@ -81,31 +81,31 @@ public class InternshipFilterMajor {
                 System.out.println("Invalid selection. Enter a number, A to toggle mode, or X to go back.");
                 continue;
             }
-            Major chosen = menuMap.get(selected);
+            InternshipStatus chosen = menuMap.get(selected);
             if (chosen == null) {
                 System.out.println("Selection out of range. Try again.");
                 continue;
             }
 
             if (this.addFilter) {
-                if (majors.add(chosen)) { // Adding to set
-                    System.out.println(chosen.getDisplayName() + " added to filter.");
+                if (statuses.add(chosen)) { // Adding to set
+                    System.out.println(chosen.name() + " added to filter.");
                 } else {
-                    System.out.println(chosen.getDisplayName() + " was already in the filter.");
+                    System.out.println(chosen.name() + " was already in the filter.");
                 }
             } else {
-                if (majors.remove(chosen)) { // Removing from set
-                    System.out.println(chosen.getDisplayName() + " removed from filter.");
+                if (statuses.remove(chosen)) { // Removing from set
+                    System.out.println(chosen.name() + " removed from filter.");
                 } else {
-                    System.out.println(chosen.getDisplayName() + " was not in the filter.");
+                    System.out.println(chosen.name() + " was not in the filter.");
                 }
             }
-            internshipFilter.setMajors(majors);
+            internshipFilter.setStatuses(statuses);
         }
     }
 
-    public void InternshipFilterMajorController() {
-        this.addFilter = InternshipFilterUtil.addOrRemove(this.addFilter, sc); // Toggle addFilter, though seems unncessary
-        filterMajor();
+    public void InternshipFilterStatusController() {
+        this.addFilter = InternshipFilterUtil.addOrRemove(this.addFilter, sc);
+        filterStatus();
     }
 }

@@ -73,12 +73,6 @@ public class InternshipService {
                 .filter(internship -> filter.getClosingDateAfter() == null
                         || (internship.getClosingDate() != null
                                 && !internship.getClosingDate().isBefore(filter.getClosingDateAfter())))
-                .filter(internship -> filter.getOpeningDateBefore() == null
-                        || (internship.getOpeningDate() != null
-                                && !internship.getOpeningDate().isAfter(filter.getOpeningDateBefore())))
-                .filter(internship -> filter.getOpeningDateAfter() == null
-                        || (internship.getOpeningDate() != null
-                                && !internship.getOpeningDate().isBefore(filter.getOpeningDateAfter())))
                 .sorted(Comparator.comparing(Internship::getTitle, String.CASE_INSENSITIVE_ORDER))
                 .toList();
     }

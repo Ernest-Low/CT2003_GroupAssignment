@@ -27,7 +27,7 @@ public class CompanyRepMain {
         this.companyRep = companyRep;
         this.services = services;
 
-        InternshipFilterMain internshipFilterMain = new InternshipFilterMain(companyRep, sc);
+        InternshipFilterMain internshipFilterMain = new InternshipFilterMain(companyRep);
         this.internshipFilter = internshipFilterMain.getInternshipFilter();
         this.companyRepPostInternship = new CompanyRepPostInternship(this.services, this.companyRep, sc);
         // this.cRepEditProfile = new CompanyRepEditProfile(this.services, this.companyRep, sc);

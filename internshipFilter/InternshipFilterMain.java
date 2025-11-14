@@ -17,46 +17,61 @@ public class InternshipFilterMain {
     private final Scanner sc;
     private final UserType userType;
 
-    public InternshipFilterMain(CompanyRep companyRep, Scanner sc) {
+    private final InternshipFilterMajor internshipFilterMajor;
+    private final InternshipFilterLevel internshipFilterLevel;
+    private final InternshipFilterStatus internshipFilterStatus;
+    private final InternshipFilterClosingDate internshipFilterClosingDate;
+
+    public InternshipFilterMain(CompanyRep companyRep) {
         // * Company Rep: Can only see Internships that are of their own (companyNames)
-        this.sc = sc;
+        this.sc = new Scanner(System.in);
         internshipFilter = new InternshipFilter();
         userType = UserType.COMPANYREP;
+
+        this.internshipFilterMajor = new InternshipFilterMajor(internshipFilter, sc);
+        this.internshipFilterLevel = new InternshipFilterLevel(internshipFilter, sc);
+        this.internshipFilterStatus = new InternshipFilterStatus(internshipFilter, sc);
+        this.internshipFilterClosingDate = new InternshipFilterClosingDate(internshipFilter, sc);
 
         Set<String> companyNames = new HashSet<>();
         companyNames.add(companyRep.getCompanyName());
         this.internshipFilter.setCompanyNames(companyNames);
     }
 
-    public InternshipFilterMain(Student student, Scanner sc) {
+    public InternshipFilterMain(Student student) {
         // * Students: Can only see Internships that are of their Major, and within level
-        this.sc = sc;
+        this.sc = new Scanner(System.in);
         internshipFilter = new InternshipFilter();
         userType = UserType.STUDENT;
+
+        this.internshipFilterMajor = new InternshipFilterMajor(internshipFilter, sc);
+        this.internshipFilterLevel = new InternshipFilterLevel(internshipFilter, sc);
+        this.internshipFilterStatus = new InternshipFilterStatus(internshipFilter, sc);
+        this.internshipFilterClosingDate = new InternshipFilterClosingDate(internshipFilter, sc);
     }
 
-    public InternshipFilterMain(CareerStaff careerStaff, Scanner sc) {
+    public InternshipFilterMain(CareerStaff careerStaff) {
         // * Career Staff: Should only see Internships that are status = PENDING?
-        this.sc = sc;
+        this.sc = new Scanner(System.in);
         internshipFilter = new InternshipFilter();
         userType = UserType.CAREERSTAFF;
+
+        this.internshipFilterMajor = new InternshipFilterMajor(internshipFilter, sc);
+        this.internshipFilterLevel = new InternshipFilterLevel(internshipFilter, sc);
+        this.internshipFilterStatus = new InternshipFilterStatus(internshipFilter, sc);
+        this.internshipFilterClosingDate = new InternshipFilterClosingDate(internshipFilter, sc);
     }
 
-    private String openMenu() {
-        System.out.println("Please select value to filter by.");
+    private void openMenu() {
+        System.out.println("\nPlease select value to filter by.");
         System.out.println("1: Filter by Majors");
         System.out.println("2: Filter by Levels");
         System.out.println("3: Filter by Statuses");
-        System.out.println("4: Filter by Opening Date");
-        System.out.println("5: Filter by Closing Date");
+        System.out.println("4: Filter by Closing Date");
         if (userType != UserType.COMPANYREP) {
-            System.out.println("6: Filter by Company Name");
+            System.out.println("5: Filter by Company Name");
         }
-
         System.out.println("X: Return");
-        String input = sc.nextLine();
-
-        return input;
     }
 
     public InternshipFilter getInternshipFilter() {
@@ -65,22 +80,32 @@ public class InternshipFilterMain {
 
     public InternshipFilter InternshipFilterController() {
         String choice = "";
-        choice = openMenu();
-        while (!choice.equalsIgnoreCase("x")) {
+        while (true) {
             try {
-                choice = openMenu();
+                openMenu();
+                choice = sc.nextLine();
                 switch (choice) {
-                    case "1" -> InternshipFilterMajor.InternshipFilterMajorController(internshipFilter);
-                    case "2" -> System.out.println("2");
-                    case "x", "X" -> System.out.println("Returning..."); // Exit back to menu
-                    default -> System.out.println("Not a valid input. Try again.");
+                    case "1":
+                        internshipFilterMajor.InternshipFilterMajorController();
+                        break;
+                    case "2":
+                        internshipFilterLevel.InternshipFilterLevelController();
+                        break;
+                    case "3":
+                        internshipFilterStatus.InternshipFilterStatusController();
+                        break;
+                    case "4":
+                        internshipFilterClosingDate.InternshipFilterClosingDateController();
+                        break;
+                    case "x", "X": // Exit back to menu
+                        return internshipFilter;
+                    default:
+                        System.out.println("Not a valid input. Try again.");
                 }
-            }
-            catch (NoSuchElementException e) {
+            } catch (NoSuchElementException e) {
                 System.out.println("Not a valid input. Try Again");
             }
         }
-        return internshipFilter;
     }
 }
 // private Set<String> companyNames = null;
