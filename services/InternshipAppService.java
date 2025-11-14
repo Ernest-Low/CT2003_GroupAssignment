@@ -25,10 +25,13 @@ public class InternshipAppService {
     public List<InternshipApp> filterInternshipApps(InternshipAppFilter filter) {
         return internshipAppRepo.findAll().stream()
                 .filter(internshipApp -> filter.getStudentIDs() == null
+                        || filter.getStudentIDs().isEmpty()
                         || filter.getStudentIDs().contains(internshipApp.getStudentID()))
                 .filter(internshipApp -> filter.getInternshipIDs() == null
+                        || filter.getInternshipIDs().isEmpty()
                         || filter.getInternshipIDs().contains(internshipApp.getInternshipID()))
                 .filter(internshipApp -> filter.getInternshipApplicationStatuses() == null
+                        || filter.getInternshipApplicationStatuses().isEmpty()
                         || filter.getInternshipApplicationStatuses().contains(internshipApp.getStatus()))
                 .toList();
     }

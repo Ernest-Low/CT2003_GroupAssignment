@@ -6,9 +6,6 @@ import enums.InternshipLevel;
 import enums.InternshipStatus;
 import enums.Major;
 
-// ? Writing to csv shouldn't be called within the model
-// ? Get the app to do it instead
-
 public class Internship {
 
     private final String ID;
@@ -16,7 +13,7 @@ public class Internship {
     private String companyName; // Company name based on ID within company table
     private String companyID; // Company Rep's GUID
     private Major major; // Prefered Major
-    private InternshipLevel level; // BASIC, INTERMEDIATE, ADVANCED
+    private InternshipLevel level; // BASIC, INTERMEDIATE, ADVANCED -- Year 1 / 2 students can ONLY apply for BASIC
     private int counter; // Count of internships confirmed
     private int slots;
     private LocalDate openingDate;
@@ -71,11 +68,6 @@ public class Internship {
 
     public int getSlots() {
         return this.slots;
-    }
-
-    public void incrementCounter() {
-        this.counter = this.counter + 1;
-        // Write to csv here
     }
 
     public LocalDate getOpeningDate() {
