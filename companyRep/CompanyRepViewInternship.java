@@ -137,7 +137,7 @@ public class CompanyRepViewInternship {
                 // Print all here
 
                 if (selected.getStatus() != InternshipStatus.PENDING) {
-                    System.out.println("Can't edit internship as it's no longer pending.");
+                    System.out.println("Can't edit or delete internship as it's no longer pending.");
                     return;
                 }
                 System.out.println("1: Edit");
@@ -172,63 +172,6 @@ public class CompanyRepViewInternship {
         }
 
     }
-
-    // private void handleInternship(Internship selected) {
-    //     while (true) {
-    //         System.out.println("\nSelected: " + selected.getTitle());
-
-    //         String format = "%-33s %-18s %-12s %-12s %-12s %-12s %-12s %-12s %-60s";
-    //         String header = String.format(
-    //                 format,
-    //                 "Title", "Major", "Level", "Accepted Students", "Student Limit", "Opening", "Closing", "Status",
-    //                 "Description");
-    //         StringBuilder sb = new StringBuilder();
-    //         sb.append(header).append(System.lineSeparator());
-    //         sb.append(String.format(
-    //                 format,
-    //                 selected.getTitle(),
-    //                 selected.getMajor() != null ? selected.getMajor().getDisplayName() : "",
-    //                 selected.getLevel() != null ? selected.getLevel().getDisplayName() : "",
-    //                 selected.getCounter(),
-    //                 selected.getSlots(),
-    //                 selected.getOpeningDate(),
-    //                 selected.getClosingDate(),
-    //                 selected.getStatus() != null ? selected.getStatus().name() : "",
-    //                 selected.getDescription() != null ? selected.getDescription() : ""))
-    //                 .append(System.lineSeparator());
-    //         String table = sb.toString();
-    //         System.out.println(table);
-    //         // Print all here
-
-    //         if (selected.getStatus() != InternshipStatus.PENDING) {
-    //             System.out.println("Can't edit internship as it's no longer pending.");
-    //             return;
-    //         }
-    //         System.out.println("1: Edit");
-    //         System.out.println("X: Return");
-    //         String input = "";
-    //         System.out.print("\nEnter choice: ");
-    //         try {
-    //             input = sc.nextLine();
-    //         } catch (NoSuchElementException e) {
-    //             System.out.println("\nInput was closed. Try again.");
-    //         }
-    //         if (input.equalsIgnoreCase("X")) {
-    //             return;
-    //         }
-    //         switch (input) {
-    //             case "1":
-    //                 CompanyRepEditInternship companyRepEditInternship = new CompanyRepEditInternship(services, sc,
-    //                         selected, companyRep);
-    //                 companyRepEditInternship.CRepEditInternshipController();
-    //                 return;
-    //             case "X":
-    //                 return;
-    //             default:
-    //                 System.out.println("\nNot a valid input. Try again.");
-    //         }
-    //     }
-    // }
 
     public void CRepViewInternshipController() {
         String choice = "";
