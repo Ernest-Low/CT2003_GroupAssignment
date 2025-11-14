@@ -5,5 +5,5 @@ ID,title,companyName,companyID,major,level,counter,openingDate,closingDate,statu
 126,Data Engineer,Google,111,DATA_SCIENCE,BASIC,0,2025-11-11,2025-12-12,APPROVED,NA
 127,Software Engineer2,Google,111,COMPUTER_SCIENCE,BASIC,0,2025-11-11,2025-12-12,APPROVED,NA
 I000003P,This is a test,Novalink,alex.choi@novalink.com,COMPUTER_SCIENCE,ADVANCED,0,2025-02-02,2025-12-10,PENDING,Hi there
-I000004P,Great new internship,Novalink,alex.choi@novalink.com,CHEMISTRY,BASIC,0,2026-04-03,2026-05-07,PENDING,Hot internship position
+I000004P,Great new internship,Novalink,alex.choi@novalink.com,CHEMISTRY,BASIC,0,2026-04-03,2026-05-07,REJECTED,Hot internship position
 I000005P,Great chemistry opportunity,Novalink,C000001R,CHEMISTRY,ADVANCED,0,2025-12-14,2025-12-16,PENDING,Apply fast

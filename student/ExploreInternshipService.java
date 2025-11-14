@@ -3,7 +3,7 @@ package student;
 import java.io.IOException;
 import java.util.*;
 
-import CSVMethods.CSVBeutify2;
+import CSVMethods.CSVBeutify;
 import model.*;
 import internship_rs.*;
 
@@ -67,7 +67,7 @@ public class ExploreInternshipService {
         }
 
         // Print out internships using CSVBeutify class
-        CSVBeutify2.BeutifyNewFilter("AVAILABLE INTERNSHIP", internships, "title", "companyName", "major", "level", "closingDate");
+        CSVBeutify.BeutifyNewFilter("AVAILABLE INTERNSHIP", internships, "title", "companyName", "major", "level", "closingDate");
 
         // Prompt user for input (apply/exit)
         while (true) {
@@ -116,7 +116,7 @@ public class ExploreInternshipService {
                                 }
 
                                 internships = internshipApp.getFilteredInternships(student, levelSet);
-                                CSVBeutify2.BeutifyNewFilter("AVAILABLE INTERNSHIP", internships, "title", "companyName", "major", "level", "closingDate");
+                                CSVBeutify.BeutifyNewFilter("AVAILABLE INTERNSHIP", internships, "title", "companyName", "major", "level", "closingDate");
 
                             } catch (IOException e) {
                                 System.out.println("Error filtering internships: " + e.getMessage());

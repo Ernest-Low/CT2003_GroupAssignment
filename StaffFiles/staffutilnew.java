@@ -41,7 +41,13 @@ public class staffutilnew {
 
             AllaccPending = mapToAllAccount();
             AllaccPending = CSVFilter.filter4Obj(AllaccPending, penFilter);
-            CSVBeutify2.BeutifyNewFilter(title, AllaccPending, "id", "userType", "accountStatus");
+
+            if (AllaccPending.isEmpty()){
+                dashboard = false;
+                System.out.println("No Pending Account...");
+                return;
+            }
+            CSVBeutify.BeutifyNewFilter(title, AllaccPending, "id", "userType", "accountStatus");
 
             uiStatus();
             int choice = getUserInput();
@@ -64,7 +70,6 @@ public class staffutilnew {
                 default:
                     System.out.println("Please enter a valid input");
             }
-
         }
     }
 
@@ -78,7 +83,7 @@ public class staffutilnew {
 
             AllIntPending = mapToAllInternship();
             AllIntPending = CSVFilter.filter4Obj(AllIntPending, penFilter);
-            CSVBeutify2.BeutifyNewFilter(title, AllIntPending, "ID", "title", "companyName", "major", "level", "status", "description");
+            CSVBeutify.BeutifyNewFilter(title, AllIntPending, "ID", "title", "companyName", "major", "level", "status", "description");
 
             uiStatus();
             int choice = getUserInput();
@@ -100,8 +105,6 @@ public class staffutilnew {
                 default:
                     System.out.println("Please enter a valid input");
             }
-
-
 
         }
 
@@ -149,14 +152,6 @@ public class staffutilnew {
 
     }
 
-    //maybe not needed
-    // public void displayObjWFil(String title, List<Object> objects, String... fields){
-
-    //     CSVBeutify2.BeutifyNewFilter(title, objects, fields);
-
-    // }
-
-    //new CSV -> Object for display all account
     public List<?> mapToAllAccount(){
 
         List<Credential> allCreds = new ArrayList<>();
@@ -181,7 +176,6 @@ public class staffutilnew {
         } return allCreds;
     }
 
-    //new CSV -> Object for all Internship pending
     public static List<?> mapToAllInternship(){
 
         List<Internship> Internships = new ArrayList<>(); 
@@ -220,7 +214,6 @@ public class staffutilnew {
         System.out.println("2. Reject Request");
         System.out.println("3. Return to Dashboard?");
         System.out.print(":");
-        //System.out.println("-".repeat(35));
 
     }
 
