@@ -60,7 +60,7 @@ public class staffmainnew {
                     break;
                 case 5:
                     dashboard = false;
-                    System.out.println("Now Logging out...\nHope See you again!");
+                    System.out.println("Now Logging out...\nHope to see you again!");
                     break;
                 default:
                     System.out.println("Please enter a valid Input");
