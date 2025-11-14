@@ -29,7 +29,7 @@ public class CompanyRepViewInternshipApp {
     private List<Student> students;
 
     private Map<Integer, String> menuMap; // Display map
-    private Map<Integer, InternshipApp> internshipAppMap ; // Access map
+    private Map<Integer, InternshipApp> internshipAppMap; // Access map
 
     public CompanyRepViewInternshipApp(Services services, CompanyRep companyRep, Scanner sc) {
         this.services = services;
@@ -139,17 +139,18 @@ public class CompanyRepViewInternshipApp {
     // * Like maybe it'll be shown when closing the internship opportunity - then it gives the list of candidates that are confirmed
     public void viewInternshipAppController() {
 
-        // ? The calls to CSVs, try to avoid recalling it all the time (as if it's a DB)
-        findInternships(); // Get Internships belonging to company rep
-        findInternshipApps(); // Use Internships to find InternshipApps, populate internshipApps
-
-        if (internshipApps == null || internshipApps.isEmpty()) {
-            System.out.println("\nNo current internship applications awaiting action. Returning.");
-            return;
-        }
-        findStudents(); // Now to find the students using InternshipApps
-
         while (true) {
+
+            // ? The calls to CSVs, try to avoid recalling it all the time (as if it's a DB)
+            findInternships(); // Get Internships belonging to company rep
+            findInternshipApps(); // Use Internships to find InternshipApps, populate internshipApps
+
+            if (this.internshipApps == null || this.internshipApps.isEmpty()) {
+                System.out.println("\nNo current internship applications awaiting action. Returning.");
+                return;
+            }
+            findStudents(); // Now to find the students using InternshipApps
+
             createDisplayMap();
             String input = "";
             System.out.print("\nEnter choice: ");
@@ -174,6 +175,7 @@ public class CompanyRepViewInternshipApp {
                 continue;
             }
             handleInternshipApp(selectedApp, selected);
+
         }
 
     }
