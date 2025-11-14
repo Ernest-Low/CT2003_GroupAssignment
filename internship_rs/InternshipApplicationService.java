@@ -4,7 +4,6 @@ import CSVMethods.CSVRead;
 import CSVMethods.CSVWrite;
 import dtos.InternshipFilter;
 import enums.InternshipApplicationStatus;
-import enums.InternshipLevel;
 import enums.InternshipStatus;
 import model.Internship;
 import model.Student;
@@ -12,7 +11,6 @@ import model.Student;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 // this class is for the student to apply for internships
 public class InternshipApplicationService {
