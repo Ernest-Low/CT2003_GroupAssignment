@@ -15,13 +15,17 @@ public class staffmainnew {
 
     private CareerStaff staff;
     private staffutilnew staffutil;
-    //private Scanner scanner = new Scanner(System.in);
 
+    //staff information is passed into here from Login Info
+    //@param staff, will be the staff that logged in, information is passed from central and used in class file
     public staffmainnew (CareerStaff staff){
         this.staff = staff;
         this.staffutil = new staffutilnew();
     }
 
+    //main entry point for staff menu, will handle the logi flow of the interface and ensure that user choises are passed to the right uttility method
+    //@Param, loginInfo is passed from login page so that it will be able to handle the change password data and updated in login function
+    //this ensure that only the required dependcies are given to the class
     public void staffEntry(LoginInfo loginInfo){
         boolean dashboard = true;
 
@@ -69,6 +73,7 @@ public class staffmainnew {
         }
     }
     
+    //reusable UI to ensure that the code is reusable
     private void uiMenu(){
         System.out.println("-".repeat(50));
         System.out.println("Welcome to Staff Menu!: " + staff.getName());

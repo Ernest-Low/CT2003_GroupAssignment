@@ -12,12 +12,14 @@ import internshipFilter.*;
 
 import enums.*;
 
-
+// Interface for user to explore Internship
 public class ExploreInternshipService {
 
     // Initialization
     private static Scanner sc = new Scanner(System.in);
 
+
+    //User interface that handles the loop in the case of invalid input,
     private static int openMenu() {
         System.out.println("Please select an action");
         System.out.println("1: View Internship Details");
@@ -35,6 +37,9 @@ public class ExploreInternshipService {
         }
     }
 
+    //Handles the filter for internship and ensures updates the menu accordingly
+    //@param filter takes in the expected filter that the user wants
+    //@param student takes in the object student information to ensure that unnecessary filter is not given to the student
     private static void openFilterMenu(InternshipFilter filter, Student student) {
         while (true) {
             System.out.println("\n--- Edit Filters ---");
@@ -69,6 +74,7 @@ public class ExploreInternshipService {
         }
     }
 
+    
     public static void exploreInternship(Student student) {
 
         // initialize internship application service

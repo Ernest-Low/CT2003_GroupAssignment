@@ -8,3 +8,5 @@ I000006P,This is a test,Novalink,alex.choi@novalink.com,COMPUTER_SCIENCE,ADVANCE
 I000007P,Great new internship,Novalink,alex.choi@novalink.com,CHEMISTRY,BASIC,0,10,2026-04-03,2026-05-07,PENDING,Hot internship position
 I000008P,Great chemistry opportunity,Novalink,C000001R,CHEMISTRY,ADVANCED,0,10,2025-12-14,2025-12-16,PENDING,Apply fast
 I000009P,Great physics,Novalink,C000001R,PHYSICS,ADVANCED,0,10,2025-11-15,2026-02-15,PENDING,Come join
+
+I000010P,this is a test,yes,C000012R,BIOLOGY,BASIC,0,1,2025-11-14,2025-11-20,PENDING,this is another bug
