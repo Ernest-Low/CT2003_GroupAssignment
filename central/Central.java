@@ -43,24 +43,27 @@ public class Central {
     public void centralController() {
         // * Entry point from main
 
-        // * Login, get user ID & user type back
-        AuthController authController = new AuthController();
-        LoginInfo loginInfo = null;
-        while (loginInfo == null) {
+        while (true) {
+            // * Login, get user ID & user type back
+            AuthController authController = new AuthController();
+            LoginInfo loginInfo = null;
+  
             loginInfo = authController.openMenu();
             System.out.println();
-        }
+            if (loginInfo == null) {
+                break;
+            }
 
-        System.out.println("Welcome, " + loginInfo.getID() + " (" + loginInfo.getUserType() + ")"); // ? Is this debug or intentional?
+            System.out.println("Welcome, " + loginInfo.getID() + " (" + loginInfo.getUserType() + ")");
 
-        // UpdatePasswordController updatePasswordController = new UpdatePasswordController();
-        // updatePasswordController.updatePassword(loginInfo.getID());
+            switch (loginInfo.getUserType()) {
+                case STUDENT -> studentGateway(loginInfo);
+                case CAREERSTAFF -> careerStaffGateway(loginInfo);
+                case COMPANYREP -> companyRepGateway(loginInfo);
+                default -> System.out.println("Logic error");
+            }
 
-        switch (loginInfo.getUserType()) {
-            case STUDENT -> studentGateway(loginInfo);
-            case CAREERSTAFF -> careerStaffGateway(loginInfo);
-            case COMPANYREP -> companyRepGateway(loginInfo);
-            default -> System.out.println("Logic error");
+            loginInfo = null;
         }
 
         // switch (loginInfo.getUserType()) {
@@ -114,7 +117,7 @@ public class Central {
         CareerStaff careerStaff = services.careerStaffService.getCareerStaffByID(loginInfo.getID());
 
         this.careerStaffMain = new staffmainnew(careerStaff);
-        this.careerStaffMain.staffEntry();
+        this.careerStaffMain.staffEntry(loginInfo);
     }
 
     private void companyRepGateway(LoginInfo loginInfo) {

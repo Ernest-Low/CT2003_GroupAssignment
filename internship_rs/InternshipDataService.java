@@ -16,7 +16,6 @@ import java.util.List;
 public class InternshipDataService {
 
     private static final String INTERNSHIPS_CSV = "data/internships.csv";
-    private static final int INTERNSHIP_CAPACITY = 10; // Based on APPROVAL_LIMIT
 
     // reads all internships from the csv
     public List<Internship> readInternships() throws IOException {
@@ -28,7 +27,7 @@ public class InternshipDataService {
         for (int i = 1; i < records.size(); i++) {
             String[] record = records.get(i);
 
-            // CSV columns: ID,title,companyName,companyID,major,level,counter,openingDate,closingDate,status,description
+            // CSV columns: ID,title,companyName,companyID,major,level,counter,slots,openingDate,closingDate,status,description
             Internship internship = new Internship(
                     record[0],                                  // ID
                     record[1],                                  // title
@@ -37,10 +36,11 @@ public class InternshipDataService {
                     Major.valueOf(record[4].toUpperCase()),     // major
                     InternshipLevel.valueOf(record[5].toUpperCase()), // level
                     Integer.parseInt(record[6]),                // counter
-                    LocalDate.parse(record[7]),                    // openingDate
-                    LocalDate.parse(record[8]),                    // closingDate
-                    InternshipStatus.valueOf(record[9].toUpperCase()), // status
-                    record[10]                                  // description
+                    Integer.parseInt(record[7]),                // slots
+                    LocalDate.parse(record[8]),                    // openingDate
+                    LocalDate.parse(record[9]),                    // closingDate
+                    InternshipStatus.valueOf(record[10].toUpperCase()), // status
+                    record[11]                                  // description
             );
             internships.add(internship);
         }
@@ -56,7 +56,7 @@ public class InternshipDataService {
         for (int i = 1; i < records.size(); i++) {
             String[] record = records.get(i);
             if (record[0].equals(internshipId)) {
-                // CSV columns: ID,title,companyName,companyID,major,level,counter,openingDate,closingDate,status,description
+                // CSV columns: ID,title,companyName,companyID,major,level,counter,slots,openingDate,closingDate,status,description
                 return new Internship(
                         record[0],
                         record[1],
@@ -65,10 +65,11 @@ public class InternshipDataService {
                         Major.valueOf(record[4].toUpperCase()),
                         InternshipLevel.valueOf(record[5].toUpperCase()),
                         Integer.parseInt(record[6]),
-                        LocalDate.parse(record[7]),
+                        Integer.parseInt(record[7]),
                         LocalDate.parse(record[8]),
-                        InternshipStatus.valueOf(record[9].toUpperCase()),
-                        record[10]
+                        LocalDate.parse(record[9]),
+                        InternshipStatus.valueOf(record[10].toUpperCase()),
+                        record[11]
                 );
             }
         }
@@ -85,13 +86,14 @@ public class InternshipDataService {
         for (int i = 1; i < allInternships.size(); i++) {
             String[] row = allInternships.get(i);
             if (row[0].equals(internshipId)) {
-                // Columns: 6=counter, 9=status
+                // Columns: 6=counter, 7=slots, 10=status
                 int currentCounter = Integer.parseInt(row[6]);
+                int slots = Integer.parseInt(row[7]);
                 int newCounter = currentCounter + 1;
                 row[6] = String.valueOf(newCounter); // Update counter
 
-                if (newCounter >= INTERNSHIP_CAPACITY) {
-                    row[9] = InternshipStatus.FILLED.toString(); // Update status
+                if (newCounter == slots) {
+                    row[10] = InternshipStatus.FILLED.toString(); // Update status
                 }
                 recordFound = true;
                 break;

@@ -68,6 +68,6 @@ public class CompanyRepMain {
             }
         }
 
-        sc.close();
+        // sc.close();
     }
 }

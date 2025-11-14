@@ -8,10 +8,11 @@ import CSVMethods.*;
 import dtos.LoginInfo;
 
 import enums.AccountStatus;
+import enums.TableIndex;
 import enums.UserType;
+import repositories.impl.AutoNumberRepoImpl;
 
-import model.Credential;
-
+import services.AutoNumberService;
 
 public class AuthService {
 
@@ -34,11 +35,13 @@ public class AuthService {
                     if (passwordMatch) {
                         return new LoginInfo(input_username, current.getUserType());
                     } else {
+                        System.out.println("[ERROR] Incorrect Password");
                         return null;
                     }
                 }
             }
         }
+        System.out.println("[ERROR] Account does not exist");
         return null;
     }
 
@@ -68,14 +71,19 @@ public class AuthService {
         if ((username.isBlank()) || (password.isBlank())) {
             System.out.println("[ERROR] Username and Password cannot be blank");
             return false;
-        } else if (!Pattern.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", username)) {
+        }
+        
+        if (!Pattern.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", username)) {
             // ensure it's in email format
             System.out.println("[ERROR] Username should be your Company Email");
             return false;
         }
+
+        if (!Pattern.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%])[A-Za-z\\d!@#$%]{8,15}$", password)) {
+            System.out.println("[ERROR] New Password does not match requirements");
+            return false;
+        }
         // check if username is unique
-        // CSVRead csvRead = new CSVRead();
-        // CSVWrite csvWrite = new CSVWrite();
         String[] colHeader = {"ID"};
 
         List<String[]> usernameList = CSVRead.ReadByColumn(COMPANYREP_CSV_FILE, colHeader);
@@ -102,12 +110,14 @@ public class AuthService {
             System.out.println("[ERROR] Profile fields cannot be blank");
             return false;
         }
-        // CSVRead csvRead = new CSVRead();
-        // CSVWrite csvWrite = new CSVWrite();
+
+        // generate GUID
+        AutoNumberService autoNumberService = new AutoNumberService(new AutoNumberRepoImpl());
+        String guid = autoNumberService.generateNextId(TableIndex.COMPANYREP);
 
         List<String[]> profileList = csvread.ReadAll(COMPANYREP_CSV_FILE);
         // store new credentials into csv
-        profileList.add(new String[]{username, name, companyName, department, position});
+        profileList.add(new String[]{guid, username, name, companyName, department, position});
         // System.out.println(profileList);
         CSVWrite.writeToCSV(COMPANYREP_CSV_FILE, profileList);
         return true;

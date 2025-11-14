@@ -68,7 +68,7 @@ public class CSVFilter {
 
     //Overload Method here for List<Object>
     //new usage method should be the same-ish? u add rule into a List String and u parse the obj through here.
-    public static List<?> filter4Obj(List<?> objects, List<String[]> userRules){
+    public static List<?> filter4Obj(List<?> objects, List<String[]> userRules, String colIndex){
 
         if (objects.isEmpty()){
 
@@ -95,9 +95,43 @@ public class CSVFilter {
             if (ifrule){
                 filteredData.add(obj);
             }
+        } 
+
+        if (colIndex != null && !colIndex.isEmpty() && !filteredData.isEmpty()){
+
+            Collections.sort(filteredData, new Comparator<Object>() {
+                @Override
+                public int compare (Object obj1, Object obj2){
+                    try{
+                        String value1 = getFieldValue(obj1, colIndex);
+                        String value2 = getFieldValue(obj2, colIndex);
+
+                        return value1.compareToIgnoreCase(value2);
+                    }catch (Exception e){
+                        System.out.println("Error on backend" + e.getMessage());
+                        return 0;
+                    }
+                }
+                
+            });
         } return filteredData;
 
     }
+
+    private static String getFieldValue(Object obj, String colIndex){
+        
+        try {
+            String getter = "get" + colIndex.substring(0,1).toUpperCase() + colIndex.substring( 1);
+            Method method = obj.getClass().getMethod(getter);
+            Object value = method.invoke(obj);
+            
+            return value == null ? "" : value.toString();
+        } catch (Exception e){
+            System.out.println("Error with database" + e.getMessage());
+            return null;
+        }
+    }
+
 
     private static boolean matchGetterRule(Object obj, String field, String value){
 

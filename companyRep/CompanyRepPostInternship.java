@@ -30,6 +30,7 @@ public class CompanyRepPostInternship {
     private String title = "";
     private Major major;
     private InternshipLevel level;
+    private int slots = 0;
     private LocalDate openingDate;
     private LocalDate closingDate;
     private String description = "";
@@ -66,6 +67,19 @@ public class CompanyRepPostInternship {
                 level = InternshipLevel.fromString(input);
             } catch (IllegalArgumentException e) {
                 System.out.println("\nInvalid internship level. Try again.");
+            }
+        }
+        while (slots <= 0) {
+            System.out.print("\nEnter number of slots available (must be > 0): ");
+            try {
+                int inputSlots = Integer.parseInt(sc.nextLine().trim());
+                if (inputSlots > 0) {
+                    slots = inputSlots;
+                } else {
+                    System.out.println("\nNumber of slots must be greater than 0. Try again.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("\nInvalid input. Please enter a number.");
             }
         }
         while (openingDate == null) {
@@ -106,7 +120,7 @@ public class CompanyRepPostInternship {
         String companyID = this.companyRep.getGUID();
         services.internshipService.createInternship(nextId, title,
                 companyName,
-                companyID, major, level, openingDate,
+                companyID, major, level, slots, openingDate,
                 closingDate, description);
         System.out.println("\nSuccessfully created internship!");
         return;

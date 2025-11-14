@@ -6,7 +6,9 @@ import java.util.*;
 //import goes here
 import model.*;
 import CSVMethods.CSVBeutify;
+import login.*;
 import CSVMethods.CSVFilter;
+import dtos.LoginInfo;
 
 
 public class staffmainnew {
@@ -20,7 +22,7 @@ public class staffmainnew {
         this.staffutil = new staffutilnew();
     }
 
-    public void staffEntry(){
+    public void staffEntry(LoginInfo loginInfo){
         boolean dashboard = true;
 
         while(dashboard){
@@ -35,26 +37,26 @@ public class staffmainnew {
                     Allaccount = staffutil.mapToAllAccount();
                     //System.out.println(Allaccount);
 
-                    CSVBeutify.BeutifyNewFilter("All Accounts", Allaccount,"id", "userType", "accountStatus");
+                    CSVBeutify.BeutifyNewFilter("All Accounts", Allaccount,"accountStatus","id","userType", "accountStatus");
                     break;
                 case 2:
                     //view pending accounts
                     List <String[]> ruleFilter1 = new ArrayList<>();
                     ruleFilter1.add(new String[] {"accountStatus", "PENDING"});
-                    ruleFilter1.add(new String[] {"userType", "CAREERSTAFF"});
+                    ruleFilter1.add(new String[] {"userType", "COMPANYREP"});
 
                     staffutil.updateStatACC(ruleFilter1,"All Pending Accounts");
                     break;
                 case 3:
                     List <String[]> ruleFilter2 = new ArrayList<>();
-                    ruleFilter2.add(new String[] {"status", "PENDING"});
+                    //ruleFilter2.add(new String[] {"status", "PENDING"});
 
                     staffutil.updateStatINT(ruleFilter2, "All Pending Internship");
 
                     break;
                 case 4:
-                    //please help me mabel ty ty
-                    //changpassword()
+                    UpdatePasswordController updatePasswordController = new UpdatePasswordController();
+                    updatePasswordController.updatePassword(loginInfo.getID());
                     break;
                 case 5:
                     dashboard = false;

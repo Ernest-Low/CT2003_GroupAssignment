@@ -28,9 +28,9 @@ public class InternshipService {
     }
 
     public void createInternship(String ID, String title, String companyName, String companyID, Major major,
-            InternshipLevel level,
+            InternshipLevel level, int slots,
             LocalDate openingDate, LocalDate closingDate, String description) {
-        Internship internship = new Internship(ID, title, companyName, companyID, major, level, 0, openingDate,
+        Internship internship = new Internship(ID, title, companyName, companyID, major, level, 0, slots, openingDate,
                 closingDate, InternshipStatus.PENDING, description);
         internshipRepo.save(internship);
     }

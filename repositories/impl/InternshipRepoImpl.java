@@ -26,7 +26,7 @@ public class InternshipRepoImpl implements InternshipRepo {
                 String[] values = line.split(",");
                 String recordId = values[0];
                 if (recordId.equals(id)) {
-                    // String ID, String title, String companyName, String companyID, Major major, InternshipLevel level, int counter, LocalDate openingDate, LocalDate closingDate,
+                    // String ID, String title, String companyName, String companyID, Major major, InternshipLevel level, int counter, int slots, LocalDate openingDate, LocalDate closingDate,
                     // InternshipStatus status, String description
                     return new Internship(
                             recordId,
@@ -36,10 +36,11 @@ public class InternshipRepoImpl implements InternshipRepo {
                             Major.valueOf(values[4]), // Enum
                             InternshipLevel.valueOf(values[5]),
                             Integer.parseInt(values[6]), // int
-                            LocalDate.parse(values[7]), // LocalDate
-                            LocalDate.parse(values[8]),
-                            InternshipStatus.valueOf(values[9]),
-                            values[10]);
+                            Integer.parseInt(values[7]), // int slots
+                            LocalDate.parse(values[8]), // LocalDate
+                            LocalDate.parse(values[9]),
+                            InternshipStatus.valueOf(values[10]),
+                            values[11]);
                 }
             }
         } catch (IOException e) {
@@ -65,10 +66,11 @@ public class InternshipRepoImpl implements InternshipRepo {
                             Major.valueOf(values[4]), // Major major
                             InternshipLevel.valueOf(values[5]), // Internshiplevel level
                             Integer.parseInt(values[6]), // int counter
-                            LocalDate.parse(values[7]), // LocalDate openingDate
-                            LocalDate.parse(values[8]), // LocalDate closingDate
-                            InternshipStatus.valueOf(values[9]), // Internshipstatus status
-                            values[10] // String description
+                            Integer.parseInt(values[7]), // int slots
+                            LocalDate.parse(values[8]), // LocalDate openingDate
+                            LocalDate.parse(values[9]), // LocalDate closingDate
+                            InternshipStatus.valueOf(values[10]), // Internshipstatus status
+                            values[11] // String description
                     );
                     list.add(internship);
                 }
@@ -82,7 +84,7 @@ public class InternshipRepoImpl implements InternshipRepo {
     @Override
     public void save(Internship internship) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(CSVPaths.INTERNSHIPS_CSV, true))) {
-            // String ID, String title, String companyName, String companyID, Major major, InternshipLevel level, int counter, LocalDate openingDate, LocalDate closingDate,
+            // String ID, String title, String companyName, String companyID, Major major, InternshipLevel level, int counter, int slots, LocalDate openingDate, LocalDate closingDate,
             // InternshipStatus status, String description
             String line = String.join(",",
                     internship.getID(), // String
@@ -92,6 +94,7 @@ public class InternshipRepoImpl implements InternshipRepo {
                     internship.getMajor().name(), // Enum
                     internship.getLevel().name(),
                     String.valueOf(internship.getCounter()), // int
+                    String.valueOf(internship.getSlots()), // int
                     internship.getOpeningDate().toString(), // LocalDate
                     internship.getClosingDate().toString(),
                     internship.getStatus().name(),
@@ -120,6 +123,7 @@ public class InternshipRepoImpl implements InternshipRepo {
                             internship.getMajor().name(),
                             internship.getLevel().name(),
                             String.valueOf(internship.getCounter()),
+                            String.valueOf(internship.getSlots()),
                             internship.getOpeningDate().toString(),
                             internship.getClosingDate().toString(),
                             internship.getStatus().name(),
@@ -183,10 +187,11 @@ public class InternshipRepoImpl implements InternshipRepo {
                         Major.valueOf(values[4]),
                         InternshipLevel.valueOf(values[5]),
                         Integer.parseInt(values[6]),
-                        LocalDate.parse(values[7]),
+                        Integer.parseInt(values[7]),
                         LocalDate.parse(values[8]),
-                        InternshipStatus.valueOf(values[9]),
-                        values[10]);
+                        LocalDate.parse(values[9]),
+                        InternshipStatus.valueOf(values[10]),
+                        values[11]);
                 list.add(internship);
             }
         } catch (IOException e) {

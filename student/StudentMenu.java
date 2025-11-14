@@ -63,6 +63,6 @@ public class StudentMenu {
             }
         }
 
-        sc.close();
+        // sc.close();
     }
 }
