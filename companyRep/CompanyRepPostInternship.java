@@ -83,7 +83,7 @@ public class CompanyRepPostInternship {
             }
         }
         while (openingDate == null) {
-            System.out.print("\nEnter opening date (D-M-YYYY): ");
+            System.out.print("\nEnter opening date (DD-MM-YYYY): ");
             try {
                 openingDate = LocalDate.parse(sc.nextLine().trim(), dateFormat);
             } catch (DateTimeParseException e) {
@@ -91,7 +91,7 @@ public class CompanyRepPostInternship {
             }
         }
         while (closingDate == null) {
-            System.out.print("\nEnter closing date (D-M-YYYY): ");
+            System.out.print("\nEnter closing date (DD-MM-YYYY): ");
             try {
                 LocalDate inputDate = LocalDate.parse(sc.nextLine().trim(), dateFormat);
                 if (inputDate.isAfter(openingDate)) {
