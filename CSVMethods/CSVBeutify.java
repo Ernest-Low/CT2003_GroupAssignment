@@ -84,7 +84,7 @@ public class CSVBeutify {
         }
     }
 
-    public static void BeutifyNewFilter(String title, List<?> objects, String... fieldNames){
+    public static void BeutifyNewFilter(String title, List<?> objects, String sortByCol, String... fieldNames){
 
         if (objects.isEmpty()){
             System.out.println("No Data was parsed");
@@ -93,6 +93,14 @@ public class CSVBeutify {
 
         List<String[]> newData = new ArrayList<>();
         newData.add(fieldNames); //now the first row in the list is the new headers
+
+        int sortColumnIndex = -1;
+        for (int i = 0; i < fieldNames.length; i++){
+            if (fieldNames[i].equalsIgnoreCase(sortByCol)){
+                sortColumnIndex = i;
+                break;
+            }
+        }
 
         for (Object obj : objects){
 
@@ -103,6 +111,11 @@ public class CSVBeutify {
             }
             newData.add(data);
         }
+
+        int finalCol = sortColumnIndex != -1 ? sortColumnIndex : 0;
+        //find the first data to the last and sort, between 2 var a , b. If sortColumnIndex not found then it will just sort by first Col
+        newData.subList(1, newData.size()).sort((a, b) -> a[finalCol].compareToIgnoreCase(b[finalCol]));
+
         outTable(title, newData);
     }
 
@@ -147,8 +160,5 @@ public class CSVBeutify {
             }
             System.out.println();
         }
-    }
-
-
-    
+    }    
 }

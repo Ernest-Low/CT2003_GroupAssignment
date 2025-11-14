@@ -37,7 +37,7 @@ public class staffmainnew {
                     Allaccount = staffutil.mapToAllAccount();
                     //System.out.println(Allaccount);
 
-                    CSVBeutify.BeutifyNewFilter("All Accounts", Allaccount,"id", "userType", "accountStatus");
+                    CSVBeutify.BeutifyNewFilter("All Accounts", Allaccount,"accountStatus","id","userType", "accountStatus");
                     break;
                 case 2:
                     //view pending accounts

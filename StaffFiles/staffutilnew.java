@@ -47,7 +47,7 @@ public class staffutilnew {
                 System.out.println("No Pending Account...");
                 return;
             }
-            CSVBeutify.BeutifyNewFilter(title, AllaccPending, "id", "userType", "accountStatus");
+            CSVBeutify.BeutifyNewFilter(title, AllaccPending, "id", "id","userType", "accountStatus");
 
             uiStatus();
             int choice = getUserInput();
@@ -56,7 +56,7 @@ public class staffutilnew {
                 case 1:
                     int rowIndex1 = statDashboard("Approve");
                     String userID1 = finduserID(AllaccPending, rowIndex1);
-                    CSVWrite.updateByID(CREDS_CSV, userID1, "ID", "AccountStatus", "ACTIVE");
+                    CSVWrite.updateByID(CREDS_CSV, userID1, "title", "AccountStatus", "ACTIVE");
                     break;
                 case 2:
                     int rowIndex2 = statDashboard("Reject");
@@ -83,7 +83,7 @@ public class staffutilnew {
 
             AllIntPending = mapToAllInternship();
             AllIntPending = CSVFilter.filter4Obj(AllIntPending, penFilter);
-            CSVBeutify.BeutifyNewFilter(title, AllIntPending, "ID", "title", "companyName", "major", "level", "status", "description");
+            CSVBeutify.BeutifyNewFilter(title, AllIntPending, "title", "ID","title", "companyName", "major", "level", "status", "description");
 
             uiStatus();
             int choice = getUserInput();
