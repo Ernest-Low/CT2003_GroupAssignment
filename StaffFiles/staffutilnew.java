@@ -195,11 +195,12 @@ public class staffutilnew {
             Major Major = enums.Major.valueOf(rowData[4].toUpperCase());
             InternshipLevel InternshipLevel = enums.InternshipLevel.valueOf(rowData[5].toUpperCase());
             int counter = Integer.parseInt(rowData[6]);
-            LocalDate openingDate = LocalDate.parse(rowData[7]);
-            LocalDate closingDate = LocalDate.parse(rowData[8]);
-            InternshipStatus InternshipStatus = enums.InternshipStatus.valueOf(rowData[9].toUpperCase());
+            int slots = Integer.parseInt(rowData[7]);
+            LocalDate openingDate = LocalDate.parse(rowData[8]);
+            LocalDate closingDate = LocalDate.parse(rowData[9]);
+            InternshipStatus InternshipStatus = enums.InternshipStatus.valueOf(rowData[10].toUpperCase());
 
-            Internship Internship = new Internship(rowData[0], rowData[1], rowData[2], rowData[3], Major, InternshipLevel, counter, openingDate, closingDate, InternshipStatus, rowData[10]);
+            Internship Internship = new Internship(rowData[0], rowData[1], rowData[2], rowData[3], Major, InternshipLevel, counter, slots, openingDate, closingDate, InternshipStatus, rowData[11]);
 
             Internships.add(Internship);
         }
