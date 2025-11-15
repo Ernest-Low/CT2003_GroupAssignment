@@ -7,6 +7,7 @@ import CSVMethods.CSVBeutify;
 import model.*;
 import internship_rs.*;
 
+// Class for student to accept internship
 public class StudentAcceptInternship {
 
     private static Scanner sc = new Scanner(System.in);
@@ -25,6 +26,7 @@ public class StudentAcceptInternship {
         }
     }
 
+    // Handles the acceptance of internship by student
     public static void acceptInternship(Student student) {
         // Print successful applications
         System.out.println();
@@ -32,6 +34,7 @@ public class StudentAcceptInternship {
         InternshipApplicationService internshipApp = new InternshipApplicationService();
         List<Internship> internships = new ArrayList<>();
 
+        // Fetch successful internships
         try {
             internships = internshipApp.getApprovedOffers(student);
         } catch (IOException e) {
@@ -40,6 +43,7 @@ public class StudentAcceptInternship {
 
         int count = internships.size();
         
+        // if have at least 1 successful application
         if (count > 0) {
             System.out.println("You have " + count + " successful application(s)!");
             System.out.println();
