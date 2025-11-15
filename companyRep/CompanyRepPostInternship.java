@@ -5,13 +5,18 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoField;
+import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 import config.Services;
+import dtos.InternshipFilter;
 import enums.InternshipLevel;
+import enums.InternshipStatus;
 import enums.Major;
 import enums.TableIndex;
 import model.CompanyRep;
+import model.Internship;
 
 public class CompanyRepPostInternship {
 
@@ -112,7 +117,28 @@ public class CompanyRepPostInternship {
         }
     }
 
+    // Return true if limit reached
+    private boolean verifyLimit() {
+        InternshipFilter internshipFilter = new InternshipFilter();
+        Set<String> companyNames = Set.of(this.companyRep.getCompanyName());
+        internshipFilter.setCompanyNames(companyNames);
+        List<Internship> internshipcount = services.internshipService.filterInternships(internshipFilter);
+        List<Internship> nonRejected = internshipcount.stream()
+                .filter(internship -> internship.getStatus() != InternshipStatus.REJECTED).toList();
+        if (nonRejected.size() >= 5) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public void CRepPostInternshipController() {
+
+        if (verifyLimit()) {
+            System.out.println("Non-rejected Internship limit of 5 reached. Returning...");
+            return;
+        }
+
         // Reset all to base
         title = "";
         major = null;
@@ -120,8 +146,8 @@ public class CompanyRepPostInternship {
         slots = 0;
         openingDate = null;
         closingDate = null;
-        description = ""; 
-        
+        description = "";
+
         PostInternshipInputs();
 
         String nextId = services.autoNumberService.generateNextId(TableIndex.INTERNSHIP);
